@@ -10,12 +10,12 @@ import {
   MapPin, 
   Droplet, 
   CheckCircle2, 
-  ArrowRight,
-  ShieldAlert,
-  Radio,
-  Clock,
-  User,
-  Info
+  ArrowRight, 
+  ShieldAlert, 
+  Radio, 
+  Clock, 
+  User, 
+  Info 
 } from 'lucide-react';
 import { useEmergency } from '@/context/EmergencyContext';
 import { analyzeEmergencyText, TriageResult } from '@/lib/ai/triageEngine';
@@ -126,16 +126,16 @@ export default function TriagePage() {
     <div className="max-w-4xl mx-auto space-y-6">
       
       {/* Header */}
-      <div className="border-b border-slate-800 pb-4">
+      <div className="border-b border-slate-200 pb-4">
         <div className="flex items-center space-x-2.5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-600/20 border border-red-500/40 text-red-400">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 border border-red-200 text-red-600 shadow-xs">
             <Sparkles className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white tracking-wide">
+            <h1 className="text-xl font-bold text-slate-900 tracking-wide">
               AI Emergency SOS & Triage Intake
             </h1>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-600 mt-0.5">
               Natural language triage engine converts unstructured distress descriptions into actionable CAD dispatch alerts.
             </p>
           </div>
@@ -143,14 +143,14 @@ export default function TriagePage() {
       </div>
 
       {submittedId ? (
-        <div className="rounded-2xl border border-emerald-900/50 bg-emerald-950/20 p-10 text-center space-y-4">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-950 border border-emerald-500/50 text-emerald-400 shadow-lg shadow-emerald-950/60">
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-10 text-center space-y-4 shadow-sm">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white border border-emerald-300 text-emerald-600 shadow-sm">
             <CheckCircle2 className="h-8 w-8 animate-bounce" />
           </div>
           <div className="space-y-1">
-            <h2 className="text-xl font-bold text-white">Emergency Broadcast Successfully Dispatched!</h2>
-            <p className="text-xs text-slate-300 max-w-md mx-auto">
-              Your distress call has been cataloged as <strong className="font-mono text-emerald-400">#{submittedId}</strong>. Surrounding verified blood donors and active EMT units have received the tactical ping.
+            <h2 className="text-xl font-bold text-slate-900">Emergency Broadcast Successfully Dispatched!</h2>
+            <p className="text-xs text-slate-600 max-w-md mx-auto">
+              Your distress call has been cataloged as <strong className="font-mono text-emerald-700">#{submittedId}</strong>. Surrounding verified blood donors and active EMT units have received the tactical ping.
             </p>
           </div>
           <div className="pt-4 flex justify-center space-x-3">
@@ -160,13 +160,13 @@ export default function TriagePage() {
                 setDescription('');
                 setTriageResult(null);
               }}
-              className="rounded-xl border border-slate-700 bg-slate-800 px-4 py-2 text-xs font-semibold text-slate-200 hover:bg-slate-700 transition-colors"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs"
             >
               Submit Another Report
             </button>
             <button
               onClick={() => router.push(`/incidents/${submittedId}`)}
-              className="flex items-center space-x-1.5 rounded-xl bg-red-600 px-5 py-2 text-xs font-bold text-white shadow-lg shadow-red-950 hover:bg-red-500 transition-all"
+              className="flex items-center space-x-1.5 rounded-xl bg-red-600 px-5 py-2 text-xs font-bold text-white shadow-xs hover:bg-red-500 transition-all"
             >
               <span>View Incident Console</span>
               <ArrowRight className="h-4 w-4" />
@@ -177,8 +177,8 @@ export default function TriagePage() {
         <form onSubmit={handleBroadcast} className="space-y-6">
           
           {/* Quick Preset Scenarios */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-4 space-y-2">
-            <span className="text-[11px] font-mono font-bold tracking-wider text-slate-400 uppercase block">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2 shadow-xs">
+            <span className="text-[11px] font-mono font-bold tracking-wider text-slate-600 uppercase block">
               Quick Test Scenarios (Click to Load):
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -190,12 +190,12 @@ export default function TriagePage() {
                     setDescription(sc.text);
                     runTriage(sc.text);
                   }}
-                  className="text-left rounded-xl border border-slate-800 bg-slate-900/80 p-3 hover:border-slate-700 hover:bg-slate-900 transition-all group"
+                  className="text-left rounded-xl border border-slate-200 bg-slate-50/80 p-3 hover:border-slate-300 hover:bg-slate-100/70 transition-all group shadow-2xs"
                 >
-                  <span className="text-xs font-bold text-white group-hover:text-red-400 transition-colors block">
+                  <span className="text-xs font-bold text-slate-900 group-hover:text-red-600 transition-colors block">
                     {sc.title}
                   </span>
-                  <span className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">
+                  <span className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">
                     {sc.text}
                   </span>
                 </button>
@@ -204,9 +204,9 @@ export default function TriagePage() {
           </div>
 
           {/* Description & Voice Simulation */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-3">
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-3 shadow-xs">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-200">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-800">
                 Emergency Situation Description *
               </label>
               
@@ -215,11 +215,11 @@ export default function TriagePage() {
                 onClick={handleSimulateVoice}
                 className={`flex items-center space-x-1.5 rounded-full px-3 py-1 text-xs font-medium border transition-colors ${
                   isRecording
-                    ? 'border-red-500 bg-red-950/80 text-red-400 animate-pulse'
-                    : 'border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    ? 'border-red-400 bg-red-50 text-red-700 animate-pulse'
+                    : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 shadow-2xs'
                 }`}
               >
-                {isRecording ? <MicOff className="h-3.5 w-3.5 text-red-400" /> : <Mic className="h-3.5 w-3.5 text-sky-400" />}
+                {isRecording ? <MicOff className="h-3.5 w-3.5 text-red-600" /> : <Mic className="h-3.5 w-3.5 text-sky-600" />}
                 <span>{isRecording ? 'Listening (Simulating voice)...' : 'Simulate Voice Input'}</span>
               </button>
             </div>
@@ -230,22 +230,22 @@ export default function TriagePage() {
               onChange={e => setDescription(e.target.value)}
               onBlur={() => runTriage()}
               placeholder="Speak or type what happened. Mention location, bleeding, blood group if known, and severity. AI will automatically parse resources..."
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3.5 text-xs text-white placeholder-slate-500 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 leading-relaxed"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-xs text-slate-900 placeholder-slate-400 focus:border-red-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-red-500 leading-relaxed shadow-2xs"
               required
             />
 
             <div className="flex items-center justify-between text-xs">
               <span className="text-[11px] text-slate-500">
-                Click "Analyze with AI" or press Tab to trigger real-time entity triage.
+                Click &quot;Analyze with AI&quot; or press Tab to trigger real-time entity triage.
               </span>
 
               <button
                 type="button"
                 onClick={() => runTriage()}
                 disabled={!description.trim() || isTriaging}
-                className="flex items-center space-x-1.5 rounded-lg bg-sky-600/20 hover:bg-sky-600/30 border border-sky-500/40 px-3 py-1.5 text-xs font-bold text-sky-300 transition-colors disabled:opacity-50"
+                className="flex items-center space-x-1.5 rounded-lg bg-sky-50 hover:bg-sky-100 border border-sky-200 px-3 py-1.5 text-xs font-bold text-sky-700 transition-colors disabled:opacity-50 shadow-2xs"
               >
-                <Sparkles className="h-3.5 w-3.5" />
+                <Sparkles className="h-3.5 w-3.5 text-sky-600" />
                 <span>{isTriaging ? 'Parsing AI Pipeline...' : 'Analyze with AI'}</span>
               </button>
             </div>
@@ -253,10 +253,10 @@ export default function TriagePage() {
 
           {/* AI Extraction Diagnostic Card */}
           {triageResult && (
-            <div className="rounded-2xl border border-sky-900/50 bg-gradient-to-br from-sky-950/20 to-slate-900/60 p-5 space-y-3">
-              <div className="flex items-center justify-between border-b border-sky-900/40 pb-2">
-                <div className="flex items-center space-x-2 text-sky-300 font-bold text-xs">
-                  <Sparkles className="h-4 w-4 text-sky-400" />
+            <div className="rounded-2xl border border-sky-200 bg-sky-50/50 p-5 space-y-3 shadow-xs">
+              <div className="flex items-center justify-between border-b border-sky-200 pb-2">
+                <div className="flex items-center space-x-2 text-sky-800 font-bold text-xs">
+                  <Sparkles className="h-4 w-4 text-sky-600" />
                   <span>AI Triage Decision Support Output</span>
                 </div>
                 <span className={`rounded-full border px-2.5 py-0.5 text-xs font-mono font-bold ${getUrgencyBadgeColor(triageResult.urgency)}`}>
@@ -265,42 +265,42 @@ export default function TriagePage() {
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                <div className="rounded-xl bg-slate-900 border border-slate-800 p-2.5">
+                <div className="rounded-xl bg-white border border-slate-200 p-2.5 shadow-2xs">
                   <span className="text-[10px] text-slate-500 block uppercase font-mono">CATEGORY</span>
-                  <span className="font-bold text-white mt-0.5 block">{triageResult.category.replace('_', ' ')}</span>
+                  <span className="font-bold text-slate-900 mt-0.5 block">{triageResult.category.replace('_', ' ')}</span>
                 </div>
-                <div className="rounded-xl bg-slate-900 border border-slate-800 p-2.5">
+                <div className="rounded-xl bg-white border border-slate-200 p-2.5 shadow-2xs">
                   <span className="text-[10px] text-slate-500 block uppercase font-mono">BLOOD GROUP</span>
-                  <span className="font-bold font-mono text-red-400 mt-0.5 block">
+                  <span className="font-bold font-mono text-red-600 mt-0.5 block">
                     {triageResult.extractedBloodGroup || 'None detected'}
                   </span>
                 </div>
-                <div className="rounded-xl bg-slate-900 border border-slate-800 p-2.5">
+                <div className="rounded-xl bg-white border border-slate-200 p-2.5 shadow-2xs">
                   <span className="text-[10px] text-slate-500 block uppercase font-mono">UNITS NEEDED</span>
-                  <span className="font-bold text-slate-200 mt-0.5 block">{triageResult.extractedUnits || 1} Unit(s)</span>
+                  <span className="font-bold text-slate-800 mt-0.5 block">{triageResult.extractedUnits || 1} Unit(s)</span>
                 </div>
-                <div className="rounded-xl bg-slate-900 border border-slate-800 p-2.5">
+                <div className="rounded-xl bg-white border border-slate-200 p-2.5 shadow-2xs">
                   <span className="text-[10px] text-slate-500 block uppercase font-mono">CONFIDENCE</span>
-                  <span className="font-bold font-mono text-emerald-400 mt-0.5 block">95% Calibrated</span>
+                  <span className="font-bold font-mono text-emerald-700 mt-0.5 block">95% Calibrated</span>
                 </div>
               </div>
 
-              <div className="rounded-xl bg-slate-950/70 p-3 border border-slate-800 text-xs text-slate-300 leading-relaxed">
-                <strong className="text-sky-400 font-semibold">Recommended Dispatch Action:</strong>{' '}
+              <div className="rounded-xl bg-white p-3 border border-slate-200 text-xs text-slate-700 leading-relaxed shadow-2xs">
+                <strong className="text-sky-800 font-semibold">Recommended Dispatch Action:</strong>{' '}
                 {triageResult.suggestedAction}
               </div>
             </div>
           )}
 
           {/* Location & Requester Information */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200">
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-4 shadow-xs">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">
               Location & Caller Information
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-[11px] font-medium text-slate-300 block mb-1">
+                <label className="text-[11px] font-medium text-slate-700 block mb-1">
                   Incident Landmark / Address *
                 </label>
                 <div className="relative">
@@ -309,22 +309,22 @@ export default function TriagePage() {
                     type="text"
                     value={address}
                     onChange={e => setAddress(e.target.value)}
-                    className="w-full rounded-xl border border-slate-800 bg-slate-950 pl-9 pr-3 py-2 text-xs text-white focus:border-red-500 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-3 py-2 text-xs text-slate-900 focus:border-red-500 focus:bg-white focus:outline-none"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-[11px] font-medium text-slate-300 block mb-1">
+                <label className="text-[11px] font-medium text-slate-700 block mb-1">
                   Required Blood Group (Optional Manual Override)
                 </label>
                 <div className="relative">
-                  <Droplet className="absolute left-3 top-3 h-3.5 w-3.5 text-red-400" />
+                  <Droplet className="absolute left-3 top-3 h-3.5 w-3.5 text-red-500" />
                   <select
                     value={manualBloodGroup}
                     onChange={e => setManualBloodGroup(e.target.value as BloodGroup)}
-                    className="w-full rounded-xl border border-slate-800 bg-slate-950 pl-9 pr-3 py-2 text-xs text-white focus:border-red-500 focus:outline-none cursor-pointer"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-3 py-2 text-xs text-slate-900 focus:border-red-500 focus:bg-white focus:outline-none cursor-pointer"
                   >
                     <option value="">Not Applicable / Any</option>
                     <option value="O-">O- Negative (Universal Donor)</option>
@@ -340,27 +340,27 @@ export default function TriagePage() {
               </div>
 
               <div>
-                <label className="text-[11px] font-medium text-slate-300 block mb-1">
+                <label className="text-[11px] font-medium text-slate-700 block mb-1">
                   Requester Contact Number *
                 </label>
                 <input
                   type="text"
                   value={requesterContact}
                   onChange={e => setRequesterContact(e.target.value)}
-                  className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2 text-xs text-white focus:border-red-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 focus:border-red-500 focus:bg-white focus:outline-none"
                   required
                 />
               </div>
 
               <div>
-                <label className="text-[11px] font-medium text-slate-300 block mb-1">
+                <label className="text-[11px] font-medium text-slate-700 block mb-1">
                   Reporting Individual Name / Title
                 </label>
                 <input
                   type="text"
                   value={requesterName}
                   onChange={e => setRequesterName(e.target.value)}
-                  className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2 text-xs text-white focus:border-red-500 focus:outline-none"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-900 focus:border-red-500 focus:bg-white focus:outline-none"
                 />
               </div>
             </div>
@@ -376,7 +376,7 @@ export default function TriagePage() {
             <button
               type="submit"
               disabled={!description.trim()}
-              className="flex items-center space-x-2 rounded-xl bg-red-600 px-6 py-3 text-xs font-bold text-white shadow-lg shadow-red-950/80 hover:bg-red-500 active:scale-95 disabled:opacity-50 transition-all border border-red-500/40"
+              className="flex items-center space-x-2 rounded-xl bg-red-600 px-6 py-3 text-xs font-bold text-white shadow-xs hover:bg-red-500 active:scale-95 disabled:opacity-50 transition-all border border-red-600"
             >
               <span>DISPATCH EMERGENCY BROADCAST</span>
               <ArrowRight className="h-4 w-4" />

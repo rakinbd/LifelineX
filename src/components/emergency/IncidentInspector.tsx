@@ -70,13 +70,13 @@ export default function IncidentInspector({ incident }: IncidentInspectorProps) 
   };
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 backdrop-blur-sm space-y-5">
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-6">
       
       {/* Top Banner: ID, Urgency & Status Progress */}
       <div>
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
           <div className="flex items-center space-x-2.5">
-            <span className="font-mono text-sm font-bold text-white bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">
+            <span className="font-mono text-sm font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">
               {incident.id}
             </span>
             <span className={`rounded-full border px-2.5 py-0.5 text-xs font-mono font-bold ${getUrgencyBadgeColor(incident.urgency)}`}>
@@ -85,8 +85,7 @@ export default function IncidentInspector({ incident }: IncidentInspectorProps) 
           </div>
 
           <div className="flex items-center space-x-2">
-            <span className="text-[11px] text-slate-400">Current Phase:</span>
-            <span className={`rounded-full border px-2.5 py-0.5 text-xs font-mono font-bold ${getStatusBadgeColor(incident.status)}`}>
+            <span className={`rounded-full border px-3 py-1 text-xs font-mono font-semibold ${getStatusBadgeColor(incident.status)}`}>
               {incident.status}
             </span>
           </div>
@@ -103,10 +102,10 @@ export default function IncidentInspector({ incident }: IncidentInspectorProps) 
                 onClick={() => updateIncidentStatus(incident.id, st)}
                 className={`py-1.5 px-1 rounded-md text-[9px] font-mono font-bold text-center border transition-all ${
                   isCurrent
-                    ? 'bg-red-600 border-red-500 text-white shadow-md shadow-red-950'
+                    ? 'bg-red-600 border-red-600 text-white shadow-sm'
                     : isCompleted
-                    ? 'bg-emerald-950/60 border-emerald-800 text-emerald-400'
-                    : 'bg-slate-900 border-slate-800 text-slate-500 hover:bg-slate-800'
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                    : 'bg-slate-50 border-slate-200 text-slate-400 hover:bg-slate-100'
                 }`}
               >
                 {st}
@@ -118,66 +117,66 @@ export default function IncidentInspector({ incident }: IncidentInspectorProps) 
 
       {/* Main Details */}
       <div>
-        <h3 className="text-lg font-bold text-white">{incident.title}</h3>
-        <p className="mt-1 text-xs text-slate-300 leading-relaxed bg-slate-950/50 p-3 rounded-xl border border-slate-800/80">
+        <h3 className="text-lg font-bold text-slate-900">{incident.title}</h3>
+        <p className="mt-2 text-xs text-slate-700 leading-relaxed bg-slate-50 p-3.5 rounded-xl border border-slate-200">
           {incident.description}
         </p>
 
-        <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-          <div className="rounded-lg bg-slate-900 border border-slate-800 p-2.5">
-            <span className="text-slate-500 text-[10px] block uppercase font-mono">LOCATION</span>
-            <div className="flex items-center space-x-1.5 text-slate-200 font-medium mt-0.5">
-              <MapPin className="h-3.5 w-3.5 text-red-400 shrink-0" />
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div className="rounded-xl bg-slate-50 border border-slate-200 p-3">
+            <span className="text-slate-500 text-[10px] block uppercase font-mono font-semibold">LOCATION</span>
+            <div className="flex items-center space-x-1.5 text-slate-800 font-semibold mt-1">
+              <MapPin className="h-3.5 w-3.5 text-red-600 shrink-0" />
               <span className="truncate">{incident.location.address}</span>
             </div>
-            <span className="text-[10px] text-slate-500 block mt-0.5">Fuzzed Radius: ±{incident.location.fuzzyRadiusKm || 1.2} km</span>
+            <span className="text-[10px] text-slate-500 block mt-0.5">Obfuscated: ±{incident.location.fuzzyRadiusKm || 1.2} km</span>
           </div>
 
-          <div className="rounded-lg bg-slate-900 border border-slate-800 p-2.5">
-            <span className="text-slate-500 text-[10px] block uppercase font-mono">CALLER / REPORTED BY</span>
-            <div className="flex items-center space-x-1.5 text-slate-200 font-medium mt-0.5">
-              <User className="h-3.5 w-3.5 text-blue-400 shrink-0" />
+          <div className="rounded-xl bg-slate-50 border border-slate-200 p-3">
+            <span className="text-slate-500 text-[10px] block uppercase font-mono font-semibold">CALLER</span>
+            <div className="flex items-center space-x-1.5 text-slate-800 font-semibold mt-1">
+              <User className="h-3.5 w-3.5 text-blue-600 shrink-0" />
               <span className="truncate">{incident.requesterName}</span>
             </div>
-            <span className="text-[10px] text-sky-400 block mt-0.5 font-mono">{incident.requesterContact}</span>
+            <span className="text-[10px] text-sky-700 block mt-0.5 font-mono">{incident.requesterContact}</span>
           </div>
 
-          <div className="rounded-lg bg-slate-900 border border-slate-800 p-2.5">
-            <span className="text-slate-500 text-[10px] block uppercase font-mono">TIME LOG</span>
-            <div className="flex items-center space-x-1.5 text-slate-200 font-medium mt-0.5">
-              <Clock className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+          <div className="rounded-xl bg-slate-50 border border-slate-200 p-3">
+            <span className="text-slate-500 text-[10px] block uppercase font-mono font-semibold">TIME LOG</span>
+            <div className="flex items-center space-x-1.5 text-slate-800 font-semibold mt-1">
+              <Clock className="h-3.5 w-3.5 text-amber-600 shrink-0" />
               <span className="truncate">{formatDateTime(incident.createdAt)}</span>
             </div>
-            <span className="text-[10px] text-slate-500 block mt-0.5 font-mono">CAD Node: #8420-US</span>
+            <span className="text-[10px] text-slate-500 block mt-0.5 font-mono">Node #8420-US</span>
           </div>
         </div>
       </div>
 
       {/* AI Triage Analysis Breakdown */}
-      <div className="rounded-xl border border-sky-900/40 bg-sky-950/20 p-4 space-y-2">
+      <div className="rounded-2xl border border-sky-200 bg-sky-50/40 p-4.5 space-y-2">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2 text-sky-300 font-bold text-xs">
-            <Sparkles className="h-4 w-4 text-sky-400" />
+          <div className="flex items-center space-x-2 text-sky-900 font-bold text-xs">
+            <Sparkles className="h-4 w-4 text-sky-600" />
             <span>AI Triage Decision Support Breakdown</span>
           </div>
-          <span className="text-[10px] font-mono text-sky-400 bg-sky-900/50 px-2 py-0.5 rounded border border-sky-700">
+          <span className="text-[10px] font-mono font-semibold text-sky-800 bg-white px-2 py-0.5 rounded border border-sky-200 shadow-xs">
             CONFIDENCE: {Math.round(incident.aiExtracted.triageConfidence * 100)}%
           </span>
         </div>
 
-        <div className="text-xs text-slate-300 leading-relaxed">
-          <strong className="text-sky-400 font-semibold">Suggested Action:</strong> {incident.aiExtracted.suggestedAction}
+        <div className="text-xs text-slate-700 leading-relaxed">
+          <strong className="text-sky-900 font-semibold">Suggested Action:</strong> {incident.aiExtracted.suggestedAction}
         </div>
 
         <div className="flex flex-wrap gap-1.5 pt-1">
-          <span className="text-[10px] text-slate-400 self-center mr-1">SYMPTOMS:</span>
+          <span className="text-[10px] text-slate-500 self-center mr-1">SYMPTOMS:</span>
           {incident.aiExtracted.keySymptoms.map((sym, idx) => (
-            <span key={idx} className="rounded-full bg-slate-900 px-2.5 py-0.5 text-[10px] font-medium text-slate-300 border border-slate-700">
+            <span key={idx} className="rounded-lg bg-white px-2.5 py-0.5 text-[10px] font-medium text-slate-700 border border-slate-200 shadow-xs">
               {sym}
             </span>
           ))}
           {incident.requiredBloodGroup && (
-            <span className="rounded-full bg-red-950 px-2.5 py-0.5 text-[10px] font-mono font-bold text-red-400 border border-red-800">
+            <span className="rounded-lg bg-red-50 px-2.5 py-0.5 text-[10px] font-mono font-bold text-red-700 border border-red-200">
               BLOOD GROUP: {incident.requiredBloodGroup} ({incident.unitsNeeded || 1} Units)
             </span>
           )}
@@ -186,49 +185,49 @@ export default function IncidentInspector({ incident }: IncidentInspectorProps) 
 
       {/* Matching Responders & Donors Dispatch Section */}
       <div>
-        <div className="flex items-center justify-between mb-2">
-          <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center space-x-1.5">
-            <Radio className="h-3.5 w-3.5 text-red-400" />
+        <div className="flex items-center justify-between mb-3">
+          <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center space-x-1.5">
+            <Radio className="h-3.5 w-3.5 text-red-600" />
             <span>Eligible Matching Responders ({matchedDonors.length} in range)</span>
           </h4>
-          <span className="text-[10px] text-slate-400">Sorted by Proximity & Clinical Eligibility</span>
+          <span className="text-[10px] text-slate-500 font-medium">Sorted by Proximity & Eligibility</span>
         </div>
 
-        <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+        <div className="space-y-2.5 max-h-52 overflow-y-auto pr-1">
           {matchedDonors.slice(0, 4).map((donor) => {
             const isAlerted = alertSentDonorId === donor.id;
             return (
               <div
                 key={donor.id}
-                className="flex items-center justify-between p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-slate-700 transition-colors"
+                className="flex items-center justify-between p-3 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-100 transition-colors"
               >
                 <div className="flex items-center space-x-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-950 border border-red-800 text-xs font-mono font-bold text-red-400">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 border border-red-200 text-xs font-mono font-bold text-red-700 shadow-xs">
                     {donor.bloodGroup}
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-white flex items-center space-x-1.5">
+                    <div className="text-xs font-bold text-slate-900 flex items-center space-x-1.5">
                       <span>{donor.fullName}</span>
-                      <span className="text-[9px] text-emerald-400 font-mono">✓ Verified</span>
+                      <span className="text-[9px] text-emerald-700 font-mono font-semibold">✓ Verified</span>
                     </div>
-                    <div className="text-[11px] text-slate-400">
+                    <div className="text-[11px] text-slate-500">
                       {donor.distanceKm} km away • {donor.totalDonations} donations • {donor.responseRatePercent}% response rate
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3">
                   <div className="text-right hidden sm:block">
-                    <span className="text-xs font-mono font-bold text-emerald-400 block">{donor.matchScore}%</span>
+                    <span className="text-xs font-mono font-bold text-emerald-700 block">{donor.matchScore}%</span>
                     <span className="text-[9px] text-slate-500 uppercase">Match Score</span>
                   </div>
 
                   <button
                     onClick={() => handleAlertDonor(donor.id)}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all border ${
+                    className={`rounded-xl px-3.5 py-1.5 text-xs font-bold transition-all border ${
                       isAlerted
-                        ? 'bg-emerald-600 border-emerald-500 text-white'
-                        : 'bg-red-600/90 hover:bg-red-600 border-red-500/50 text-white shadow-sm'
+                        ? 'bg-emerald-600 border-emerald-600 text-white'
+                        : 'bg-red-600 hover:bg-red-500 border-red-600 text-white shadow-sm'
                     }`}
                   >
                     {isAlerted ? 'Alert Sent!' : 'Mobilize'}
@@ -241,23 +240,23 @@ export default function IncidentInspector({ incident }: IncidentInspectorProps) 
       </div>
 
       {/* Real-Time Dispatch Tactical Radio / Chat */}
-      <div className="rounded-xl border border-slate-800 bg-slate-950 p-3.5 space-y-3">
-        <div className="flex items-center justify-between text-xs font-semibold text-slate-300">
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+        <div className="flex items-center justify-between text-xs font-bold text-slate-800">
           <div className="flex items-center space-x-2">
-            <MessageSquare className="h-3.5 w-3.5 text-blue-400" />
-            <span>Encrypted Tactical Dispatch Radio (Live Link)</span>
+            <MessageSquare className="h-3.5 w-3.5 text-blue-600" />
+            <span>Encrypted Tactical Dispatch Radio</span>
           </div>
-          <span className="text-[10px] text-emerald-400 font-mono">● LIVE COMMS</span>
+          <span className="text-[10px] text-emerald-700 font-mono font-semibold">● ACTIVE COMMS</span>
         </div>
 
         <div className="space-y-2 max-h-36 overflow-y-auto pr-1 text-xs">
           {chatHistory.map((msg, i) => (
-            <div key={i} className="rounded-lg bg-slate-900/80 p-2 border border-slate-800/80">
+            <div key={i} className="rounded-xl bg-white p-2.5 border border-slate-200 shadow-xs">
               <div className="flex justify-between text-[10px] text-slate-500 mb-0.5 font-mono">
-                <span className="font-bold text-sky-400">{msg.sender}</span>
+                <span className="font-bold text-sky-700">{msg.sender}</span>
                 <span>{msg.time}</span>
               </div>
-              <p className="text-slate-300 text-[11px]">{msg.text}</p>
+              <p className="text-slate-700 text-[11px]">{msg.text}</p>
             </div>
           ))}
         </div>
@@ -268,11 +267,11 @@ export default function IncidentInspector({ incident }: IncidentInspectorProps) 
             value={chatMessage}
             onChange={e => setChatMessage(e.target.value)}
             placeholder="Transmit message to responders & caller..."
-            className="flex-1 rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:border-red-500 focus:outline-none"
+            className="flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:border-red-500 focus:outline-none"
           />
           <button
             type="submit"
-            className="rounded-lg bg-slate-800 hover:bg-slate-700 px-3 py-1.5 text-xs font-medium text-slate-200 border border-slate-700 flex items-center space-x-1"
+            className="rounded-xl bg-slate-800 hover:bg-slate-700 px-4 py-2 text-xs font-semibold text-white transition-colors flex items-center space-x-1"
           >
             <Send className="h-3 w-3" />
             <span>Send</span>

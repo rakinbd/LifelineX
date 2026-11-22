@@ -10,10 +10,10 @@ import {
   ShieldCheck, 
   TrendingUp, 
   Users, 
-  Radio,
-  FileText,
-  Ambulance,
-  Bed
+  Radio, 
+  FileText, 
+  Ambulance, 
+  Bed 
 } from 'lucide-react';
 import { useEmergency } from '@/context/EmergencyContext';
 import TelemetryStats from '@/components/dashboard/TelemetryStats';
@@ -46,7 +46,7 @@ export default function AnalyticsPage() {
       subtitle: 'Key performance indicators, uptime, and life-saving metrics',
       icon: Activity,
       badge: '99.98% Uptime',
-      badgeColor: 'bg-emerald-950 text-emerald-400 border border-emerald-800',
+      badgeColor: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
     },
     {
       id: 'categories' as AnalyticsTab,
@@ -54,7 +54,7 @@ export default function AnalyticsPage() {
       subtitle: '30-day incident category distributions and trends',
       icon: TrendingUp,
       badge: '1,369 Calls',
-      badgeColor: 'bg-sky-950 text-sky-400 border border-sky-800',
+      badgeColor: 'bg-sky-50 text-sky-700 border border-sky-200',
     },
     {
       id: 'latency' as AnalyticsTab,
@@ -62,7 +62,7 @@ export default function AnalyticsPage() {
       subtitle: 'Global zone arrival benchmarks vs municipal standards',
       icon: Clock,
       badge: '4.8m Mean',
-      badgeColor: 'bg-amber-950 text-amber-400 border border-amber-800',
+      badgeColor: 'bg-amber-50 text-amber-800 border border-amber-200',
     },
     {
       id: 'resources' as AnalyticsTab,
@@ -70,7 +70,7 @@ export default function AnalyticsPage() {
       subtitle: 'Blood units dispatched, ambulance runs, and responder missions',
       icon: HeartHandshake,
       badge: 'Mutual Aid',
-      badgeColor: 'bg-rose-950 text-rose-400 border border-rose-800',
+      badgeColor: 'bg-rose-50 text-rose-700 border border-rose-200',
     },
   ];
 
@@ -78,16 +78,16 @@ export default function AnalyticsPage() {
     <div className="space-y-8">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-5">
         <div className="flex items-center space-x-2.5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-600 to-blue-700 text-white shadow-lg shadow-cyan-950/60 border border-cyan-500/30">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-600 to-blue-700 text-white shadow-md shadow-cyan-200 border border-cyan-500/30">
             <BarChart3 className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white tracking-wide">
+            <h1 className="text-xl font-bold text-slate-900 tracking-wide">
               CAD Analytics & Humanitarian Impact
             </h1>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-600">
               Live telemetry on response velocity, critical blood utilization, and community mutual-aid performance.
             </p>
           </div>
@@ -107,8 +107,8 @@ export default function AnalyticsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`relative flex flex-col justify-between text-left p-4 rounded-2xl border transition-all duration-200 ${
                   isActive
-                    ? 'border-cyan-500 bg-gradient-to-b from-cyan-950/40 via-slate-900/90 to-slate-900 shadow-xl shadow-cyan-950/50 ring-1 ring-cyan-500/40'
-                    : 'border-slate-800 bg-slate-900/60 hover:border-slate-700 hover:bg-slate-900/80'
+                    ? 'border-cyan-500 bg-cyan-50/60 shadow-md ring-1 ring-cyan-400/40'
+                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 shadow-xs'
                 }`}
               >
                 {isActive && (
@@ -120,7 +120,7 @@ export default function AnalyticsPage() {
                     <div className={`p-2 rounded-xl border ${
                       isActive 
                         ? 'bg-cyan-600 text-white border-cyan-500 shadow-sm' 
-                        : 'bg-slate-800/80 text-slate-400 border-slate-700/60'
+                        : 'bg-slate-100 text-slate-600 border-slate-200'
                     }`}>
                       <Icon className="h-4 w-4" />
                     </div>
@@ -131,12 +131,12 @@ export default function AnalyticsPage() {
                   </div>
 
                   <h3 className={`text-xs font-bold transition-colors ${
-                    isActive ? 'text-white' : 'text-slate-300'
+                    isActive ? 'text-cyan-950 font-extrabold' : 'text-slate-800'
                   }`}>
                     {tab.title}
                   </h3>
 
-                  <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                  <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
                     {tab.subtitle}
                   </p>
                 </div>
@@ -147,18 +147,18 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Isolated View Container */}
-      <div className="rounded-2xl border border-slate-800/90 bg-slate-900/50 p-6 shadow-2xl backdrop-blur-sm min-h-[500px]">
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm min-h-[500px]">
         
         {/* ========================================================================= */}
         {/* TAB 1: EXECUTIVE OVERVIEW */}
         {/* ========================================================================= */}
         {activeTab === 'overview' && (
           <div className="space-y-6">
-            <div className="border-b border-slate-800 pb-4">
-              <h2 className="text-lg font-bold text-white">
+            <div className="border-b border-slate-200 pb-4">
+              <h2 className="text-lg font-bold text-slate-900">
                 Executive Telemetry Overview
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600">
                 Core performance metrics aggregated across all active regional computer-aided dispatch nodes.
               </p>
             </div>
@@ -166,22 +166,22 @@ export default function AnalyticsPage() {
             <TelemetryStats />
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
-              <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 space-y-2">
-                <span className="text-xs font-bold text-emerald-400 font-mono">DISPATCH UPTIME</span>
-                <span className="text-2xl font-bold font-mono text-white block">99.98%</span>
-                <p className="text-xs text-slate-400">Zero downtime during regional network outages via distributed mesh nodes.</p>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2">
+                <span className="text-xs font-bold text-emerald-700 font-mono">DISPATCH UPTIME</span>
+                <span className="text-2xl font-bold font-mono text-slate-900 block">99.98%</span>
+                <p className="text-xs text-slate-600">Zero downtime during regional network outages via distributed mesh nodes.</p>
               </div>
 
-              <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 space-y-2">
-                <span className="text-xs font-bold text-sky-400 font-mono">COMMUNITY RESCUE RATE</span>
-                <span className="text-2xl font-bold font-mono text-white block">94.2%</span>
-                <p className="text-xs text-slate-400">Percentage of distress incidents with matched on-scene community responders within 8 minutes.</p>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2">
+                <span className="text-xs font-bold text-sky-700 font-mono">COMMUNITY RESCUE RATE</span>
+                <span className="text-2xl font-bold font-mono text-slate-900 block">94.2%</span>
+                <p className="text-xs text-slate-600">Percentage of distress incidents with matched on-scene community responders within 8 minutes.</p>
               </div>
 
-              <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 space-y-2">
-                <span className="text-xs font-bold text-rose-400 font-mono">BLOOD COOLDOWN COMPLIANCE</span>
-                <span className="text-2xl font-bold font-mono text-white block">100.0%</span>
-                <p className="text-xs text-slate-400">Zero non-compliant donations recorded under AABB 90-day physiological safety protocols.</p>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2">
+                <span className="text-xs font-bold text-rose-700 font-mono">BLOOD COOLDOWN COMPLIANCE</span>
+                <span className="text-2xl font-bold font-mono text-slate-900 block">100.0%</span>
+                <p className="text-xs text-slate-600">Zero non-compliant donations recorded under AABB 90-day physiological safety protocols.</p>
               </div>
             </div>
           </div>
@@ -192,23 +192,23 @@ export default function AnalyticsPage() {
         {/* ========================================================================= */}
         {activeTab === 'categories' && (
           <div className="space-y-6">
-            <div className="border-b border-slate-800 pb-4">
-              <h2 className="text-lg font-bold text-white">
+            <div className="border-b border-slate-200 pb-4">
+              <h2 className="text-lg font-bold text-slate-900">
                 Incident Volume Distribution (Last 30 Days)
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600">
                 Classification of emergency calls parsed and triaged by the LifeLink AI decision support engine.
               </p>
             </div>
 
             <div className="space-y-4">
               {categoryBreakdown.map((item, idx) => (
-                <div key={idx} className="space-y-1.5 rounded-xl border border-slate-800 bg-slate-950 p-4">
+                <div key={idx} className="space-y-1.5 rounded-xl border border-slate-200 bg-slate-50 p-4">
                   <div className="flex justify-between text-xs">
-                    <span className="text-white font-bold">{item.label}</span>
-                    <span className="font-mono text-slate-300 font-bold">{item.count} calls ({item.percent}%)</span>
+                    <span className="text-slate-900 font-bold">{item.label}</span>
+                    <span className="font-mono text-slate-700 font-bold">{item.count} calls ({item.percent}%)</span>
                   </div>
-                  <div className="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800">
+                  <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden border border-slate-200">
                     <div
                       className={`${item.color} h-2.5 rounded-full transition-all duration-500`}
                       style={{ width: `${item.percent}%` }}
@@ -218,9 +218,9 @@ export default function AnalyticsPage() {
               ))}
             </div>
 
-            <div className="pt-2 text-xs text-slate-400 flex items-center justify-between bg-slate-950 p-4 rounded-xl border border-slate-800">
+            <div className="pt-2 text-xs text-slate-600 flex items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-200">
               <span>Sub-Second AI Extraction Latency:</span>
-              <span className="font-mono text-emerald-400 font-bold">1.8 Seconds Average</span>
+              <span className="font-mono text-emerald-700 font-bold">1.8 Seconds Average</span>
             </div>
           </div>
         )}
@@ -230,11 +230,11 @@ export default function AnalyticsPage() {
         {/* ========================================================================= */}
         {activeTab === 'latency' && (
           <div className="space-y-6">
-            <div className="border-b border-slate-800 pb-4">
-              <h2 className="text-lg font-bold text-white">
+            <div className="border-b border-slate-200 pb-4">
+              <h2 className="text-lg font-bold text-slate-900">
                 Regional Mean Arrival Time & Benchmarks
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600">
                 Comparing LifeLink AI community first-responder arrival times against municipal ambulance response benchmarks.
               </p>
             </div>
@@ -243,31 +243,31 @@ export default function AnalyticsPage() {
               {regionalLatency.map((reg, i) => (
                 <div
                   key={i}
-                  className="rounded-2xl border border-slate-800 bg-slate-950 p-5 space-y-3"
+                  className="rounded-2xl border border-slate-200 bg-white p-5 space-y-3 shadow-xs"
                 >
                   <div className="flex items-center justify-between">
-                    <h4 className="text-sm font-bold text-white">{reg.region}</h4>
-                    <span className="font-mono text-xs font-bold text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
+                    <h4 className="text-sm font-bold text-slate-900">{reg.region}</h4>
+                    <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                       {reg.performance}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 text-center text-xs pt-1">
-                    <div className="rounded-xl bg-slate-900 p-3 border border-slate-800">
+                    <div className="rounded-xl bg-slate-50 p-3 border border-slate-200">
                       <span className="text-[10px] text-slate-500 block mb-1">LIFELINK ARRIVAL</span>
-                      <span className="font-mono text-xl font-bold text-emerald-400">{reg.latency}</span>
+                      <span className="font-mono text-xl font-bold text-emerald-700">{reg.latency}</span>
                     </div>
-                    <div className="rounded-xl bg-slate-900 p-3 border border-slate-800">
+                    <div className="rounded-xl bg-slate-50 p-3 border border-slate-200">
                       <span className="text-[10px] text-slate-500 block mb-1">MUNICIPAL AVERAGE</span>
-                      <span className="font-mono text-xl font-bold text-slate-400">{reg.benchmark}</span>
+                      <span className="font-mono text-xl font-bold text-slate-600">{reg.benchmark}</span>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="rounded-xl bg-slate-950 p-4 border border-slate-800 text-xs text-slate-400 leading-relaxed">
-              <strong className="text-sky-400">Operational Value:</strong> By mobilizing verified off-duty healthcare workers and CPR-certified neighbors within a 2.5km radius, LifeLink AI closes the critical 4 to 6 minute survival window during cardiac and severe hemorrhage crises.
+            <div className="rounded-xl bg-slate-50 p-4 border border-slate-200 text-xs text-slate-600 leading-relaxed">
+              <strong className="text-sky-800">Operational Value:</strong> By mobilizing verified off-duty healthcare workers and CPR-certified neighbors within a 2.5km radius, LifeLink AI closes the critical 4 to 6 minute survival window during cardiac and severe hemorrhage crises.
             </div>
           </div>
         )}
@@ -277,41 +277,41 @@ export default function AnalyticsPage() {
         {/* ========================================================================= */}
         {activeTab === 'resources' && (
           <div className="space-y-6">
-            <div className="border-b border-slate-800 pb-4">
-              <h2 className="text-lg font-bold text-white">
+            <div className="border-b border-slate-200 pb-4">
+              <h2 className="text-lg font-bold text-slate-900">
                 Life-Saving Resource Deployment Metrics
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600">
                 Cumulative tally of physical medical assets mobilized across international mutual-aid chapters.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="rounded-2xl border border-rose-900/40 bg-slate-950 p-5 space-y-2">
-                <div className="flex items-center space-x-2 text-rose-400">
+              <div className="rounded-2xl border border-rose-200 bg-white p-5 space-y-2 shadow-xs">
+                <div className="flex items-center space-x-2 text-rose-600">
                   <Droplet className="h-5 w-5" />
                   <span className="font-mono text-xs font-bold">BLOOD UNITS DISPATCHED</span>
                 </div>
-                <span className="text-2xl font-bold font-mono text-white block">{metrics.bloodUnitsDispatched.toLocaleString()} Units</span>
-                <p className="text-xs text-slate-400">Packed red cells and apheresis platelets successfully transfused.</p>
+                <span className="text-2xl font-bold font-mono text-slate-900 block">{metrics.bloodUnitsDispatched.toLocaleString()} Units</span>
+                <p className="text-xs text-slate-600">Packed red cells and apheresis platelets successfully transfused.</p>
               </div>
 
-              <div className="rounded-2xl border border-amber-900/40 bg-slate-950 p-5 space-y-2">
-                <div className="flex items-center space-x-2 text-amber-400">
+              <div className="rounded-2xl border border-amber-200 bg-white p-5 space-y-2 shadow-xs">
+                <div className="flex items-center space-x-2 text-amber-600">
                   <Ambulance className="h-5 w-5" />
                   <span className="font-mono text-xs font-bold">PARAMEDIC RUNS</span>
                 </div>
-                <span className="text-2xl font-bold font-mono text-white block">3,892 Transits</span>
-                <p className="text-xs text-slate-400">Advanced Life Support (ALS) patient hospital transports completed.</p>
+                <span className="text-2xl font-bold font-mono text-slate-900 block">3,892 Transits</span>
+                <p className="text-xs text-slate-600">Advanced Life Support (ALS) patient hospital transports completed.</p>
               </div>
 
-              <div className="rounded-2xl border border-emerald-900/40 bg-slate-950 p-5 space-y-2">
-                <div className="flex items-center space-x-2 text-emerald-400">
+              <div className="rounded-2xl border border-emerald-200 bg-white p-5 space-y-2 shadow-xs">
+                <div className="flex items-center space-x-2 text-emerald-600">
                   <Users className="h-5 w-5" />
                   <span className="font-mono text-xs font-bold">FIRST-RESPONDER MISSIONS</span>
                 </div>
-                <span className="text-2xl font-bold font-mono text-white block">8,410 Rescues</span>
-                <p className="text-xs text-slate-400">On-scene bystander CPR, water rescue, and trauma stabilization.</p>
+                <span className="text-2xl font-bold font-mono text-slate-900 block">8,410 Rescues</span>
+                <p className="text-xs text-slate-600">On-scene bystander CPR, water rescue, and trauma stabilization.</p>
               </div>
             </div>
           </div>

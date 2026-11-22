@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #070a10;
-  --foreground: #f3f4f6;
+  --background: #f8fafc;
+  --foreground: #0f172a;
 }
 
 body {
@@ -14,51 +14,51 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Tactical Scrollbars */
+/* Custom Tactical Scrollbars (Clean Medical Slate) */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0b0f17;
+  background: #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #94a3b8;
 }
 
-/* Leaflet Dark Map Tile Inversion & Polish */
+/* Leaflet Clean Light Map Styling */
 .leaflet-container {
   width: 100%;
   height: 100%;
-  background-color: #0b1120 !important;
+  background-color: #f8fafc !important;
 }
 
 .leaflet-popup-content-wrapper {
-  background: #0f172a !important;
-  color: #f3f4f6 !important;
-  border: 1px solid #334155 !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0 !important;
   border-radius: 12px !important;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.8) !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15) !important;
 }
 
 .leaflet-popup-tip {
-  background: #0f172a !important;
+  background: #ffffff !important;
 }
 
-/* Subtle Tactical Shadows and Glows */
+/* Soft Glow Accents */
 .shadow-glow {
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 12px rgba(220, 38, 38, 0.35);
 }
 
 .shadow-glow-blue {
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.3);
 }
 
 /* Tactical Pulse Beacons */

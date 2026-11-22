@@ -80,7 +80,7 @@ export default function VolunteersPage() {
       subtitle: 'Certified community responders on duty nearby',
       icon: Users,
       badge: `${MOCK_VOLUNTEERS.length} Active`,
-      badgeColor: 'bg-emerald-950 text-emerald-400 border border-emerald-800',
+      badgeColor: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
     },
     {
       id: 'skills' as VolunteerTab,
@@ -88,7 +88,7 @@ export default function VolunteersPage() {
       subtitle: 'Filter by EMT, CPR, Paramedic, and Water Rescue',
       icon: Shield,
       badge: 'Certified',
-      badgeColor: 'bg-sky-950 text-sky-400 border border-sky-800',
+      badgeColor: 'bg-sky-50 text-sky-700 border border-sky-200',
     },
     {
       id: 'assign' as VolunteerTab,
@@ -96,7 +96,7 @@ export default function VolunteersPage() {
       subtitle: 'Pair open emergency calls with available volunteers',
       icon: Navigation,
       badge: 'Dispatch',
-      badgeColor: 'bg-amber-950 text-amber-400 border border-amber-800',
+      badgeColor: 'bg-amber-50 text-amber-800 border border-amber-200',
     },
     {
       id: 'register' as VolunteerTab,
@@ -104,7 +104,7 @@ export default function VolunteersPage() {
       subtitle: 'Register as a certified community first-responder',
       icon: UserCheck,
       badge: 'Join Network',
-      badgeColor: 'bg-purple-950 text-purple-400 border border-purple-800',
+      badgeColor: 'bg-purple-50 text-purple-700 border border-purple-200',
     },
     {
       id: 'badges' as VolunteerTab,
@@ -112,7 +112,7 @@ export default function VolunteersPage() {
       subtitle: 'Historical response metrics and Gold/Silver certification tiers',
       icon: Award,
       badge: 'Honor Roll',
-      badgeColor: 'bg-rose-950 text-rose-400 border border-rose-800',
+      badgeColor: 'bg-rose-50 text-rose-700 border border-rose-200',
     },
   ];
 
@@ -120,16 +120,16 @@ export default function VolunteersPage() {
     <div className="space-y-8">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-5">
         <div className="flex items-center space-x-2.5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white shadow-lg shadow-emerald-950/60 border border-emerald-500/30">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white shadow-md shadow-emerald-200 border border-emerald-500/30">
             <Users className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white tracking-wide">
+            <h1 className="text-xl font-bold text-slate-900 tracking-wide">
               Community First-Responders & Disaster Fleet
             </h1>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-600">
               Mobilize off-duty medical staff, trained CPR specialists, and water rescue teams for localized incident arrival.
             </p>
           </div>
@@ -149,8 +149,8 @@ export default function VolunteersPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`relative flex flex-col justify-between text-left p-4 rounded-2xl border transition-all duration-200 ${
                   isActive
-                    ? 'border-emerald-500 bg-gradient-to-b from-emerald-950/40 via-slate-900/90 to-slate-900 shadow-xl shadow-emerald-950/50 ring-1 ring-emerald-500/40'
-                    : 'border-slate-800 bg-slate-900/60 hover:border-slate-700 hover:bg-slate-900/80'
+                    ? 'border-emerald-500 bg-emerald-50/60 shadow-md ring-1 ring-emerald-400/40'
+                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 shadow-xs'
                 }`}
               >
                 {isActive && (
@@ -162,7 +162,7 @@ export default function VolunteersPage() {
                     <div className={`p-2 rounded-xl border ${
                       isActive 
                         ? 'bg-emerald-600 text-white border-emerald-500 shadow-sm' 
-                        : 'bg-slate-800/80 text-slate-400 border-slate-700/60'
+                        : 'bg-slate-100 text-slate-600 border-slate-200'
                     }`}>
                       <Icon className="h-4 w-4" />
                     </div>
@@ -173,12 +173,12 @@ export default function VolunteersPage() {
                   </div>
 
                   <h3 className={`text-xs font-bold transition-colors ${
-                    isActive ? 'text-white' : 'text-slate-300'
+                    isActive ? 'text-emerald-950 font-extrabold' : 'text-slate-800'
                   }`}>
                     {tab.title}
                   </h3>
 
-                  <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
+                  <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
                     {tab.subtitle}
                   </p>
                 </div>
@@ -189,26 +189,26 @@ export default function VolunteersPage() {
       </div>
 
       {/* Isolated View Container */}
-      <div className="rounded-2xl border border-slate-800/90 bg-slate-900/50 p-6 shadow-2xl backdrop-blur-sm min-h-[500px]">
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm min-h-[500px]">
         
         {/* ========================================================================= */}
         {/* TAB 1: ACTIVE RESPONDERS ROSTER */}
         {/* ========================================================================= */}
         {activeTab === 'roster' && (
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
               <div>
-                <h2 className="text-lg font-bold text-white">
+                <h2 className="text-lg font-bold text-slate-900">
                   Field First-Responders Directory ({filteredVolunteers.length})
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-600">
                   Off-duty EMTs, certified nurses, and trained community volunteers standing by for dispatch.
                 </p>
               </div>
 
               <button
                 onClick={() => setActiveTab('assign')}
-                className="flex items-center space-x-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-lg shadow-emerald-950 hover:bg-emerald-500 transition-colors self-start sm:self-auto"
+                className="flex items-center space-x-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-emerald-500 transition-colors self-start sm:self-auto"
               >
                 <Navigation className="h-3.5 w-3.5" />
                 <span>Go to Mission Dispatch</span>
@@ -217,13 +217,13 @@ export default function VolunteersPage() {
 
             {/* Search Input */}
             <div className="relative">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+              <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="Search responders by name, sector, or badge ID..."
-                className="w-full rounded-xl border border-slate-800 bg-slate-950 pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:bg-white focus:outline-none"
               />
             </div>
 
@@ -231,21 +231,21 @@ export default function VolunteersPage() {
               {filteredVolunteers.map(vol => (
                 <div
                   key={vol.id}
-                  className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5 space-y-4 hover:border-slate-700 transition-colors shadow-lg"
+                  className="rounded-2xl border border-slate-200 bg-white p-5 space-y-4 hover:border-slate-300 transition-all shadow-xs"
                 >
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="font-mono text-xs font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/60">
+                        <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                           {vol.badgeLevel} TIER
                         </span>
-                        <span className="text-[10px] text-slate-500 font-mono">{vol.id}</span>
+                        <span className="text-[10px] text-slate-400 font-mono">{vol.id}</span>
                       </div>
-                      <h3 className="text-base font-bold text-white mt-1.5">{vol.name}</h3>
-                      <p className="text-xs text-slate-400 mt-0.5">{vol.location.address}</p>
+                      <h3 className="text-base font-bold text-slate-900 mt-1.5">{vol.name}</h3>
+                      <p className="text-xs text-slate-500 mt-0.5">{vol.location.address}</p>
                     </div>
 
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-950/80 border border-emerald-800/80 text-emerald-400">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600">
                       <Shield className="h-5 w-5" />
                     </div>
                   </div>
@@ -258,7 +258,7 @@ export default function VolunteersPage() {
                       {vol.skills.map((skill, idx) => (
                         <span
                           key={idx}
-                          className="rounded bg-slate-900 px-2 py-0.5 text-[10px] font-mono font-medium text-slate-300 border border-slate-800"
+                          className="rounded bg-slate-100 px-2 py-0.5 text-[10px] font-mono font-medium text-slate-700 border border-slate-200"
                         >
                           {skill.replace('_', ' ')}
                         </span>
@@ -266,26 +266,26 @@ export default function VolunteersPage() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 text-center text-xs pt-1 border-t border-slate-800">
-                    <div className="rounded-xl bg-slate-900 p-2.5 border border-slate-800">
+                  <div className="grid grid-cols-2 gap-2 text-center text-xs pt-1 border-t border-slate-100">
+                    <div className="rounded-xl bg-slate-50 p-2.5 border border-slate-200">
                       <span className="text-[10px] text-slate-500 block mb-0.5">COMPLETED MISSIONS</span>
-                      <span className="font-mono text-base font-bold text-white">{vol.completedMissions}</span>
+                      <span className="font-mono text-base font-bold text-slate-900">{vol.completedMissions}</span>
                     </div>
-                    <div className="rounded-xl bg-slate-900 p-2.5 border border-slate-800">
+                    <div className="rounded-xl bg-slate-50 p-2.5 border border-slate-200">
                       <span className="text-[10px] text-slate-500 block mb-0.5">AVG RESPONSE TIME</span>
-                      <span className="font-mono text-base font-bold text-emerald-400">{vol.averageResponseMinutes} min</span>
+                      <span className="font-mono text-base font-bold text-emerald-700">{vol.averageResponseMinutes} min</span>
                     </div>
                   </div>
 
-                  <div className="pt-2 flex items-center justify-between border-t border-slate-800">
-                    <span className="text-[11px] text-slate-400">Sector: {vol.location.city}</span>
+                  <div className="pt-2 flex items-center justify-between border-t border-slate-100">
+                    <span className="text-[11px] text-slate-500">Sector: {vol.location.city}</span>
 
                     <button 
                       onClick={() => {
                         setSelectedVolId(vol.id);
                         setActiveTab('assign');
                       }}
-                      className="flex items-center space-x-1 rounded-lg bg-emerald-600/90 hover:bg-emerald-600 border border-emerald-500/50 px-3 py-1.5 text-xs font-bold text-white transition-colors"
+                      className="flex items-center space-x-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 border border-emerald-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs transition-colors"
                     >
                       <Navigation className="h-3 w-3" />
                       <span>Assign Task</span>
@@ -302,12 +302,12 @@ export default function VolunteersPage() {
         {/* ========================================================================= */}
         {activeTab === 'skills' && (
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
               <div>
-                <h2 className="text-lg font-bold text-white">
+                <h2 className="text-lg font-bold text-slate-900">
                   Filter by Emergency Skillset
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-600">
                   Select specialized responder capabilities required for specific trauma scenarios.
                 </p>
               </div>
@@ -327,7 +327,7 @@ export default function VolunteersPage() {
                     className={`px-3 py-1.5 rounded-xl text-xs font-mono font-medium border transition-colors ${
                       selectedSkillFilter === skill.id
                         ? 'bg-emerald-600 border-emerald-500 text-white'
-                        : 'bg-slate-900 border-slate-800 text-slate-400 hover:bg-slate-800'
+                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 shadow-2xs'
                     }`}
                   >
                     {skill.label}
@@ -340,14 +340,14 @@ export default function VolunteersPage() {
               {filteredVolunteers.map(vol => (
                 <div
                   key={vol.id}
-                  className="rounded-xl border border-slate-800 bg-slate-950/70 p-4 space-y-3"
+                  className="rounded-xl border border-slate-200 bg-white p-4 space-y-3 shadow-xs hover:border-slate-300 transition-all"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="text-sm font-bold text-white">{vol.name}</h4>
-                      <p className="text-xs text-slate-400">{vol.location.address}</p>
+                      <h4 className="text-sm font-bold text-slate-900">{vol.name}</h4>
+                      <p className="text-xs text-slate-500">{vol.location.address}</p>
                     </div>
-                    <span className="font-mono text-xs font-bold text-emerald-400 bg-emerald-950 px-2.5 py-1 rounded-lg border border-emerald-800">
+                    <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
                       {vol.badgeLevel}
                     </span>
                   </div>
@@ -356,23 +356,23 @@ export default function VolunteersPage() {
                     {vol.skills.map((s, i) => (
                       <span
                         key={i}
-                        className="rounded bg-slate-900 px-2 py-0.5 text-[10px] font-mono text-slate-300 border border-slate-800"
+                        className="rounded bg-slate-100 px-2 py-0.5 text-[10px] font-mono text-slate-700 border border-slate-200"
                       >
                         {s.replace('_', ' ')}
                       </span>
                     ))}
                   </div>
 
-                  <div className="pt-2 border-t border-slate-800 flex justify-between text-xs text-slate-400">
-                    <span>Average Arrival: <strong className="text-white font-mono">{vol.averageResponseMinutes}m</strong></span>
+                  <div className="pt-2 border-t border-slate-100 flex justify-between text-xs text-slate-500">
+                    <span>Average Arrival: <strong className="text-slate-900 font-mono">{vol.averageResponseMinutes}m</strong></span>
                     <button
                       onClick={() => {
                         setSelectedVolId(vol.id);
                         setActiveTab('assign');
                       }}
-                      className="text-emerald-400 hover:underline font-bold"
+                      className="text-emerald-700 hover:underline font-bold"
                     >
-                      Mobilize $\to$
+                      Mobilize &rarr;
                     </button>
                   </div>
                 </div>
@@ -386,19 +386,19 @@ export default function VolunteersPage() {
         {/* ========================================================================= */}
         {activeTab === 'assign' && (
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
               <div>
-                <h2 className="text-lg font-bold text-white">
+                <h2 className="text-lg font-bold text-slate-900">
                   Field Mission Dispatch Console
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-600">
                   Directly assign an open emergency incident to a certified first responder unit with live coordinate transfer.
                 </p>
               </div>
 
               {assignedSuccess && (
-                <div className="rounded-xl border border-emerald-500/50 bg-emerald-950/80 px-4 py-2 text-xs text-emerald-300 font-medium flex items-center space-x-2 animate-bounce">
-                  <CheckCircle className="h-4 w-4 text-emerald-400" />
+                <div className="rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-2 text-xs text-emerald-800 font-medium flex items-center space-x-2 animate-bounce">
+                  <CheckCircle className="h-4 w-4 text-emerald-600" />
                   <span>{assignedSuccess}</span>
                 </div>
               )}
@@ -406,8 +406,8 @@ export default function VolunteersPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Step 1: Select Open Distress Call */}
-              <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-200 block font-mono">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-800 block font-mono">
                   1. Select Target Distress Incident
                 </span>
 
@@ -420,16 +420,16 @@ export default function VolunteersPage() {
                         onClick={() => setSelectedIncidentId(inc.id)}
                         className={`p-3 rounded-xl border cursor-pointer transition-all ${
                           isSelected
-                            ? 'border-emerald-500 bg-emerald-950/30 ring-1 ring-emerald-500/30'
-                            : 'border-slate-800 bg-slate-900/60 hover:border-slate-700'
+                            ? 'border-emerald-500 bg-emerald-50 shadow-xs ring-1 ring-emerald-400'
+                            : 'border-slate-200 bg-white hover:border-slate-300'
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className="font-mono text-xs font-bold text-slate-300">{inc.id}</span>
-                          <span className="font-mono text-[10px] text-amber-400">{inc.urgency}</span>
+                          <span className="font-mono text-xs font-bold text-slate-800">{inc.id}</span>
+                          <span className="font-mono text-[10px] text-amber-800 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded">{inc.urgency}</span>
                         </div>
-                        <h4 className="text-xs font-bold text-white mt-1 line-clamp-1">{inc.title}</h4>
-                        <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">{inc.location.address}</p>
+                        <h4 className="text-xs font-bold text-slate-900 mt-1 line-clamp-1">{inc.title}</h4>
+                        <p className="text-[11px] text-slate-600 line-clamp-1 mt-0.5">{inc.location.address}</p>
                       </div>
                     );
                   })}
@@ -437,8 +437,8 @@ export default function VolunteersPage() {
               </div>
 
               {/* Step 2: Select First Responder */}
-              <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-200 block font-mono">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-800 block font-mono">
                   2. Select Available First Responder
                 </span>
 
@@ -451,16 +451,16 @@ export default function VolunteersPage() {
                         onClick={() => setSelectedVolId(vol.id)}
                         className={`p-3 rounded-xl border cursor-pointer transition-all ${
                           isSelected
-                            ? 'border-emerald-500 bg-emerald-950/30 ring-1 ring-emerald-500/30'
-                            : 'border-slate-800 bg-slate-900/60 hover:border-slate-700'
+                            ? 'border-emerald-500 bg-emerald-50 shadow-xs ring-1 ring-emerald-400'
+                            : 'border-slate-200 bg-white hover:border-slate-300'
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className="font-mono text-xs font-bold text-emerald-400">{vol.id}</span>
-                          <span className="font-mono text-[10px] text-slate-400">{vol.badgeLevel} Tier</span>
+                          <span className="font-mono text-xs font-bold text-emerald-700">{vol.id}</span>
+                          <span className="font-mono text-[10px] text-slate-500">{vol.badgeLevel} Tier</span>
                         </div>
-                        <h4 className="text-xs font-bold text-white mt-1">{vol.name}</h4>
-                        <p className="text-[11px] text-slate-400 mt-0.5">{vol.location.address} • {vol.averageResponseMinutes}m avg</p>
+                        <h4 className="text-xs font-bold text-slate-900 mt-1">{vol.name}</h4>
+                        <p className="text-[11px] text-slate-600 mt-0.5">{vol.location.address} • {vol.averageResponseMinutes}m avg</p>
                       </div>
                     );
                   })}
@@ -471,7 +471,7 @@ export default function VolunteersPage() {
             <div className="pt-2 flex justify-end">
               <button
                 onClick={handleAssignMission}
-                className="flex items-center space-x-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-6 py-3 text-xs font-bold text-white shadow-lg shadow-emerald-950/80 active:scale-95 transition-all"
+                className="flex items-center space-x-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 px-6 py-3 text-xs font-bold text-white shadow-xs active:scale-95 transition-all"
               >
                 <Navigation className="h-4 w-4" />
                 <span>CONFIRM & TRANSMIT MISSION ORDER</span>
@@ -485,55 +485,55 @@ export default function VolunteersPage() {
         {/* ========================================================================= */}
         {activeTab === 'register' && (
           <div className="space-y-6 max-w-2xl mx-auto">
-            <div className="border-b border-slate-800 pb-4 text-center">
-              <h2 className="text-lg font-bold text-white">
+            <div className="border-b border-slate-200 pb-4 text-center">
+              <h2 className="text-lg font-bold text-slate-900">
                 Join the LifeLink Community First-Responder Fleet
               </h2>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-slate-600 mt-1">
                 Whether you are an active nurse, off-duty paramedic, CPR-certified citizen, or commercial driver, your help saves lives during local crises.
               </p>
             </div>
 
             {regSuccess ? (
-              <div className="rounded-2xl border border-emerald-900/60 bg-emerald-950/20 p-8 text-center space-y-3">
-                <CheckCircle className="h-10 w-10 text-emerald-400 mx-auto animate-bounce" />
-                <h3 className="text-base font-bold text-white">Registration Application Submitted</h3>
-                <p className="text-xs text-slate-300">
+              <div className="rounded-2xl border border-emerald-300 bg-emerald-50 p-8 text-center space-y-3">
+                <CheckCircle className="h-10 w-10 text-emerald-600 mx-auto animate-bounce" />
+                <h3 className="text-base font-bold text-slate-900">Registration Application Submitted</h3>
+                <p className="text-xs text-slate-600">
                   Our dispatch operations team will verify your medical credentials and activate your CAD responder radio link within 24 hours.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleRegisterSubmit} className="space-y-4 rounded-2xl border border-slate-800 bg-slate-950 p-6">
+              <form onSubmit={handleRegisterSubmit} className="space-y-4 rounded-2xl border border-slate-200 bg-slate-50 p-6">
                 <div>
-                  <label className="text-xs font-semibold text-slate-300 block mb-1">Full Legal Name *</label>
+                  <label className="text-xs font-semibold text-slate-700 block mb-1">Full Legal Name *</label>
                   <input
                     type="text"
                     value={regName}
                     onChange={e => setRegName(e.target.value)}
                     placeholder="e.g. Dr. John Carter / Jane Doe, RN"
-                    className="w-full rounded-xl border border-slate-800 bg-slate-900 px-3.5 py-2 text-xs text-white focus:border-emerald-500 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none shadow-xs"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-slate-300 block mb-1">Contact Phone / Dispatch Radio *</label>
+                  <label className="text-xs font-semibold text-slate-700 block mb-1">Contact Phone / Dispatch Radio *</label>
                   <input
                     type="text"
                     value={regContact}
                     onChange={e => setRegContact(e.target.value)}
                     placeholder="+1 (555) 019-2834"
-                    className="w-full rounded-xl border border-slate-800 bg-slate-900 px-3.5 py-2 text-xs text-white focus:border-emerald-500 focus:outline-none"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none shadow-xs"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-slate-300 block mb-1">Primary Certified Capability *</label>
+                  <label className="text-xs font-semibold text-slate-700 block mb-1">Primary Certified Capability *</label>
                   <select
                     value={regSkill}
                     onChange={e => setRegSkill(e.target.value)}
-                    className="w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2 text-xs text-white focus:border-emerald-500 focus:outline-none cursor-pointer"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-none cursor-pointer shadow-xs"
                   >
                     <option value="EMT_BASIC">EMT Basic (Emergency Medical Technician)</option>
                     <option value="PARAMEDIC">Advanced Life Support (ALS) Paramedic</option>
@@ -545,7 +545,7 @@ export default function VolunteersPage() {
 
                 <button
                   type="submit"
-                  className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-500 py-3 text-xs font-bold text-white shadow-lg shadow-emerald-950 transition-colors"
+                  className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-500 py-3 text-xs font-bold text-white shadow-xs transition-colors"
                 >
                   Submit Responder Application
                 </button>
@@ -559,49 +559,49 @@ export default function VolunteersPage() {
         {/* ========================================================================= */}
         {activeTab === 'badges' && (
           <div className="space-y-6">
-            <div className="border-b border-slate-800 pb-4">
-              <h2 className="text-lg font-bold text-white">
+            <div className="border-b border-slate-200 pb-4">
+              <h2 className="text-lg font-bold text-slate-900">
                 Responder Honor Roll & Accreditation Tiers
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600">
                 Recognizing community first-responders who dedicate their time to high-stakes humanitarian rescues.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="rounded-2xl border border-amber-900/40 bg-amber-950/20 p-5 space-y-2">
-                <div className="flex items-center space-x-2 text-amber-400 font-bold font-mono text-xs">
+              <div className="rounded-2xl border border-amber-200 bg-amber-50/60 p-5 space-y-2">
+                <div className="flex items-center space-x-2 text-amber-800 font-bold font-mono text-xs">
                   <Award className="h-5 w-5" />
                   <span>GOLD TIER ACCREDITATION</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-700 leading-relaxed">
                   50+ completed emergency missions with an average response time under 4.0 minutes. Authorized for critical trauma assistance.
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-slate-700 bg-slate-900/60 p-5 space-y-2">
-                <div className="flex items-center space-x-2 text-slate-200 font-bold font-mono text-xs">
-                  <Award className="h-5 w-5 text-slate-400" />
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-2">
+                <div className="flex items-center space-x-2 text-slate-700 font-bold font-mono text-xs">
+                  <Award className="h-5 w-5 text-slate-500" />
                   <span>SILVER TIER ACCREDITATION</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   25+ verified field missions. Trained in BLS protocols, basic airway management, and rapid triage coordination.
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-orange-900/40 bg-orange-950/20 p-5 space-y-2">
-                <div className="flex items-center space-x-2 text-orange-400 font-bold font-mono text-xs">
+              <div className="rounded-2xl border border-orange-200 bg-orange-50/60 p-5 space-y-2">
+                <div className="flex items-center space-x-2 text-orange-800 font-bold font-mono text-xs">
                   <Award className="h-5 w-5" />
                   <span>BRONZE TIER ACCREDITATION</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-700 leading-relaxed">
                   Entry-level community certified responder with CPR/AED clearance and neighborhood mutual-aid readiness.
                 </p>
               </div>
             </div>
 
             <div className="space-y-3 pt-2">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono">
                 Top Performing Responders (Leaderboard)
               </h3>
 
@@ -609,23 +609,23 @@ export default function VolunteersPage() {
                 {MOCK_VOLUNTEERS.map((vol, rank) => (
                   <div
                     key={vol.id}
-                    className="flex items-center justify-between p-3.5 rounded-xl border border-slate-800 bg-slate-950/70"
+                    className="flex items-center justify-between p-3.5 rounded-xl border border-slate-200 bg-white shadow-xs"
                   >
                     <div className="flex items-center space-x-3">
-                      <span className="font-mono text-xs font-bold text-slate-500 w-5">#{rank + 1}</span>
+                      <span className="font-mono text-xs font-bold text-slate-400 w-5">#{rank + 1}</span>
                       <div>
-                        <h4 className="text-xs font-bold text-white">{vol.name}</h4>
-                        <span className="text-[10px] text-slate-400">{vol.location.address}</span>
+                        <h4 className="text-xs font-bold text-slate-900">{vol.name}</h4>
+                        <span className="text-[10px] text-slate-500">{vol.location.address}</span>
                       </div>
                     </div>
 
                     <div className="flex items-center space-x-6">
                       <div className="text-right">
-                        <span className="font-mono text-xs font-bold text-emerald-400 block">{vol.completedMissions}</span>
+                        <span className="font-mono text-xs font-bold text-emerald-700 block">{vol.completedMissions}</span>
                         <span className="text-[9px] text-slate-500 uppercase">Missions</span>
                       </div>
                       <div className="text-right">
-                        <span className="font-mono text-xs font-bold text-sky-400 block">{vol.averageResponseMinutes}m</span>
+                        <span className="font-mono text-xs font-bold text-sky-700 block">{vol.averageResponseMinutes}m</span>
                         <span className="text-[9px] text-slate-500 uppercase">Avg Arrival</span>
                       </div>
                     </div>

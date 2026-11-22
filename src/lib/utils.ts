@@ -35,33 +35,33 @@ export function formatRelativeTime(isoString: string): string {
 export function getUrgencyBadgeColor(urgency: string) {
   switch (urgency) {
     case 'CRITICAL':
-      return 'bg-red-500/10 text-red-400 border-red-500/30 animate-pulse';
+      return 'bg-red-50 text-red-700 border-red-200 animate-pulse font-semibold';
     case 'HIGH':
-      return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+      return 'bg-amber-50 text-amber-700 border-amber-200 font-semibold';
     case 'MODERATE':
-      return 'bg-blue-500/10 text-blue-400 border-blue-500/30';
+      return 'bg-blue-50 text-blue-700 border-blue-200 font-semibold';
     default:
-      return 'bg-slate-500/10 text-slate-400 border-slate-500/30';
+      return 'bg-slate-100 text-slate-600 border-slate-200';
   }
 }
 
 export function getStatusBadgeColor(status: string) {
   switch (status) {
     case 'REPORTED':
-      return 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30';
+      return 'bg-amber-50 text-amber-800 border-amber-200';
     case 'TRIAGED':
-      return 'bg-sky-500/10 text-sky-400 border-sky-500/30';
+      return 'bg-sky-50 text-sky-800 border-sky-200';
     case 'MATCHING':
-      return 'bg-purple-500/10 text-purple-400 border-purple-500/30';
+      return 'bg-purple-50 text-purple-800 border-purple-200';
     case 'DISPATCHED':
-      return 'bg-orange-500/10 text-orange-400 border-orange-500/30';
+      return 'bg-orange-50 text-orange-800 border-orange-200';
     case 'EN_ROUTE':
-      return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30';
+      return 'bg-indigo-50 text-indigo-800 border-indigo-200';
     case 'ON_SCENE':
-      return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+      return 'bg-emerald-50 text-emerald-800 border-emerald-200';
     case 'RESOLVED':
-      return 'bg-gray-500/10 text-gray-400 border-gray-500/30';
+      return 'bg-slate-100 text-slate-600 border-slate-200';
     default:
-      return 'bg-slate-800 text-slate-300 border-slate-700';
+      return 'bg-slate-100 text-slate-700 border-slate-200';
   }
 }

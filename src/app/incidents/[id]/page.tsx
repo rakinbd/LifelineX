@@ -14,7 +14,7 @@ import {
   CheckCircle2, 
   Send, 
   User, 
-  ArrowRight,
+  ArrowRight, 
   Shield, 
   AlertTriangle,
   Building2,
@@ -34,15 +34,15 @@ export default function IncidentDetailsPage() {
 
   if (!incident) {
     return (
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-12 text-center space-y-4">
-        <AlertTriangle className="h-10 w-10 text-amber-400 mx-auto" />
-        <h2 className="text-lg font-bold text-white">Incident Not Found</h2>
-        <p className="text-xs text-slate-400">
-          The requested emergency incident reference <span className="font-mono text-red-400">#{id}</span> could not be located in active dispatch.
+      <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center space-y-4 shadow-sm">
+        <AlertTriangle className="h-10 w-10 text-amber-500 mx-auto" />
+        <h2 className="text-lg font-bold text-slate-900">Incident Not Found</h2>
+        <p className="text-xs text-slate-600">
+          The requested emergency incident reference <span className="font-mono text-red-600">#{id}</span> could not be located in active dispatch.
         </p>
         <Link
           href="/incidents"
-          className="inline-flex items-center space-x-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 px-4 py-2 text-xs font-semibold text-white border border-slate-700"
+          className="inline-flex items-center space-x-1.5 rounded-xl bg-white hover:bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 border border-slate-200 shadow-xs"
         >
           <ArrowLeft className="h-4 w-4" />
           <span>Back to Incident Queue</span>
@@ -55,18 +55,18 @@ export default function IncidentDetailsPage() {
     <div className="space-y-6">
       
       {/* Top Navigation & Back Link */}
-      <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+      <div className="flex items-center justify-between border-b border-slate-200 pb-4">
         <Link
           href="/incidents"
-          className="flex items-center space-x-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+          className="flex items-center space-x-2 text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           <span>Return to All Incidents</span>
         </Link>
 
-        <div className="flex items-center space-x-2 text-xs font-mono text-slate-400">
+        <div className="flex items-center space-x-2 text-xs font-mono text-slate-500">
           <span>ACTIVE DISPATCH NODE:</span>
-          <strong className="text-emerald-400">CAD-ZONE-US4</strong>
+          <strong className="text-emerald-700">CAD-ZONE-US4</strong>
         </div>
       </div>
 
@@ -80,45 +80,45 @@ export default function IncidentDetailsPage() {
 
         {/* Right Column: Focused Tactical Map & Facilities */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 space-y-3 shadow-lg">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3 shadow-sm">
             <div className="flex items-center justify-between">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono flex items-center space-x-1.5">
-                <MapPin className="h-3.5 w-3.5 text-sky-400" />
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 font-mono flex items-center space-x-1.5">
+                <MapPin className="h-3.5 w-3.5 text-sky-600" />
                 <span>Geospatial Incident Zone</span>
               </h3>
-              <span className="text-[10px] text-slate-400 font-mono">
+              <span className="text-[10px] text-slate-500 font-mono">
                 {incident.location.lat.toFixed(4)}, {incident.location.lng.toFixed(4)}
               </span>
             </div>
 
             <EmergencyMap heightClass="h-[340px]" focusIncidentId={incident.id} />
 
-            <div className="text-[11px] text-slate-400 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
-              <strong className="text-slate-300">Target Landmark:</strong> {incident.location.address}
+            <div className="text-[11px] text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+              <strong className="text-slate-800">Target Landmark:</strong> {incident.location.address}
               <div className="text-[10px] text-slate-500 mt-0.5">
                 Dynamic Location Obfuscation: ±{incident.location.fuzzyRadiusKm || 1.2} km radius active
               </div>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 space-y-2">
-            <h4 className="text-xs font-bold uppercase text-slate-300 font-mono flex items-center space-x-1.5">
-              <Building2 className="h-3.5 w-3.5 text-emerald-400" />
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2 shadow-sm">
+            <h4 className="text-xs font-bold uppercase text-slate-800 font-mono flex items-center space-x-1.5">
+              <Building2 className="h-3.5 w-3.5 text-emerald-600" />
               <span>Direct Hotline Dispatch Action</span>
             </h4>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-600">
               Need immediate institutional dispatch? Connect this incident directly with Level-1 Trauma triage.
             </p>
             <div className="pt-2 flex gap-2">
               <Link
                 href="/hospitals"
-                className="flex-1 rounded-xl bg-slate-800 hover:bg-slate-700 text-center py-2 text-xs font-bold text-slate-200 border border-slate-700 transition-colors"
+                className="flex-1 rounded-xl bg-slate-50 hover:bg-slate-100 text-center py-2 text-xs font-bold text-slate-800 border border-slate-200 transition-colors shadow-2xs"
               >
                 Trauma Facilities
               </Link>
               <Link
                 href="/volunteers"
-                className="flex-1 rounded-xl bg-slate-800 hover:bg-slate-700 text-center py-2 text-xs font-bold text-slate-200 border border-slate-700 transition-colors"
+                className="flex-1 rounded-xl bg-slate-50 hover:bg-slate-100 text-center py-2 text-xs font-bold text-slate-800 border border-slate-200 transition-colors shadow-2xs"
               >
                 Assign Field EMT
               </Link>
