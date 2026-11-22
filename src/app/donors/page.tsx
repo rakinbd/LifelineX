@@ -116,7 +116,7 @@ export default function DonorsPage() {
       title: '90-Day Cooldown Tracking',
       subtitle: 'Track donor eligibility and 90-day AABB cooldown status',
       icon: Clock,
-      badge: 'Clinical Safety',
+      badge: 'Cooldown',
       badgeColor: 'bg-amber-950 text-amber-400 border border-amber-800',
     },
     {
@@ -124,7 +124,7 @@ export default function DonorsPage() {
       title: 'Verified Donor Registry',
       subtitle: 'Browse and filter verified regional blood donors',
       icon: UserCheck,
-      badge: `${donors.length} Verified`,
+      badge: `${donors.length} Donors`,
       badgeColor: 'bg-emerald-950 text-emerald-400 border border-emerald-800',
     },
     {
@@ -132,7 +132,7 @@ export default function DonorsPage() {
       title: 'Mobilize Donor',
       subtitle: 'Alert and mobilize eligible donors for urgent cases',
       icon: Radio,
-      badge: 'Rapid Dispatch',
+      badge: 'Dispatch',
       badgeColor: 'bg-sky-950 text-sky-400 border border-sky-800',
     },
   ];
@@ -157,24 +157,10 @@ export default function DonorsPage() {
             </div>
           </div>
         </div>
-
-        <div className="flex items-center space-x-2 text-xs font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-900/60 px-3 py-1.5 rounded-full">
-          <ShieldCheck className="h-3.5 w-3.5" />
-          <span>AABB TRANSFUSION PROTOCOL 1.0</span>
-        </div>
       </div>
 
-      {/* 1. SEPARATED TAB / CARD NAVIGATION (5 Core Functions) */}
+      {/* 1. SEPARATED TAB / CARD NAVIGATION (5 Core Functions without redundant status text) */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between px-1">
-          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400">
-            Select Blood Matching Function:
-          </span>
-          <span className="text-[11px] text-slate-500">
-            Clicking an option opens its isolated module below
-          </span>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -220,22 +206,13 @@ export default function DonorsPage() {
                     {tab.subtitle}
                   </p>
                 </div>
-
-                <div className="mt-4 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono">
-                  <span className={isActive ? 'text-red-400 font-bold' : 'text-slate-500'}>
-                    {isActive ? '● ACTIVE MODULE' : 'CLICK TO VIEW'}
-                  </span>
-                  <ArrowRight className={`h-3 w-3 transition-transform ${
-                    isActive ? 'text-red-400 translate-x-1' : 'text-slate-600'
-                  }`} />
-                </div>
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* 2. ISOLATED MODULE VIEW CONTAINER (Only selected module displays) */}
+      {/* 2. ISOLATED MODULE VIEW CONTAINER */}
       <div className="rounded-2xl border border-slate-800/90 bg-slate-900/50 p-6 shadow-2xl backdrop-blur-sm min-h-[500px]">
         
         {/* ========================================================================= */}
@@ -245,13 +222,7 @@ export default function DonorsPage() {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
               <div>
-                <div className="flex items-center space-x-2">
-                  <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
-                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-red-400">
-                    LIVE EMERGENCY TRANSFUSION QUEUE
-                  </span>
-                </div>
-                <h2 className="text-lg font-bold text-white mt-1">
+                <h2 className="text-lg font-bold text-white">
                   Active Emergency Blood Appeals ({bloodRequests.length})
                 </h2>
                 <p className="text-xs text-slate-400">
@@ -270,7 +241,7 @@ export default function DonorsPage() {
 
             {bloodRequests.length === 0 ? (
               <div className="rounded-xl border border-slate-800 bg-slate-950 p-12 text-center text-xs text-slate-400">
-                No active blood transfusion distress calls reported. All regional demands met.
+                No active blood transfusion distress calls reported.
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -344,11 +315,7 @@ export default function DonorsPage() {
         {activeTab === 'compatibility' && (
           <div className="space-y-6">
             <div className="border-b border-slate-800 pb-4">
-              <div className="flex items-center space-x-2 text-xs font-mono font-bold text-purple-400 uppercase">
-                <GitFork className="h-4 w-4" />
-                <span>CLINICAL TRANSFUSION TOOL</span>
-              </div>
-              <h2 className="text-lg font-bold text-white mt-1">
+              <h2 className="text-lg font-bold text-white">
                 Universal Blood Transfusion Compatibility Calculator
               </h2>
               <p className="text-xs text-slate-400">
@@ -366,11 +333,7 @@ export default function DonorsPage() {
         {activeTab === 'cooldown' && (
           <div className="space-y-6">
             <div className="border-b border-slate-800 pb-4">
-              <div className="flex items-center space-x-2 text-xs font-mono font-bold text-amber-400 uppercase">
-                <Clock className="h-4 w-4" />
-                <span>PHYSIOLOGICAL RECOVERY PROTOCOL</span>
-              </div>
-              <h2 className="text-lg font-bold text-white mt-1">
+              <h2 className="text-lg font-bold text-white">
                 90-Day Transfusion Cooldown & Eligibility Tracker
               </h2>
               <p className="text-xs text-slate-400">
@@ -383,9 +346,8 @@ export default function DonorsPage() {
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-white font-mono flex items-center space-x-2">
                   <Calendar className="h-4 w-4 text-amber-400" />
-                  <span>Check Individual Donor Cooldown Status</span>
+                  <span>Check Individual Donor Cooldown</span>
                 </h3>
-                <span className="text-[10px] text-slate-500 font-mono">AABB Safety Compliance</span>
               </div>
 
               <div className="flex flex-col sm:flex-row items-end gap-3">
@@ -418,7 +380,7 @@ export default function DonorsPage() {
                   <div className="flex items-center justify-between font-bold mb-2">
                     <span className="flex items-center space-x-1.5">
                       {calculatedCooldown.isEligible ? <Check className="h-4 w-4 text-emerald-400" /> : <AlertTriangle className="h-4 w-4 text-amber-400" />}
-                      <span>{calculatedCooldown.isEligible ? 'Donor is Eligible to Donate Now' : 'Donor is Currently in Cooldown'}</span>
+                      <span>{calculatedCooldown.isEligible ? 'Donor is Eligible to Donate' : 'Donor is in Cooldown Period'}</span>
                     </span>
                     <span className="font-mono">{calculatedCooldown.recoveryPercent}% Recovered</span>
                   </div>
@@ -431,8 +393,8 @@ export default function DonorsPage() {
                   </div>
 
                   <div className="text-[11px] text-slate-400 flex justify-between">
-                    <span>Days Remaining in Cooldown: <strong className="text-white font-mono">{calculatedCooldown.daysRemaining} Days</strong></span>
-                    <span>Next Safe Donation Date: <strong className="text-white font-mono">{calculatedCooldown.eligibleDate}</strong></span>
+                    <span>Days Remaining: <strong className="text-white font-mono">{calculatedCooldown.daysRemaining} Days</strong></span>
+                    <span>Next Eligible Date: <strong className="text-white font-mono">{calculatedCooldown.eligibleDate}</strong></span>
                   </div>
                 </div>
               )}
@@ -441,7 +403,7 @@ export default function DonorsPage() {
             {/* Registered Donors Cooldown Roster */}
             <div className="space-y-3">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">
-                Current Registered Donors Cooldown Telemetry
+                Current Registered Donors
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -462,7 +424,7 @@ export default function DonorsPage() {
                           </span>
                           <div>
                             <span className="text-xs font-bold text-white block">{donor.fullName}</span>
-                            <span className="text-[10px] text-slate-500 font-mono">ID: {donor.id}</span>
+                            <span className="text-[10px] text-slate-500 font-mono">{donor.id}</span>
                           </div>
                         </div>
 
@@ -484,7 +446,7 @@ export default function DonorsPage() {
 
                       <div className="flex justify-between text-[10px] text-slate-500 font-mono">
                         <span>Recovery: {recoveryPercent}%</span>
-                        <span>{donor.totalDonations} Lifetime Donations</span>
+                        <span>{donor.totalDonations} Donations</span>
                       </div>
                     </div>
                   );
@@ -501,11 +463,7 @@ export default function DonorsPage() {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
               <div>
-                <div className="flex items-center space-x-2 text-xs font-mono font-bold text-emerald-400 uppercase">
-                  <UserCheck className="h-4 w-4" />
-                  <span>REGIONAL NETWORK DIRECTORY</span>
-                </div>
-                <h2 className="text-lg font-bold text-white mt-1">
+                <h2 className="text-lg font-bold text-white">
                   Verified Blood Donor Registry ({filteredDonors.length})
                 </h2>
                 <p className="text-xs text-slate-400">
@@ -605,11 +563,7 @@ export default function DonorsPage() {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
               <div>
-                <div className="flex items-center space-x-2 text-xs font-mono font-bold text-sky-400 uppercase">
-                  <Radio className="h-4 w-4" />
-                  <span>EMERGENCY DISPATCH ACTION</span>
-                </div>
-                <h2 className="text-lg font-bold text-white mt-1">
+                <h2 className="text-lg font-bold text-white">
                   Mobilize Compatible Donors
                 </h2>
                 <p className="text-xs text-slate-400">
@@ -620,7 +574,7 @@ export default function DonorsPage() {
               {lastMobilizedDonorName && (
                 <div className="rounded-xl border border-emerald-500/50 bg-emerald-950/80 px-4 py-2 text-xs text-emerald-300 font-medium flex items-center space-x-2 animate-bounce">
                   <Check className="h-4 w-4 text-emerald-400" />
-                  <span>Alert successfully dispatched to {lastMobilizedDonorName}!</span>
+                  <span>Alert dispatched to {lastMobilizedDonorName}!</span>
                 </div>
               )}
             </div>
@@ -628,7 +582,7 @@ export default function DonorsPage() {
             {/* Step 1: Select Active Emergency Appeal */}
             <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-2">
               <label className="text-xs font-bold uppercase tracking-wider text-slate-200 block font-mono">
-                Step 1: Select Emergency Transfusion Appeal
+                Select Emergency Transfusion Appeal
               </label>
 
               {bloodRequests.length === 0 ? (
@@ -667,7 +621,7 @@ export default function DonorsPage() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono">
-                    Step 2: Recommended Compatible Donors for {activeMobilizeIncident.id} ({activeMobilizeIncident.requiredBloodGroup})
+                    Recommended Donors for {activeMobilizeIncident.id} ({activeMobilizeIncident.requiredBloodGroup})
                   </h3>
                   <span className="text-[10px] text-slate-400 font-mono">
                     Ranked by Proximity & Match Score
@@ -677,7 +631,7 @@ export default function DonorsPage() {
                 <div className="space-y-2.5">
                   {matchedDonors.length === 0 ? (
                     <div className="rounded-xl border border-slate-800 bg-slate-950 p-8 text-center text-xs text-slate-400">
-                      No matching donors found within immediate radius. Expand search criteria or alert blood banks.
+                      No matching donors found within immediate radius.
                     </div>
                   ) : (
                     matchedDonors.map((donor) => {

@@ -114,7 +114,7 @@ export default function AnalyticsPage() {
               >
                 <div>
                   <span className="text-xs font-bold text-slate-200 block">{reg.region}</span>
-                  <span className="text-[10px] text-emerald-400 font-mono font-medium">Status: {reg.status}</span>
+                  <span className="text-[10px] text-emerald-400 font-mono font-medium">{reg.status}</span>
                 </div>
                 <span className="font-mono text-sm font-bold text-white bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800">
                   {reg.latency}

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Building2, Phone, Bed, Activity, Ambulance, ShieldCheck, Droplet } from 'lucide-react';
+import { Building2, Phone, Bed, Ambulance, Droplet } from 'lucide-react';
 import { MOCK_FACILITIES } from '@/lib/mockData';
 
 export default function HospitalsPage() {
@@ -16,14 +16,8 @@ export default function HospitalsPage() {
             <span>Emergency Facilities, Trauma Beds & Ambulance Directory</span>
           </h1>
           <p className="text-xs text-slate-400 mt-0.5">
-            Live telemetry of Level-1 trauma capacity, ICU bed availability, and blood bank cryo-reserves.
+            Level-1 trauma capacity, ICU bed availability, and blood bank cryo-reserves.
           </p>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <span className="rounded-full border border-sky-900/60 bg-sky-950/40 px-3 py-1 text-xs text-sky-400 font-mono">
-            HOSPITAL CAD LINK: SYNCHRONIZED
-          </span>
         </div>
       </div>
 
@@ -49,35 +43,25 @@ export default function HospitalsPage() {
               </div>
             </div>
 
-            {/* Capacity Telemetry Numbers */}
-            <div className="grid grid-cols-3 gap-2 text-center text-xs">
-              <div className="rounded-xl bg-slate-950 p-2.5 border border-slate-800">
+            {/* Capacity Numbers (Clean 2-Column Layout, without redundant status box) */}
+            <div className="grid grid-cols-2 gap-3 text-center text-xs">
+              <div className="rounded-xl bg-slate-950 p-3 border border-slate-800">
                 <div className="flex items-center justify-center space-x-1 text-slate-400 text-[10px] mb-1">
-                  <Bed className="h-3 w-3 text-emerald-400" />
-                  <span>ICU BEDS</span>
+                  <Bed className="h-3.5 w-3.5 text-emerald-400" />
+                  <span>AVAILABLE ICU BEDS</span>
                 </div>
-                <span className="font-mono text-base font-bold text-emerald-400">
+                <span className="font-mono text-lg font-bold text-emerald-400">
                   {facility.availableBeds}
                 </span>
               </div>
 
-              <div className="rounded-xl bg-slate-950 p-2.5 border border-slate-800">
+              <div className="rounded-xl bg-slate-950 p-3 border border-slate-800">
                 <div className="flex items-center justify-center space-x-1 text-slate-400 text-[10px] mb-1">
-                  <Ambulance className="h-3 w-3 text-amber-400" />
-                  <span>FLEET</span>
+                  <Ambulance className="h-3.5 w-3.5 text-amber-400" />
+                  <span>ACTIVE FLEET</span>
                 </div>
-                <span className="font-mono text-base font-bold text-amber-400">
+                <span className="font-mono text-lg font-bold text-amber-400">
                   {facility.ambulancesAvailable} ALS
-                </span>
-              </div>
-
-              <div className="rounded-xl bg-slate-950 p-2.5 border border-slate-800">
-                <div className="flex items-center justify-center space-x-1 text-slate-400 text-[10px] mb-1">
-                  <Activity className="h-3 w-3 text-sky-400" />
-                  <span>STATUS</span>
-                </div>
-                <span className="font-mono text-xs font-bold text-white">
-                  Nominal
                 </span>
               </div>
             </div>
@@ -90,7 +74,7 @@ export default function HospitalsPage() {
                     <Droplet className="h-3 w-3 text-red-400" />
                     <span>Cryo Blood Reserve</span>
                   </span>
-                  <span className="font-mono text-[10px] text-slate-500">Live Inventory</span>
+                  <span className="font-mono text-[10px] text-slate-500">Inventory</span>
                 </div>
 
                 <div className="flex flex-wrap gap-1.5 pt-1">
@@ -108,7 +92,7 @@ export default function HospitalsPage() {
 
             {/* Direct Emergency Dispatch Hotline */}
             <div className="pt-2 flex items-center justify-between border-t border-slate-800">
-              <span className="text-[11px] text-slate-400">Trauma Intake:</span>
+              <span className="text-[11px] text-slate-400">Emergency Hotline:</span>
               <a
                 href={`tel:${facility.emergencyHotline}`}
                 className="flex items-center space-x-1.5 rounded-lg bg-sky-600/20 hover:bg-sky-600/30 border border-sky-500/40 px-3 py-1.5 text-xs font-mono font-bold text-sky-300 transition-colors"

@@ -148,7 +148,6 @@ export default function IncidentsPage() {
                 </div>
 
                 <div className="flex items-center space-x-2">
-                  <span className="text-[11px] text-slate-400">Status:</span>
                   <span className={`rounded-full border px-2.5 py-0.5 text-xs font-mono font-medium ${getStatusBadgeColor(inc.status)}`}>
                     {inc.status}
                   </span>
