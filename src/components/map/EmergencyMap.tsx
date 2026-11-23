@@ -62,7 +62,7 @@ export default function EmergencyMap({ heightClass = 'h-[500px]', focusIncidentI
     }
 
     if (style === 'voyager') {
-      const cartoKey = process.env.NEXT_PUBLIC_CARTO_API_KEY;
+      const cartoKey = process.env.NEXT_PUBLIC_CARTO_API_KEY?.trim().replace(/\]+$/, '');
       const keyParam = cartoKey ? `?key=${cartoKey}` : '';
       return {
         // Vivid modern city navigation map
