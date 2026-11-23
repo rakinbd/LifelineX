@@ -62,9 +62,11 @@ export default function EmergencyMap({ heightClass = 'h-[500px]', focusIncidentI
     }
 
     if (style === 'voyager') {
+      const cartoKey = process.env.NEXT_PUBLIC_CARTO_API_KEY;
+      const keyParam = cartoKey ? `?key=${cartoKey}` : '';
       return {
         // Vivid modern city navigation map
-        url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+        url: `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${keyParam}`,
         attribution: '&copy; OpenStreetMap &copy; CARTO',
         maxZoom: 19,
         label: 'City Voyager',
