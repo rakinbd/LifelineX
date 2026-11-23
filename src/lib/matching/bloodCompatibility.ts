@@ -64,3 +64,50 @@ export function getCooldownDaysRemaining(lastDonationIso: string): number {
   const remaining = 90 - elapsedDays;
   return remaining > 0 ? remaining : 0;
 }
+
+export interface CooldownDetails {
+  daysElapsed: number;
+  daysRemaining: number;
+  recoveryPercent: number;
+  isEligible: boolean;
+  eligibleDate: Date;
+  eligibleDateFormatted: string;
+  lastDonationFormatted: string;
+}
+
+export function calculateCooldownDetails(lastDonationIso: string): CooldownDetails {
+  const lastDate = new Date(lastDonationIso);
+  const lastTime = lastDate.getTime();
+  const now = new Date().getTime();
+  
+  // 90 days in ms
+  const NINETY_DAYS_MS = 90 * 24 * 60 * 60 * 1000;
+  const eligibleDate = new Date(lastTime + NINETY_DAYS_MS);
+  
+  const daysElapsed = Math.max(0, Math.floor((now - lastTime) / (1000 * 60 * 60 * 24)));
+  const daysRemaining = Math.max(0, 90 - daysElapsed);
+  const recoveryPercent = Math.min(100, Math.round(((90 - daysRemaining) / 90) * 100));
+  const isEligible = daysRemaining === 0;
+
+  const eligibleDateFormatted = eligibleDate.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  });
+
+  const lastDonationFormatted = lastDate.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  });
+
+  return {
+    daysElapsed,
+    daysRemaining,
+    recoveryPercent,
+    isEligible,
+    eligibleDate,
+    eligibleDateFormatted,
+    lastDonationFormatted,
+  };
+}

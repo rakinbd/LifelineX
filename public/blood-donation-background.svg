@@ -1,0 +1,271 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Background Warm Gradient -->
+    <radialGradient id="bgGlow" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#FFFDFC"/>
+      <stop offset="50%" stop-color="#FAF7F4"/>
+      <stop offset="100%" stop-color="#F4ECE5"/>
+    </radialGradient>
+
+    <!-- Crimson Wave Gradients -->
+    <linearGradient id="topWaveDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#640718"/>
+      <stop offset="50%" stop-color="#800B20"/>
+      <stop offset="100%" stop-color="#540514"/>
+    </linearGradient>
+
+    <linearGradient id="topWaveMid" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#990E26"/>
+      <stop offset="50%" stop-color="#B81231"/>
+      <stop offset="100%" stop-color="#85091E"/>
+    </linearGradient>
+
+    <linearGradient id="topWaveFront" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#BD1333"/>
+      <stop offset="40%" stop-color="#D61A3C"/>
+      <stop offset="80%" stop-color="#BE1231"/>
+      <stop offset="100%" stop-color="#9E0C27"/>
+    </linearGradient>
+
+    <linearGradient id="topWaveGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E83F5B" stop-opacity="0.75"/>
+      <stop offset="50%" stop-color="#FF6B81" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#E83F5B" stop-opacity="0.75"/>
+    </linearGradient>
+
+    <!-- Bottom Wave Gradients -->
+    <linearGradient id="bottomWaveDark" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#520311"/>
+      <stop offset="50%" stop-color="#78091E"/>
+      <stop offset="100%" stop-color="#5E0515"/>
+    </linearGradient>
+
+    <linearGradient id="bottomWaveMid" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#940C25"/>
+      <stop offset="50%" stop-color="#B51130"/>
+      <stop offset="100%" stop-color="#850A20"/>
+    </linearGradient>
+
+    <linearGradient id="bottomWaveFront" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B81332"/>
+      <stop offset="50%" stop-color="#D6193B"/>
+      <stop offset="100%" stop-color="#A30D28"/>
+    </linearGradient>
+
+    <!-- Heart Gradient -->
+    <radialGradient id="heartGlow" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#EA526B" stop-opacity="0.55"/>
+      <stop offset="70%" stop-color="#D81B3E" stop-opacity="0.40"/>
+      <stop offset="100%" stop-color="#B5102F" stop-opacity="0.28"/>
+    </radialGradient>
+
+    <!-- Blood Bag Fluid Gradient -->
+    <linearGradient id="bloodFluid" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#EA4E67" stop-opacity="0.45"/>
+      <stop offset="60%" stop-color="#D61A3C" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#A80E2B" stop-opacity="0.65"/>
+    </linearGradient>
+
+    <!-- Soft Drop Shadow Filter -->
+    <filter id="waveShadow" x="-5%" y="-5%" width="110%" height="120%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#3D000A" flood-opacity="0.25"/>
+    </filter>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- 1. Background Surface -->
+  <rect width="1920" height="1080" fill="url(#bgGlow)"/>
+
+  <!-- 2. Ambient Soft Decorative Halos -->
+  <circle cx="340" cy="540" r="280" fill="#F3D0D6" fill-opacity="0.22" filter="blur(40px)"/>
+  <circle cx="1450" cy="420" r="280" fill="#FCEEEA" fill-opacity="0.35" filter="blur(50px)"/>
+
+  <!-- 3. TOP CRIMSON WAVY BORDERS -->
+  <g id="topWaves" filter="url(#waveShadow)">
+    <!-- Layer 1: Dark Burgundy Base -->
+    <path d="M-20,-10 L1940,-10 L1940,90 C1750,140 1560,70 1380,105 C1180,145 1020,205 840,170 C660,135 500,45 320,65 C180,80 60,140 -20,115 Z" 
+          fill="url(#topWaveDark)"/>
+
+    <!-- Layer 2: Deep Crimson Wave -->
+    <path d="M-20,-10 L1940,-10 L1940,65 C1780,115 1620,80 1440,60 C1240,40 1080,145 900,150 C700,155 560,95 380,50 C240,15 100,75 -20,85 Z" 
+          fill="url(#topWaveMid)" opacity="0.95"/>
+
+    <!-- Layer 3: Vibrant Crimson Front Wave with Rich Curves -->
+    <path d="M-20,-10 L1940,-10 L1940,40 C1760,95 1600,60 1420,45 C1220,30 1100,125 920,125 C740,125 600,60 420,35 C260,15 120,65 -20,55 Z" 
+          fill="url(#topWaveFront)"/>
+
+    <!-- Top Wave Rim Highlight -->
+    <path d="M-20,55 C120,65 260,15 420,35 C600,60 740,125 920,125 C1100,125 1220,30 1420,45 C1600,60 1760,95 1940,40" 
+          fill="none" stroke="url(#topWaveGlow)" stroke-width="3.5" opacity="0.65"/>
+  </g>
+
+  <!-- 4. BOTTOM CRIMSON WAVY BORDERS -->
+  <g id="bottomWaves" filter="url(#waveShadow)">
+    <!-- Layer 1: Dark Burgundy Base -->
+    <path d="M-20,1090 L1940,1090 L1940,970 C1780,940 1620,1015 1440,990 C1240,965 1100,895 920,915 C740,935 600,1015 420,1005 C260,995 120,930 -20,955 Z" 
+          fill="url(#bottomWaveDark)"/>
+
+    <!-- Layer 2: Deep Crimson Wave -->
+    <path d="M-20,1090 L1940,1090 L1940,995 C1760,965 1600,1025 1420,1015 C1220,1005 1060,925 880,940 C680,960 540,1035 360,1025 C220,1015 80,960 -20,980 Z" 
+          fill="url(#bottomWaveMid)" opacity="0.95"/>
+
+    <!-- Layer 3: Vibrant Crimson Front Wave -->
+    <path d="M-20,1090 L1940,1090 L1940,1020 C1780,995 1640,1045 1460,1040 C1260,1035 1120,960 940,970 C760,980 620,1050 440,1050 C280,1050 140,1000 -20,1015 Z" 
+          fill="url(#bottomWaveFront)"/>
+
+    <!-- Bottom Wave Rim Highlight -->
+    <path d="M-20,1015 C140,1000 280,1050 440,1050 C620,1050 760,980 940,970 C1120,960 1260,1035 1460,1040 C1640,1045 1780,995 1940,1020" 
+          fill="none" stroke="#FF7588" stroke-width="3" opacity="0.55"/>
+  </g>
+
+  <!-- 5. BACKGROUND ECG HEARTBEAT LINES (Subtle & Soft) -->
+  <g opacity="0.22" stroke="#C83850" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Mid-Left High Pulse -->
+    <path d="M40,360 L140,360 L170,360 L195,310 L220,410 L245,260 L270,430 L295,340 L320,370 L345,360 L460,360"/>
+
+    <!-- Upper Center Subtle Pulse -->
+    <path d="M780,340 L840,340 L855,315 L870,365 L885,295 L900,375 L915,330 L930,345 L945,340 L1020,340" opacity="0.6" stroke-width="2.5"/>
+
+    <!-- Top Right Pulse -->
+    <path d="M1120,230 L1170,230 L1185,210 L1200,250 L1215,190 L1230,260 L1245,225 L1260,235 L1310,230" opacity="0.5" stroke-width="2.5"/>
+
+    <!-- Right Side Long Pulse -->
+    <path d="M1540,540 L1620,540 L1640,515 L1660,565 L1680,480 L1705,590 L1725,525 L1745,550 L1760,540 L1880,540" opacity="0.45" stroke-width="2.5"/>
+  </g>
+
+  <!-- 6. DELICATE ACCENT MOTIFS (Droplets, Micro Hearts) -->
+  <g opacity="0.24">
+    <!-- Central Soft Teardrop Blood Droplet -->
+    <path d="M980,450 C980,450 930,520 930,565 C930,600 955,625 985,625 C1015,625 1040,600 1040,565 C1040,520 980,450 980,450 Z" 
+          fill="url(#heartGlow)"/>
+
+    <!-- Small Floating Hearts -->
+    <!-- Top Right Heart -->
+    <path d="M1760,355 C1760,335 1740,320 1720,320 C1702,320 1690,330 1685,340 C1680,330 1668,320 1650,320 C1630,320 1610,335 1610,355 C1610,385 1655,420 1685,445 C1715,420 1760,385 1760,355 Z" 
+          fill="#E03E58" opacity="0.45"/>
+    <path d="M1645,390 L1665,390 L1675,375 L1685,405 L1695,365 L1705,415 L1715,385 L1725,390 L1740,390" 
+          fill="none" stroke="#FAF4F2" stroke-width="2" opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Lower Mid Floating Heart -->
+    <path d="M980,750 C980,730 965,715 945,715 C930,715 918,725 912,735 C906,725 894,715 880,715 C860,715 845,730 845,750 C845,775 885,805 912,825 C940,805 980,775 980,750 Z" 
+          fill="#E03E58" opacity="0.35"/>
+    <path d="M870,770 L890,770 L900,755 L910,780 L920,745 L930,790 L940,765 L955,770" 
+          fill="none" stroke="#FFFFFF" stroke-width="1.8" opacity="0.75" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Lower Right Heart Silhouette -->
+    <path d="M1710,670 C1710,655 1695,640 1680,640 C1668,640 1658,648 1653,656 C1648,648 1638,640 1626,640 C1610,640 1595,655 1595,670 C1595,690 1630,718 1653,735 C1676,718 1710,690 1710,670 Z" 
+          fill="#D81B3E" opacity="0.2"/>
+  </g>
+
+  <!-- 7. PRIMARY VECTOR ILLUSTRATION: BLOOD BAGS CONNECTED TO HEARTBEAT HEART (Low Opacity, Spacious, Non-Obtrusive) -->
+  <g id="primaryIllustration" transform="translate(110, 30)">
+    <!-- A. Big Central Heart Icon with Gradient Fill -->
+    <g transform="translate(480, 530)">
+      <path d="M0,-60 C-40,-130 -140,-130 -180,-60 C-220,10 -150,110 0,200 C150,110 220,10 180,-60 C140,-130 40,-130 0,-60 Z" 
+            fill="url(#heartGlow)" filter="url(#softGlow)"/>
+    </g>
+
+    <!-- B. Left Blood Bag (Modern Minimalist Transfusion IV Bag) -->
+    <g id="leftBloodBag" transform="translate(140, 420)">
+      <!-- Hanging Tab / Eyelet at Top -->
+      <path d="M60,0 L90,0 C98,0 105,7 105,15 L105,30 L45,30 L45,15 C45,7 52,0 60,0 Z" fill="#D9B3BC" opacity="0.6"/>
+      <circle cx="75" cy="15" r="6" fill="#FAF7F5"/>
+
+      <!-- Bag Outer Transparent Body -->
+      <rect x="0" y="30" width="150" height="220" rx="24" fill="#FAF0F2" stroke="#C83850" stroke-width="4.5" opacity="0.45"/>
+
+      <!-- Fluid Fill (Red Blood Volume) -->
+      <rect x="6" y="90" width="138" height="154" rx="18" fill="url(#bloodFluid)"/>
+
+      <!-- Measurement Grids / Tick Marks -->
+      <line x1="16" y1="120" x2="32" y2="120" stroke="#FAF4F2" stroke-width="2.5" opacity="0.6"/>
+      <line x1="16" y1="145" x2="28" y2="145" stroke="#FAF4F2" stroke-width="2" opacity="0.6"/>
+      <line x1="16" y1="170" x2="32" y2="170" stroke="#FAF4F2" stroke-width="2.5" opacity="0.6"/>
+      <line x1="16" y1="195" x2="28" y2="195" stroke="#FAF4F2" stroke-width="2" opacity="0.6"/>
+
+      <!-- Medical Cross Symbol (White on Blood Field) -->
+      <g transform="translate(75, 160)" opacity="0.95">
+        <rect x="-16" y="-6" width="32" height="12" rx="2" fill="#FFFFFF"/>
+        <rect x="-6" y="-16" width="12" height="32" rx="2" fill="#FFFFFF"/>
+      </g>
+
+      <!-- Bottom Port / Spigot -->
+      <rect x="60" y="250" width="30" height="16" rx="4" fill="#C83850" opacity="0.55"/>
+      <rect x="68" y="266" width="14" height="12" fill="#9E0E28" opacity="0.65"/>
+    </g>
+
+    <!-- C. Right Blood Bag (Matching Partner Transfusion IV Bag) -->
+    <g id="rightBloodBag" transform="translate(670, 420)">
+      <!-- Hanging Tab / Eyelet at Top -->
+      <path d="M60,0 L90,0 C98,0 105,7 105,15 L105,30 L45,30 L45,15 C45,7 52,0 60,0 Z" fill="#D9B3BC" opacity="0.6"/>
+      <circle cx="75" cy="15" r="6" fill="#FAF7F5"/>
+
+      <!-- Bag Outer Transparent Body -->
+      <rect x="0" y="30" width="150" height="220" rx="24" fill="#FAF0F2" stroke="#C83850" stroke-width="4.5" opacity="0.45"/>
+
+      <!-- Fluid Fill (Red Blood Volume) -->
+      <rect x="6" y="90" width="138" height="154" rx="18" fill="url(#bloodFluid)"/>
+
+      <!-- Measurement Grids / Tick Marks -->
+      <line x1="118" y1="120" x2="134" y2="120" stroke="#FAF4F2" stroke-width="2.5" opacity="0.6"/>
+      <line x1="122" y1="145" x2="134" y2="145" stroke="#FAF4F2" stroke-width="2" opacity="0.6"/>
+      <line x1="118" y1="170" x2="134" y2="170" stroke="#FAF4F2" stroke-width="2.5" opacity="0.6"/>
+      <line x1="122" y1="195" x2="134" y2="195" stroke="#FAF4F2" stroke-width="2" opacity="0.6"/>
+
+      <!-- Medical Cross Symbol (White on Blood Field) -->
+      <g transform="translate(75, 160)" opacity="0.95">
+        <rect x="-16" y="-6" width="32" height="12" rx="2" fill="#FFFFFF"/>
+        <rect x="-6" y="-16" width="12" height="32" rx="2" fill="#FFFFFF"/>
+      </g>
+
+      <!-- Bottom Port / Spigot -->
+      <rect x="60" y="250" width="30" height="16" rx="4" fill="#C83850" opacity="0.55"/>
+      <rect x="68" y="266" width="14" height="12" fill="#9E0E28" opacity="0.65"/>
+    </g>
+
+    <!-- D. Red IV Catheter Tubes & Central Lifeline Heartbeat Pulse -->
+    <!-- Red Infusion Line from Left Bag down, then right into the central pulse -->
+    <path d="M215,698 L215,750 L340,750 L340,560 L390,560" 
+          fill="none" stroke="#D81B3E" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+
+    <!-- Heartbeat Pulse Wave Across the Heart (Crisp, High Energy) -->
+    <!-- White Backing for Pulse Line for crisp contrast -->
+    <path d="M390,560 L415,560 L435,510 L455,615 L480,445 L505,670 L530,530 L550,575 L570,560" 
+          fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+    <path d="M390,560 L415,560 L435,510 L455,615 L480,445 L505,670 L530,530 L550,575 L570,560" 
+          fill="none" stroke="#D81B3E" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+
+    <!-- Red Infusion Line exiting the pulse and connecting into Right Bag -->
+    <path d="M570,560 L620,560 L620,750 L745,750 L745,698" 
+          fill="none" stroke="#D81B3E" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+  </g>
+
+  <!-- 8. SUBTLE CORNER ENGLISH TYPOGRAPHY -->
+  <!-- Top Right Header Accent -->
+  <g id="cornerHeaderTypo" transform="translate(1860, 260)" text-anchor="end">
+    <text font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+          font-size="16" 
+          font-weight="600" 
+          letter-spacing="0.32em" 
+          fill="#8A2234" 
+          fill-opacity="0.42">
+      SAVE | LIFE | SHARE | HEALTH
+    </text>
+  </g>
+
+  <!-- Bottom Right Footer Motto -->
+  <g id="cornerFooterTypo" transform="translate(1860, 890)" text-anchor="end">
+    <text font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+          font-size="14.5" 
+          font-weight="600" 
+          letter-spacing="0.24em" 
+          fill="#8A2234" 
+          fill-opacity="0.40">
+      EVERY BLOOD DONATION IS A GIFT OF LIFE
+    </text>
+  </g>
+</svg>

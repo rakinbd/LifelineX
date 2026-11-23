@@ -1,17 +1,19 @@
 {
-  "name": "lifelink-ai",
+  "name": "lifelinex",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:db": "node scripts/test-db.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.460.0",
+    "mongoose": "^9.12.3",
     "next": "^14.2.20",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

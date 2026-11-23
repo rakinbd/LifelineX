@@ -19,10 +19,36 @@ export type IncidentStatus =
 export type BloodGroup = 'O-' | 'O+' | 'A-' | 'A+' | 'B-' | 'B+' | 'AB-' | 'AB+';
 
 export type UserRole = 
+  | 'USER'
+  | 'ADMIN'
+  | 'BLOOD_ADMIN'
+  | 'HOSPITAL_ADMIN'
+  | 'DISPATCH_ADMIN'
+  | 'SUPER_ADMIN'
   | 'CITIZEN'
   | 'BLOOD_DONOR'
   | 'HOSPITAL_COORDINATOR'
   | 'DISPATCH_OPERATOR';
+
+export interface UserPermissions {
+  bloodManagement: boolean;     // Manage blood appeals, mobilize donors, verify donors
+  hospitalManagement: boolean;  // Update ICU beds, dispatch ambulances, manage hospital inventory
+  dispatchManagement: boolean;  // Triage emergencies, change incident statuses, assign emergency teams
+  userManagement: boolean;      // Admin Access Management: Grant/revoke feature access to other users
+}
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  role: UserRole;
+  permissions: UserPermissions;
+  bloodGroup?: BloodGroup;
+  facilityName?: string;
+  badgeId?: string;
+  createdAt?: string;
+}
 
 export interface LocationCoordinates {
   lat: number;
@@ -59,8 +85,20 @@ export interface EmergencyIncident {
   updatedAt: string;
 }
 
+export interface DonationRecord {
+  id: string;
+  donorId: string;
+  donationDate: string; // ISO date or YYYY-MM-DD
+  facilityName: string; // Hospital or Blood Bank
+  unitsDonated: number;
+  notes?: string;
+  verifiedBy?: string;
+  createdAt: string;
+}
+
 export interface BloodDonor {
   id: string;
+  userId?: string;
   fullName: string;
   bloodGroup: BloodGroup;
   contactNumber: string;
@@ -74,6 +112,9 @@ export interface BloodDonor {
   responseRatePercent: number;
   distanceKm?: number;
   matchScore?: number;
+  donationHistory?: DonationRecord[];
+  avatarUrl?: string;
+  bio?: string;
 }
 
 export interface EmergencyFacility {

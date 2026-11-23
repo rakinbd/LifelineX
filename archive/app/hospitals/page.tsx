@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { 
   Building2, 
   Phone, 
@@ -15,28 +16,43 @@ import {
   HeartPulse,
   Navigation,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Plus,
+  Minus,
+  Lock,
+  Unlock,
+  Crown
 } from 'lucide-react';
 import { MOCK_FACILITIES } from '@/lib/mockData';
-import { BloodGroup } from '@/types';
+import { useRole } from '@/context/RoleContext';
+import { BloodGroup, EmergencyFacility } from '@/types';
 
 type HospitalTab = 'directory' | 'icu' | 'fleet' | 'blood' | 'hotlines';
 
 export default function HospitalsPage() {
+  const { user, canManageHospitals, switchUser } = useRole();
+
+  const [facilities, setFacilities] = useState<EmergencyFacility[]>(MOCK_FACILITIES);
   const [activeTab, setActiveTab] = useState<HospitalTab>('directory');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTypeFilter, setSelectedTypeFilter] = useState<string>('ALL');
   const [dispatchedAmbulanceId, setDispatchedAmbulanceId] = useState<string | null>(null);
+  const [actionNotice, setActionNotice] = useState<string | null>(null);
 
-  // Compute total telemetry
-  const totalBeds = MOCK_FACILITIES.reduce((acc, f) => acc + f.availableBeds, 0);
-  const totalAmbulances = MOCK_FACILITIES.reduce((acc, f) => acc + f.ambulancesAvailable, 0);
-  const totalCryoUnits = MOCK_FACILITIES.reduce((acc, f) => {
+  const showNotice = (msg: string) => {
+    setActionNotice(msg);
+    setTimeout(() => setActionNotice(null), 3000);
+  };
+
+  // Compute total telemetry dynamically from current facilities state
+  const totalBeds = facilities.reduce((acc, f) => acc + f.availableBeds, 0);
+  const totalAmbulances = facilities.reduce((acc, f) => acc + f.ambulancesAvailable, 0);
+  const totalCryoUnits = facilities.reduce((acc, f) => {
     if (!f.bloodInventory) return acc;
     return acc + Object.values(f.bloodInventory).reduce((sum, count) => sum + (count || 0), 0);
   }, 0);
 
-  const filteredFacilities = MOCK_FACILITIES.filter(fac => {
+  const filteredFacilities = facilities.filter(fac => {
     const matchesType = selectedTypeFilter === 'ALL' || fac.type === selectedTypeFilter;
     const matchesSearch = 
       fac.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -45,9 +61,70 @@ export default function HospitalsPage() {
     return matchesType && matchesSearch;
   });
 
-  const handleDispatchAmbulance = (facId: string) => {
+  // Admin action: Adjust ICU Bed Count
+  const handleAdjustBeds = (facId: string, facName: string, delta: number) => {
+    if (!canManageHospitals) {
+      showNotice('Admin Access Required: You need Hospital Operations Admin privileges to modify ICU capacity.');
+      return;
+    }
+
+    setFacilities(prev =>
+      prev.map(f => {
+        if (f.id === facId) {
+          const newBeds = Math.max(0, f.availableBeds + delta);
+          showNotice(`Updated ${facName}: Available ICU Beds is now ${newBeds}`);
+          return { ...f, availableBeds: newBeds };
+        }
+        return f;
+      })
+    );
+  };
+
+  // Admin action: Dispatch ambulance
+  const handleDispatchAmbulance = (facId: string, facName: string) => {
+    if (!canManageHospitals) {
+      showNotice('Admin Access Required: You need Hospital Operations Admin privileges to scramble ambulance fleets.');
+      return;
+    }
+
+    setFacilities(prev =>
+      prev.map(f => {
+        if (f.id === facId && f.ambulancesAvailable > 0) {
+          return { ...f, ambulancesAvailable: f.ambulancesAvailable - 1 };
+        }
+        return f;
+      })
+    );
+
     setDispatchedAmbulanceId(facId);
-    setTimeout(() => setDispatchedAmbulanceId(null), 3500);
+    showNotice(`Ambulance unit dispatched from ${facName}! Transit GPS shared.`);
+    setTimeout(() => setDispatchedAmbulanceId(null), 4000);
+  };
+
+  // Admin action: Adjust Cryo Vault Units
+  const handleAdjustBloodInventory = (facId: string, group: BloodGroup, delta: number) => {
+    if (!canManageHospitals) {
+      showNotice('Admin Access Required: You need Hospital Operations Admin privileges to adjust cryo-reserves.');
+      return;
+    }
+
+    setFacilities(prev =>
+      prev.map(f => {
+        if (f.id === facId && f.bloodInventory) {
+          const currentCount = f.bloodInventory[group] || 0;
+          const newCount = Math.max(0, currentCount + delta);
+          return {
+            ...f,
+            bloodInventory: {
+              ...f.bloodInventory,
+              [group]: newCount,
+            },
+          };
+        }
+        return f;
+      })
+    );
+    showNotice(`Adjusted ${group} reserves (+/- units) in hospital cryo-vault.`);
   };
 
   const tabs = [
@@ -56,13 +133,13 @@ export default function HospitalsPage() {
       title: 'Trauma Centers Directory',
       subtitle: 'Browse Level-1 trauma centers & general hospitals',
       icon: Building2,
-      badge: `${MOCK_FACILITIES.length} Facilities`,
+      badge: `${facilities.length} Facilities`,
       badgeColor: 'bg-sky-50 text-sky-700 border border-sky-200',
     },
     {
       id: 'icu' as HospitalTab,
       title: 'ICU Bed Telemetry',
-      subtitle: 'Real-time intensive care & critical bed availability',
+      subtitle: 'Live critical care beds & admin capacity controls',
       icon: Bed,
       badge: `${totalBeds} ICU Beds`,
       badgeColor: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
@@ -93,24 +170,65 @@ export default function HospitalsPage() {
     },
   ];
 
+  const facilityTypes = [
+    { id: 'ALL', label: 'All Facility Types' },
+    { id: 'TRAUMA_CENTER', label: 'Level-1 Trauma Centers' },
+    { id: 'GENERAL_HOSPITAL', label: 'General Hospitals' },
+    { id: 'BLOOD_BANK', label: 'Specialized Blood Banks' },
+  ];
+
   return (
     <div className="space-y-6">
       
-      {/* Header */}
+      {/* Toast notification banner */}
+      {actionNotice && (
+        <div className="fixed bottom-6 right-6 z-50 rounded-2xl border border-sky-300 bg-slate-900 text-white px-4 py-3 shadow-lg flex items-center space-x-2 text-xs animate-fade-in">
+          <Activity className="h-4 w-4 text-sky-400" />
+          <span>{actionNotice}</span>
+        </div>
+      )}
+
+      {/* Header with Role Status */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-5">
         <div className="flex items-center space-x-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700 border border-teal-200">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-700 border border-sky-200">
             <Building2 className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-              Medical Facilities & Resources
-            </h1>
+            <div className="flex items-center space-x-2">
+              <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+                Hospital Management System
+              </h1>
+              {canManageHospitals ? (
+                <span className="rounded-full bg-sky-50 px-2.5 py-0.5 text-[10px] font-bold text-sky-700 border border-sky-200 flex items-center space-x-1">
+                  <ShieldCheck className="h-3 w-3" />
+                  <span>Hospital Admin Active</span>
+                </span>
+              ) : (
+                <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[10px] font-semibold text-slate-600 border border-slate-200">
+                  Standard Member View
+                </span>
+              )}
+            </div>
             <p className="text-xs text-slate-500">
-              Hospital directory, ICU bed availability, ambulance fleet status, and blood bank reserves.
+              Hospital directory, live ICU bed availability, ambulance fleet status, and blood bank reserves.
             </p>
           </div>
         </div>
+
+        {/* Access switcher button if non-admin */}
+        {!canManageHospitals && (
+          <button
+            onClick={() => {
+              switchUser('USR-003'); // Switch to Dr. Sarah Connor (HOSPITAL_ADMIN)
+              showNotice('Switched session to Dr. Sarah Connor (Hospital Admin)!');
+            }}
+            className="flex items-center space-x-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs self-start sm:self-auto"
+          >
+            <Unlock className="h-3.5 w-3.5 text-sky-600" />
+            <span>Switch to Hospital Admin</span>
+          </button>
+        )}
       </div>
 
       {/* 5 Core Function Tabs */}
@@ -125,12 +243,12 @@ export default function HospitalsPage() {
               onClick={() => setActiveTab(tab.id)}
               className={`relative flex flex-col justify-between text-left p-4 rounded-xl border transition-all duration-150 ${
                 isActive
-                  ? 'border-[#172B4D] bg-slate-50/80 shadow-xs'
+                  ? 'border-[#172B4D] bg-slate-50 shadow-xs'
                   : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50 shadow-2xs'
               }`}
             >
               {isActive && (
-                <span className="absolute top-0 left-3 right-3 h-0.5 rounded-b bg-[#14B8A6]"></span>
+                <span className="absolute top-0 left-3 right-3 h-0.5 rounded-b bg-sky-500"></span>
               )}
 
               <div>
@@ -163,11 +281,11 @@ export default function HospitalsPage() {
         })}
       </div>
 
-      {/* Isolated View Container */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm min-h-[500px]">
+      {/* Main Content Area */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs min-h-[480px]">
         
         {/* ========================================================================= */}
-        {/* TAB 1: TRAUMA CENTERS DIRECTORY */}
+        {/* TAB 1: TRAUMA CENTERS DIRECTORY (PUBLIC / USER VIEW) */}
         {/* ========================================================================= */}
         {activeTab === 'directory' && (
           <div className="space-y-6">
@@ -177,24 +295,19 @@ export default function HospitalsPage() {
                   Regional Medical Facilities Directory ({filteredFacilities.length})
                 </h2>
                 <p className="text-xs text-slate-600">
-                  Certified Level-1 trauma centers, regional hospitals, and specialized blood bank repositories.
+                  Certified Level-1 trauma centers, regional emergency rooms, and specialized blood bank facilities.
                 </p>
               </div>
 
-              {/* Type Filter */}
-              <div className="flex flex-wrap gap-1">
-                {[
-                  { id: 'ALL', label: 'All Facilities' },
-                  { id: 'TRAUMA_CENTER', label: 'Trauma Centers' },
-                  { id: 'GENERAL_HOSPITAL', label: 'Hospitals' },
-                  { id: 'BLOOD_BANK', label: 'Blood Banks' },
-                ].map(type => (
+              {/* Type Filter Chips */}
+              <div className="flex flex-wrap gap-1.5">
+                {facilityTypes.map(type => (
                   <button
                     key={type.id}
                     onClick={() => setSelectedTypeFilter(type.id)}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-mono font-medium border transition-colors ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
                       selectedTypeFilter === type.id
-                        ? 'bg-sky-600 border-sky-500 text-white'
+                        ? 'bg-[#172B4D] border-[#172B4D] text-white'
                         : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 shadow-2xs'
                     }`}
                   >
@@ -275,10 +388,26 @@ export default function HospitalsPage() {
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 2: ICU BED TELEMETRY */}
+        {/* TAB 2: ICU BED TELEMETRY (WITH ADMIN CAPACITY CONTROLS) */}
         {/* ========================================================================= */}
         {activeTab === 'icu' && (
           <div className="space-y-6">
+            
+            {/* Non-admin notice */}
+            {!canManageHospitals && (
+              <div className="rounded-xl border border-sky-200 bg-sky-50/70 p-3.5 text-xs text-sky-900 flex items-center justify-between">
+                <span>
+                  <strong>Viewing Telemetry:</strong> Live bed statistics are public. Modifying bed counts requires Hospital Operations Admin privileges.
+                </span>
+                <button
+                  onClick={() => switchUser('USR-003')}
+                  className="shrink-0 ml-3 text-[11px] font-bold text-sky-700 underline hover:text-sky-800"
+                >
+                  Enable Admin Mode
+                </button>
+              </div>
+            )}
+
             <div className="border-b border-slate-200 pb-4">
               <h2 className="text-lg font-bold text-slate-900">
                 Intensive Care Unit (ICU) Capacity Telemetry
@@ -290,9 +419,9 @@ export default function HospitalsPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-4 space-y-1">
-                <span className="text-[10px] font-mono text-emerald-700 uppercase font-bold">TOTAL SURGICAL ICU BEDS</span>
+                <span className="text-[10px] font-mono text-emerald-700 uppercase font-bold">TOTAL AVAILABLE ICU BEDS</span>
                 <span className="text-2xl font-bold font-mono text-slate-900 block">{totalBeds} Available</span>
-                <span className="text-xs text-slate-600">Across 3 regional centers</span>
+                <span className="text-xs text-slate-600">Across {facilities.length} medical facilities</span>
               </div>
               <div className="rounded-2xl border border-sky-200 bg-sky-50/60 p-4 space-y-1">
                 <span className="text-[10px] font-mono text-sky-700 uppercase font-bold">VENTILATOR READINESS</span>
@@ -307,12 +436,19 @@ export default function HospitalsPage() {
             </div>
 
             <div className="space-y-3 pt-2">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono">
-                Facility-by-Facility Critical Bed Allocation
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono">
+                  Facility-by-Facility Critical Bed Allocation
+                </h3>
+                {canManageHospitals && (
+                  <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    Admin Controls Active: Use + / - to adjust beds in real-time
+                  </span>
+                )}
+              </div>
 
               <div className="space-y-3">
-                {MOCK_FACILITIES.map(facility => (
+                {facilities.map(facility => (
                   <div
                     key={facility.id}
                     className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-slate-200 bg-white shadow-xs"
@@ -328,18 +464,42 @@ export default function HospitalsPage() {
                     </div>
 
                     <div className="flex items-center space-x-4 self-end sm:self-auto">
-                      <div className="text-right">
-                        <span className="font-mono text-lg font-bold text-emerald-700 block">
-                          {facility.availableBeds} ICU Beds
-                        </span>
-                        <span className="text-[10px] text-slate-500 uppercase">Current Capacity</span>
+                      
+                      {/* Bed Count with Admin + / - controls */}
+                      <div className="flex items-center space-x-2">
+                        {canManageHospitals && (
+                          <button
+                            onClick={() => handleAdjustBeds(facility.id, facility.name, -1)}
+                            className="p-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600 transition-colors"
+                            title="Decrement available ICU beds"
+                          >
+                            <Minus className="h-3.5 w-3.5" />
+                          </button>
+                        )}
+
+                        <div className="text-center min-w-[70px]">
+                          <span className="font-mono text-lg font-bold text-emerald-700 block">
+                            {facility.availableBeds}
+                          </span>
+                          <span className="text-[9px] text-slate-500 uppercase">Available Beds</span>
+                        </div>
+
+                        {canManageHospitals && (
+                          <button
+                            onClick={() => handleAdjustBeds(facility.id, facility.name, 1)}
+                            className="p-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600 transition-colors"
+                            title="Increment available ICU beds"
+                          >
+                            <Plus className="h-3.5 w-3.5" />
+                          </button>
+                        )}
                       </div>
 
                       <a
                         href={`tel:${facility.emergencyHotline}`}
-                        className="rounded-xl bg-emerald-600 hover:bg-emerald-500 px-3.5 py-2 text-xs font-bold text-white shadow-xs transition-colors"
+                        className="rounded-xl bg-emerald-600 hover:bg-emerald-500 px-3.5 py-2 text-xs font-bold text-white shadow-xs transition-colors shrink-0"
                       >
-                        Reserve Bed
+                        Emergency Hotline
                       </a>
                     </div>
                   </div>
@@ -350,10 +510,26 @@ export default function HospitalsPage() {
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 3: AMBULANCE FLEET & TRANSIT */}
+        {/* TAB 3: AMBULANCE FLEET & TRANSIT (WITH ADMIN DISPATCH CONTROLS) */}
         {/* ========================================================================= */}
         {activeTab === 'fleet' && (
           <div className="space-y-6">
+            
+            {/* Non-admin notice */}
+            {!canManageHospitals && (
+              <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-3.5 text-xs text-amber-900 flex items-center justify-between">
+                <span>
+                  <strong>Fleet Viewing Mode:</strong> Ambulance readiness is displayed in real-time. Scrambling and dispatching vehicles requires Hospital Operations Admin privileges.
+                </span>
+                <button
+                  onClick={() => switchUser('USR-003')}
+                  className="shrink-0 ml-3 text-[11px] font-bold text-amber-800 underline hover:text-amber-900"
+                >
+                  Enable Admin Mode
+                </button>
+              </div>
+            )}
+
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
               <div>
                 <h2 className="text-lg font-bold text-slate-900">
@@ -373,7 +549,7 @@ export default function HospitalsPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {MOCK_FACILITIES.map(facility => (
+              {facilities.map(facility => (
                 <div
                   key={facility.id}
                   className="rounded-2xl border border-slate-200 bg-white p-5 space-y-4 hover:border-slate-300 transition-all shadow-xs"
@@ -404,11 +580,22 @@ export default function HospitalsPage() {
                   </div>
 
                   <button
-                    onClick={() => handleDispatchAmbulance(facility.id)}
-                    className="w-full flex items-center justify-center space-x-2 rounded-xl bg-amber-600 hover:bg-amber-500 py-2.5 text-xs font-bold text-white shadow-xs transition-colors"
+                    onClick={() => handleDispatchAmbulance(facility.id, facility.name)}
+                    disabled={facility.ambulancesAvailable === 0}
+                    className={`w-full flex items-center justify-center space-x-2 rounded-xl py-2.5 text-xs font-bold text-white shadow-xs transition-colors ${
+                      facility.ambulancesAvailable === 0
+                        ? 'bg-slate-300 cursor-not-allowed'
+                        : canManageHospitals
+                        ? 'bg-amber-600 hover:bg-amber-500 active:scale-95'
+                        : 'bg-slate-700 hover:bg-slate-800'
+                    }`}
                   >
                     <Ambulance className="h-4 w-4" />
-                    <span>Scramble Nearest Unit</span>
+                    <span>
+                      {canManageHospitals 
+                        ? 'Scramble Nearest Unit' 
+                        : 'Admin Authorization Required'}
+                    </span>
                   </button>
                 </div>
               ))}
@@ -431,7 +618,7 @@ export default function HospitalsPage() {
             </div>
 
             <div className="space-y-4">
-              {MOCK_FACILITIES.map(facility => (
+              {facilities.map(facility => (
                 <div
                   key={facility.id}
                   className="rounded-2xl border border-slate-200 bg-white p-5 space-y-3 shadow-xs"
@@ -489,7 +676,7 @@ export default function HospitalsPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {MOCK_FACILITIES.map(facility => (
+              {facilities.map(facility => (
                 <div
                   key={facility.id}
                   className="flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 shadow-xs transition-colors"

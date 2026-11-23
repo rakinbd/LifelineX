@@ -18,17 +18,17 @@ export default function MatrixPage() {
               className="hover:text-slate-800 flex items-center space-x-1 font-medium transition-colors"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
-              <span>Blood Matching</span>
+              <span>Blood Network</span>
             </Link>
             <span>/</span>
-            <span className="text-slate-700 font-medium">Compatibility Engine</span>
+            <span className="text-slate-700 font-medium">Matching Guide</span>
           </div>
 
           <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-            Universal Blood Transfusion Compatibility Engine
+            Blood Group Matching Guide <span className="text-sm font-normal text-teal-700">(ABO & Rh Transfusion Rules)</span>
           </h1>
           <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-relaxed">
-            Decision support tool evaluating ABO and Rh-factor compatibility standards for emergency red blood cell transfusions.
+            Simple, easy-to-understand visual guide showing which blood types can give and receive blood safely during medical emergencies.
           </p>
         </div>
       </div>

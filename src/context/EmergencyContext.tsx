@@ -1,10 +1,19 @@
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { EmergencyIncident, BloodDonor, OperationalMetrics, IncidentStatus } from '@/types';
+import { EmergencyIncident, BloodDonor, OperationalMetrics, IncidentStatus, DonationRecord, BloodGroup } from '@/types';
 import { MOCK_INCIDENTS, MOCK_DONORS, INITIAL_METRICS } from '@/lib/mockData';
 import { calculateHaversineDistance, computeMatchScore } from '@/lib/matching/geoDistance';
 import { isBloodCompatible } from '@/lib/matching/bloodCompatibility';
+
+export interface AuditLogEntry {
+  id: string;
+  timestamp: string;
+  action: string;
+  details: string;
+  user: string;
+  severity: 'INFO' | 'WARNING' | 'ALERT';
+}
 
 interface EmergencyContextType {
   incidents: EmergencyIncident[];
@@ -19,7 +28,76 @@ interface EmergencyContextType {
   playAlertSound: () => void;
   audioEnabled: boolean;
   setAudioEnabled: (val: boolean) => void;
+  logDonorDonation: (
+    donorIdOrUserId: string,
+    donation: {
+      donationDate: string;
+      facilityName: string;
+      unitsDonated: number;
+      notes?: string;
+    }
+  ) => void;
+  getDonorForUser: (userId?: string, name?: string) => BloodDonor | undefined;
+  updateDonorCooldown: (donorId: string, isEligible: boolean) => void;
+  addDonor: (donorData: {
+    fullName: string;
+    bloodGroup: BloodGroup;
+    contactNumber: string;
+    email: string;
+    userId?: string;
+    city?: string;
+    address?: string;
+    lastDonationDate?: string;
+  }) => BloodDonor;
+  verifyDonor: (donorId: string, approve: boolean) => void;
+  deleteIncident: (id: string) => void;
+  boostIncident: (id: string) => void;
+  auditLogs: AuditLogEntry[];
+  addAuditLog: (action: string, details: string, actor?: string, severity?: 'INFO' | 'WARNING' | 'ALERT') => void;
 }
+
+const INITIAL_AUDIT_LOGS: AuditLogEntry[] = [
+  {
+    id: 'LOG-301',
+    timestamp: new Date(Date.now() - 4 * 60 * 1000).toISOString(),
+    action: 'EMERGENCY_BROADCAST',
+    details: 'Mass alert broadcasted to 6 B+ and O+ eligible donors for INC-8482',
+    user: 'System Admin',
+    severity: 'INFO'
+  },
+  {
+    id: 'LOG-300',
+    timestamp: new Date(Date.now() - 25 * 60 * 1000).toISOString(),
+    action: 'DONOR_VERIFIED',
+    details: 'Verified donor Alexander Vance (O-) after screening clearance',
+    user: 'Admin Moderator',
+    severity: 'INFO'
+  },
+  {
+    id: 'LOG-299',
+    timestamp: new Date(Date.now() - 50 * 60 * 1000).toISOString(),
+    action: 'CONTACT_VIEWED',
+    details: 'Emergency coordinator hotline accessed for DMCH appeal INC-8491',
+    user: 'Standard Member',
+    severity: 'INFO'
+  },
+  {
+    id: 'LOG-298',
+    timestamp: new Date(Date.now() - 95 * 60 * 1000).toISOString(),
+    action: 'REQUEST_SUBMITTED',
+    details: 'Patient blood appeal INC-8495 submitted by Kurmitola General Hospital',
+    user: 'Hospital Coordinator',
+    severity: 'INFO'
+  },
+  {
+    id: 'LOG-297',
+    timestamp: new Date(Date.now() - 140 * 60 * 1000).toISOString(),
+    action: 'SECURITY_ALERT',
+    details: 'Suspicious duplicate request attempt flagged and blocked from IP 103.22.45.12',
+    user: 'System Security',
+    severity: 'WARNING'
+  }
+];
 
 const EmergencyContext = createContext<EmergencyContextType | undefined>(undefined);
 
@@ -29,6 +107,73 @@ export function EmergencyProvider({ children }: { children: ReactNode }) {
   const [metrics, setMetrics] = useState<OperationalMetrics>(INITIAL_METRICS);
   const [activeIncident, setActiveIncident] = useState<EmergencyIncident | null>(MOCK_INCIDENTS[0]);
   const [audioEnabled, setAudioEnabled] = useState(false);
+  const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>(INITIAL_AUDIT_LOGS);
+
+  const addAuditLog = (
+    action: string,
+    details: string,
+    actor = 'Admin Moderator',
+    severity: 'INFO' | 'WARNING' | 'ALERT' = 'INFO'
+  ) => {
+    const newLog: AuditLogEntry = {
+      id: `LOG-${Math.floor(100 + Math.random() * 900)}`,
+      timestamp: new Date().toISOString(),
+      action,
+      details,
+      user: actor,
+      severity,
+    };
+    setAuditLogs(prev => [newLog, ...prev]);
+  };
+
+  const verifyDonor = (donorId: string, approve: boolean) => {
+    const targetDonor = donors.find(d => d.id === donorId);
+    if (approve) {
+      setDonors(prev =>
+        prev.map(d => (d.id === donorId ? { ...d, isVerified: true } : d))
+      );
+      addAuditLog(
+        'DONOR_VERIFIED',
+        `Approved and granted verified credential to donor ${targetDonor?.fullName || donorId} (${targetDonor?.bloodGroup || 'Blood Donor'})`,
+        'Admin Moderator',
+        'INFO'
+      );
+      playAlertSound();
+    } else {
+      setDonors(prev => prev.filter(d => d.id !== donorId));
+      addAuditLog(
+        'DONOR_REJECTED',
+        `Rejected and dismissed unverified donor application for ${targetDonor?.fullName || donorId}`,
+        'Admin Moderator',
+        'WARNING'
+      );
+    }
+  };
+
+  const deleteIncident = (id: string) => {
+    const incident = incidents.find(i => i.id === id);
+    setIncidents(prev => prev.filter(i => i.id !== id));
+    if (activeIncident && activeIncident.id === id) {
+      setActiveIncident(null);
+    }
+    addAuditLog(
+      'INCIDENT_DELETED',
+      `Flagged as spam and removed request ${id} (${incident?.title || 'Blood appeal'})`,
+      'Admin Moderator',
+      'WARNING'
+    );
+  };
+
+  const boostIncident = (id: string) => {
+    const incident = incidents.find(i => i.id === id);
+    playAlertSound();
+    addAuditLog(
+      'EMERGENCY_BOOST',
+      `High-priority mass dispatch alert boosted for appeal ${id} (${incident?.requiredBloodGroup || 'Blood'} at ${incident?.location.address || 'Hospital'})`,
+      'Admin Moderator',
+      'ALERT'
+    );
+  };
 
   // Web Audio API Emergency Alert tone
   const playAlertSound = () => {
@@ -145,6 +290,136 @@ export function EmergencyProvider({ children }: { children: ReactNode }) {
     .sort((a, b) => b.matchScore - a.matchScore);
   };
 
+  const getDonorForUser = (userId?: string, name?: string): BloodDonor | undefined => {
+    if (!userId && !name) return undefined;
+    return donors.find(d => 
+      (userId && d.userId === userId) ||
+      (userId && d.id === userId) ||
+      (name && d.fullName.toLowerCase() === name.toLowerCase())
+    );
+  };
+
+  const updateDonorCooldown = (donorId: string, isEligible: boolean) => {
+    setDonors(prev =>
+      prev.map(d => {
+        if (d.id === donorId || d.userId === donorId) {
+          return {
+            ...d,
+            cooldownEligible: isEligible,
+            isAvailable: isEligible,
+          };
+        }
+        return d;
+      })
+    );
+  };
+
+  const addDonor = (donorData: {
+    fullName: string;
+    bloodGroup: BloodGroup;
+    contactNumber: string;
+    email: string;
+    userId?: string;
+    city?: string;
+    address?: string;
+    lastDonationDate?: string;
+  }): BloodDonor => {
+    const newId = `DNR-${Math.floor(100 + Math.random() * 900)}`;
+    const lastDate = donorData.lastDonationDate || new Date().toISOString();
+    const donTime = new Date(lastDate).getTime();
+    const daysElapsed = Math.floor((Date.now() - donTime) / (1000 * 60 * 60 * 24));
+    const isEligible = daysElapsed >= 90;
+
+    const newDonor: BloodDonor = {
+      id: newId,
+      userId: donorData.userId,
+      fullName: donorData.fullName,
+      bloodGroup: donorData.bloodGroup,
+      contactNumber: donorData.contactNumber,
+      email: donorData.email,
+      location: {
+        lat: 23.8103,
+        lng: 90.4125,
+        address: donorData.address || `${donorData.city || 'Dhanmondi, Dhaka'}, Bangladesh`,
+        city: donorData.city || 'Dhaka',
+        country: 'Bangladesh',
+      },
+      isAvailable: isEligible,
+      isVerified: true,
+      lastDonationDate: lastDate,
+      cooldownEligible: isEligible,
+      totalDonations: 0,
+      responseRatePercent: 100,
+      donationHistory: [],
+    };
+
+    setDonors(prev => [newDonor, ...prev]);
+    setMetrics(prev => ({
+      ...prev,
+      registeredDonors: prev.registeredDonors + 1,
+    }));
+    return newDonor;
+  };
+
+  const logDonorDonation = (
+    donorIdOrUserId: string,
+    donation: {
+      donationDate: string;
+      facilityName: string;
+      unitsDonated: number;
+      notes?: string;
+    }
+  ) => {
+    const newRecordId = `DON-${Math.floor(100 + Math.random() * 900)}`;
+    const nowIso = new Date().toISOString();
+    
+    // Check cooldown for the new donation date (90 days)
+    const donTime = new Date(donation.donationDate).getTime();
+    const currentTime = Date.now();
+    const daysElapsed = Math.floor((currentTime - donTime) / (1000 * 60 * 60 * 24));
+    const isEligible = daysElapsed >= 90;
+
+    const newRecord: DonationRecord = {
+      id: newRecordId,
+      donorId: donorIdOrUserId,
+      donationDate: donation.donationDate,
+      facilityName: donation.facilityName,
+      unitsDonated: donation.unitsDonated,
+      notes: donation.notes,
+      verifiedBy: 'Community Medical Officer',
+      createdAt: nowIso,
+    };
+
+    setDonors(prev =>
+      prev.map(d => {
+        if (
+          d.id === donorIdOrUserId || 
+          d.userId === donorIdOrUserId || 
+          d.fullName.toLowerCase() === donorIdOrUserId.toLowerCase()
+        ) {
+          const currentHistory = d.donationHistory || [];
+          return {
+            ...d,
+            totalDonations: d.totalDonations + donation.unitsDonated,
+            lastDonationDate: donation.donationDate,
+            cooldownEligible: isEligible,
+            isAvailable: isEligible,
+            donationHistory: [newRecord, ...currentHistory],
+          };
+        }
+        return d;
+      })
+    );
+
+    setMetrics(prev => ({
+      ...prev,
+      bloodUnitsDispatched: prev.bloodUnitsDispatched + donation.unitsDonated,
+      livesImpactedTotal: prev.livesImpactedTotal + (donation.unitsDonated * 3),
+    }));
+
+    playAlertSound();
+  };
+
   return (
     <EmergencyContext.Provider
       value={{
@@ -160,6 +435,15 @@ export function EmergencyProvider({ children }: { children: ReactNode }) {
         playAlertSound,
         audioEnabled,
         setAudioEnabled,
+        logDonorDonation,
+        getDonorForUser,
+        updateDonorCooldown,
+        addDonor,
+        verifyDonor,
+        deleteIncident,
+        boostIncident,
+        auditLogs,
+        addAuditLog,
       }}
     >
       {children}

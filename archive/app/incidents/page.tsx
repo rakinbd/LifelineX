@@ -15,9 +15,13 @@ import {
   AlertOctagon,
   Navigation,
   CheckCircle2,
-  FileText
+  FileText,
+  Lock,
+  Unlock,
+  ShieldCheck
 } from 'lucide-react';
 import { useEmergency } from '@/context/EmergencyContext';
+import { useRole } from '@/context/RoleContext';
 import { IncidentCategory, IncidentStatus } from '@/types';
 import { getUrgencyBadgeColor, getStatusBadgeColor, formatRelativeTime } from '@/lib/utils';
 
@@ -25,9 +29,16 @@ type IncidentTab = 'all' | 'critical' | 'enroute' | 'resolved';
 
 export default function IncidentsPage() {
   const { incidents, updateIncidentStatus } = useEmergency();
+  const { canManageDispatch, user, switchUser } = useRole();
   const [activeTab, setActiveTab] = useState<IncidentTab>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<'ALL' | IncidentCategory>('ALL');
+  const [dispatchNotice, setDispatchNotice] = useState<string | null>(null);
+
+  const showNotice = (msg: string) => {
+    setDispatchNotice(msg);
+    setTimeout(() => setDispatchNotice(null), 3500);
+  };
 
   const criticalCount = incidents.filter(i => i.urgency === 'CRITICAL').length;
   const enRouteCount = incidents.filter(i => i.status === 'EN_ROUTE' || i.status === 'DISPATCHED').length;
@@ -56,6 +67,12 @@ export default function IncidentsPage() {
   const handleNextStatus = (e: React.MouseEvent, id: string, currentStatus: IncidentStatus) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!canManageDispatch) {
+      showNotice('Admin Access Required: You need Emergency Dispatch Admin privileges to advance incident phases.');
+      return;
+    }
+
     const transitions: Record<IncidentStatus, IncidentStatus> = {
       REPORTED: 'TRIAGED',
       TRIAGED: 'MATCHING',
@@ -66,6 +83,7 @@ export default function IncidentsPage() {
       RESOLVED: 'REPORTED',
     };
     updateIncidentStatus(id, transitions[currentStatus]);
+    showNotice(`Updated ${id}: Status transitioned to ${transitions[currentStatus]}`);
   };
 
   const tabs = [
@@ -106,6 +124,43 @@ export default function IncidentsPage() {
   return (
     <div className="space-y-6">
       
+      {/* Toast Notification */}
+      {dispatchNotice && (
+        <div className="fixed bottom-6 right-6 z-50 rounded-2xl border border-amber-300 bg-slate-900 text-white px-4 py-3 shadow-lg flex items-center space-x-2 text-xs animate-fade-in">
+          <Radio className="h-4 w-4 text-amber-400" />
+          <span>{dispatchNotice}</span>
+        </div>
+      )}
+
+      {/* Non-admin notice */}
+      {!canManageDispatch && (
+        <div className="rounded-2xl border border-amber-300 bg-amber-50 p-4 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="flex items-start space-x-3 text-amber-900">
+            <div className="p-2 rounded-xl bg-amber-200 text-amber-900 shrink-0 mt-0.5">
+              <Lock className="h-4 w-4" />
+            </div>
+            <div>
+              <h4 className="text-xs sm:text-sm font-bold">
+                Viewing Mode: Emergency Response Command
+              </h4>
+              <p className="text-xs text-amber-800">
+                You can browse active emergency calls. Advancing phases and dispatching responders requires <strong>Emergency Dispatch Admin</strong> authorization.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              switchUser('USR-005'); // Switch to Officer Aisha Khan (DISPATCH_ADMIN)
+              showNotice('Switched active session to Officer Aisha Khan (Dispatch Admin)!');
+            }}
+            className="shrink-0 flex items-center space-x-1.5 rounded-xl bg-[#172B4D] px-3.5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[#243b53] active:scale-95 transition-all"
+          >
+            <Unlock className="h-3.5 w-3.5 text-teal-400" />
+            <span>Switch to Dispatch Admin</span>
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-5">
         <div className="flex items-center space-x-3">
@@ -113,9 +168,21 @@ export default function IncidentsPage() {
             <Radio className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-              Emergency Response Command
-            </h1>
+            <div className="flex items-center space-x-2">
+              <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+                Emergency Response Command
+              </h1>
+              {canManageDispatch ? (
+                <span className="rounded-full bg-amber-50 px-2.5 py-0.5 text-[10px] font-bold text-amber-800 border border-amber-200 flex items-center space-x-1">
+                  <ShieldCheck className="h-3 w-3" />
+                  <span>Dispatch Admin Active</span>
+                </span>
+              ) : (
+                <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[10px] font-semibold text-slate-600 border border-slate-200">
+                  Standard Member View
+                </span>
+              )}
+            </div>
             <p className="text-xs text-slate-500">
               Manage incoming distress calls, prioritize urgent cases, and coordinate field response.
             </p>
@@ -181,52 +248,44 @@ export default function IncidentsPage() {
         })}
       </div>
 
-      {/* Isolated View Container */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm min-h-[500px] space-y-6">
+      {/* Incident List Container */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs space-y-4">
         
-        {/* Controls: Search and Category Filter */}
-        <div className="flex flex-col md:flex-row gap-3 border-b border-slate-200 pb-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+        {/* Search & Category Filter */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="relative w-full sm:w-80">
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
             <input
               type="text"
+              placeholder="Search by ID, keyword, address..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search by incident ID, keywords, address, or symptoms..."
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-red-500 focus:bg-white focus:outline-none"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-3.5 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:border-teal-500 focus:outline-none"
             />
           </div>
 
-          <div className="flex items-center space-x-2 overflow-x-auto pb-1 md:pb-0">
-            {[
-              { id: 'ALL', label: 'All Categories' },
-              { id: 'BLOOD_TRANSFUSION', label: 'Blood Calls' },
-              { id: 'TRAUMA_ACCIDENT', label: 'Accidents' },
-              { id: 'AMBULANCE_TRANSIT', label: 'Ambulance' },
-              { id: 'DISASTER_RESCUE', label: 'Disaster' },
-            ].map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id as typeof selectedCategory)}
-                className={`rounded-xl px-3 py-1.5 text-xs font-medium border whitespace-nowrap transition-colors ${
-                  selectedCategory === cat.id
-                    ? 'bg-[#172B4D] border-[#172B4D] text-white shadow-2xs'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
+          <div className="flex items-center space-x-2 w-full sm:w-auto justify-end">
+            <Filter className="h-4 w-4 text-slate-400" />
+            <select
+              value={selectedCategory}
+              onChange={e => setSelectedCategory(e.target.value as any)}
+              className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-700 focus:outline-none cursor-pointer"
+            >
+              <option value="ALL">All Emergency Types</option>
+              <option value="TRAUMA_ACCIDENT">Trauma Accidents</option>
+              <option value="BLOOD_TRANSFUSION">Blood Transfusion Calls</option>
+              <option value="AMBULANCE_TRANSIT">Ambulance Transit</option>
+              <option value="CRITICAL_MEDICAL">Critical Medical</option>
+              <option value="DISASTER_RESCUE">Disaster Rescue</option>
+            </select>
           </div>
         </div>
 
         {/* Incident Cards Queue */}
         <div className="space-y-3">
           {filteredIncidents.length === 0 ? (
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-12 text-center space-y-2">
-              <AlertTriangle className="h-8 w-8 text-slate-400 mx-auto" />
-              <h3 className="text-sm font-bold text-slate-900">No incidents match this view</h3>
-              <p className="text-xs text-slate-500">No records found matching the active tab or search filters.</p>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-12 text-center text-xs text-slate-500">
+              No incidents matching the active filter criteria.
             </div>
           ) : (
             filteredIncidents.map(inc => (
@@ -302,9 +361,14 @@ export default function IncidentsPage() {
 
                     <button
                       onClick={(e) => handleNextStatus(e, inc.id, inc.status)}
-                      className="rounded-lg border border-slate-200 bg-white hover:bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-700 shadow-2xs transition-colors"
+                      className={`rounded-lg border px-2.5 py-1 text-[11px] font-medium shadow-2xs transition-colors flex items-center space-x-1 ${
+                        canManageDispatch
+                          ? 'border-slate-200 bg-white hover:bg-slate-50 text-slate-700'
+                          : 'border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed'
+                      }`}
                     >
-                      Advance Phase
+                      {!canManageDispatch && <Lock className="h-3 w-3 text-slate-400" />}
+                      <span>Advance Phase</span>
                     </button>
                   </div>
                 </div>
