@@ -64,9 +64,9 @@ export default function IncidentDetailsPage() {
           <span>Return to All Incidents</span>
         </Link>
 
-        <div className="flex items-center space-x-2 text-xs font-mono text-slate-500">
-          <span>ACTIVE DISPATCH NODE:</span>
-          <strong className="text-emerald-700">CAD-ZONE-US4</strong>
+        <div className="flex items-center space-x-2 text-xs text-slate-500">
+          <span className="h-2 w-2 rounded-full bg-teal-500"></span>
+          <span>Regional Zone US-4</span>
         </div>
       </div>
 
@@ -104,10 +104,10 @@ export default function IncidentDetailsPage() {
           <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2 shadow-sm">
             <h4 className="text-xs font-bold uppercase text-slate-800 font-mono flex items-center space-x-1.5">
               <Building2 className="h-3.5 w-3.5 text-emerald-600" />
-              <span>Direct Hotline Dispatch Action</span>
+              <span>Direct Emergency Response Action</span>
             </h4>
             <p className="text-[11px] text-slate-600">
-              Need immediate institutional dispatch? Connect this incident directly with Level-1 Trauma triage.
+              Need immediate emergency response? Connect this incident directly with Level-1 Trauma triage.
             </p>
             <div className="pt-2 flex gap-2">
               <Link
@@ -117,10 +117,10 @@ export default function IncidentDetailsPage() {
                 Trauma Facilities
               </Link>
               <Link
-                href="/volunteers"
+                href="/donors"
                 className="flex-1 rounded-xl bg-slate-50 hover:bg-slate-100 text-center py-2 text-xs font-bold text-slate-800 border border-slate-200 transition-colors shadow-2xs"
               >
-                Assign Field EMT
+                Match Blood Donors
               </Link>
             </div>
           </div>

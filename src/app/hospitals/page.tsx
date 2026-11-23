@@ -94,75 +94,73 @@ export default function HospitalsPage() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-5">
-        <div className="flex items-center space-x-2.5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-sky-600 to-blue-700 text-white shadow-md shadow-sky-200 border border-sky-500/30">
+        <div className="flex items-center space-x-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700 border border-teal-200">
             <Building2 className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-wide">
-              Trauma Centers & Emergency Facilities
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+              Medical Facilities & Resources
             </h1>
-            <p className="text-xs text-slate-600">
-              Institutional medical capacity, ICU bed counters, cryo-vault inventory, and rapid paramedic transit.
+            <p className="text-xs text-slate-500">
+              Hospital directory, ICU bed availability, ambulance fleet status, and blood bank reserves.
             </p>
           </div>
         </div>
       </div>
 
       {/* 5 Core Function Tabs */}
-      <div className="space-y-2">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
 
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`relative flex flex-col justify-between text-left p-4 rounded-2xl border transition-all duration-200 ${
-                  isActive
-                    ? 'border-sky-500 bg-sky-50/60 shadow-md ring-1 ring-sky-400/40'
-                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 shadow-xs'
-                }`}
-              >
-                {isActive && (
-                  <span className="absolute top-0 left-4 right-4 h-1 rounded-b bg-gradient-to-r from-sky-500 via-blue-500 to-sky-500"></span>
-                )}
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`relative flex flex-col justify-between text-left p-4 rounded-xl border transition-all duration-150 ${
+                isActive
+                  ? 'border-[#172B4D] bg-slate-50/80 shadow-xs'
+                  : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50 shadow-2xs'
+              }`}
+            >
+              {isActive && (
+                <span className="absolute top-0 left-3 right-3 h-0.5 rounded-b bg-[#14B8A6]"></span>
+              )}
 
-                <div>
-                  <div className="flex items-center justify-between mb-2.5">
-                    <div className={`p-2 rounded-xl border ${
-                      isActive 
-                        ? 'bg-sky-600 text-white border-sky-500 shadow-sm' 
-                        : 'bg-slate-100 text-slate-600 border-slate-200'
-                    }`}>
-                      <Icon className="h-4 w-4" />
-                    </div>
-
-                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ${tab.badgeColor}`}>
-                      {tab.badge}
-                    </span>
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className={`p-1.5 rounded-lg border ${
+                    isActive 
+                      ? 'bg-[#172B4D] text-white border-[#172B4D]' 
+                      : 'bg-slate-100 text-slate-600 border-slate-200'
+                  }`}>
+                    <Icon className="h-4 w-4" />
                   </div>
 
-                  <h3 className={`text-xs font-bold transition-colors ${
-                    isActive ? 'text-sky-950 font-extrabold' : 'text-slate-800'
-                  }`}>
-                    {tab.title}
-                  </h3>
-
-                  <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
-                    {tab.subtitle}
-                  </p>
+                  <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${tab.badgeColor}`}>
+                    {tab.badge}
+                  </span>
                 </div>
-              </button>
-            );
-          })}
-        </div>
+
+                <h3 className={`text-xs font-semibold transition-colors ${
+                  isActive ? 'text-slate-900 font-bold' : 'text-slate-700'
+                }`}>
+                  {tab.title}
+                </h3>
+
+                <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                  {tab.subtitle}
+                </p>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       {/* Isolated View Container */}

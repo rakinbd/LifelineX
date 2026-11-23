@@ -21,7 +21,6 @@ export type BloodGroup = 'O-' | 'O+' | 'A-' | 'A+' | 'B-' | 'B+' | 'AB-' | 'AB+'
 export type UserRole = 
   | 'CITIZEN'
   | 'BLOOD_DONOR'
-  | 'VOLUNTEER_RESPONDER'
   | 'HOSPITAL_COORDINATOR'
   | 'DISPATCH_OPERATOR';
 

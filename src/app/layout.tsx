@@ -20,12 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans antialiased selection:bg-red-500 selection:text-white">
+      <body className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col font-sans antialiased selection:bg-teal-500 selection:text-white">
         <RoleProvider>
           <EmergencyProvider>
-            <EmergencyBanner />
-            <div className="flex flex-1 min-h-[calc(100vh-32px)]">
-              {/* Permanent Left Operational Sidebar */}
+            <div className="flex flex-1 min-h-screen">
+              {/* Left Navigation Sidebar */}
               <Sidebar />
 
               {/* Main Content Area */}

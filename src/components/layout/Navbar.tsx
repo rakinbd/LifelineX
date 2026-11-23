@@ -34,7 +34,6 @@ export default function Navbar() {
     { href: '/map', label: 'Tactical Map', icon: MapPin },
     { href: '/donors', label: 'Blood Matching', icon: Droplet },
     { href: '/hospitals', label: 'Trauma & Facilities', icon: Building2 },
-    { href: '/volunteers', label: 'Responders', icon: Users },
   ];
 
   return (
@@ -56,7 +55,7 @@ export default function Navbar() {
                 <div className="flex items-center space-x-1.5">
                   <span className="text-lg font-bold tracking-tight text-white font-mono">LIFELINK</span>
                   <span className="rounded bg-red-950 px-1.5 py-0.5 text-[10px] font-semibold text-red-400 border border-red-800/60 uppercase">
-                    AI CAD
+                    ALERT SYSTEM
                   </span>
                 </div>
                 <p className="text-[10px] text-slate-400 tracking-wide">

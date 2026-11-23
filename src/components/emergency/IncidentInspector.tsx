@@ -102,9 +102,9 @@ export default function IncidentInspector({ incident }: IncidentInspectorProps) 
                 onClick={() => updateIncidentStatus(incident.id, st)}
                 className={`py-1.5 px-1 rounded-md text-[9px] font-mono font-bold text-center border transition-all ${
                   isCurrent
-                    ? 'bg-red-600 border-red-600 text-white shadow-sm'
+                    ? 'bg-[#172B4D] border-[#172B4D] text-white shadow-xs'
                     : isCompleted
-                    ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                    ? 'bg-teal-50 border-teal-200 text-teal-800'
                     : 'bg-slate-50 border-slate-200 text-slate-400 hover:bg-slate-100'
                 }`}
               >

@@ -72,14 +72,14 @@ export default function IncidentsPage() {
     {
       id: 'all' as IncidentTab,
       title: 'Active Distress Queue',
-      subtitle: 'Live queue of all open emergency incidents needing triage',
+      subtitle: 'Live queue of all open emergency calls needing response',
       icon: Radio,
       badge: `${incidents.filter(i => i.status !== 'RESOLVED').length} Active`,
       badgeColor: 'bg-red-50 text-red-700 border border-red-200',
     },
     {
       id: 'critical' as IncidentTab,
-      title: 'Critical Tier-1 Triage',
+      title: 'Critical Urgent Cases',
       subtitle: 'High-priority life-threatening trauma and cardiac calls',
       icon: AlertOctagon,
       badge: `${criticalCount} Critical`,
@@ -104,83 +104,81 @@ export default function IncidentsPage() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-5">
-        <div className="flex items-center space-x-2.5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-red-600 to-rose-700 text-white shadow-md shadow-red-200 border border-red-500/30">
+        <div className="flex items-center space-x-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700 border border-teal-200">
             <Radio className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-wide">
-              Incident Dispatch Command Center
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+              Emergency Response Command
             </h1>
-            <p className="text-xs text-slate-600">
-              Supervise distress queue, prioritize life-threatening cases, and monitor active field transitions.
+            <p className="text-xs text-slate-500">
+              Manage incoming distress calls, prioritize urgent cases, and coordinate field response.
             </p>
           </div>
         </div>
 
         <Link
           href="/triage"
-          className="flex items-center space-x-2 rounded-xl bg-red-600 px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-red-500 active:scale-95 transition-all shrink-0 self-start sm:self-auto"
+          className="flex items-center space-x-1.5 rounded-xl bg-rose-600 px-3.5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-rose-500 active:scale-[0.98] transition-all shrink-0 self-start sm:self-auto"
         >
-          <Plus className="h-4 w-4" />
-          <span>REPORT NEW SOS</span>
+          <Plus className="h-3.5 w-3.5" />
+          <span>Report Emergency</span>
         </Link>
       </div>
 
       {/* 4 Core Function Tabs */}
-      <div className="space-y-2">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
 
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`relative flex flex-col justify-between text-left p-4 rounded-2xl border transition-all duration-200 ${
-                  isActive
-                    ? 'border-red-500 bg-red-50/60 shadow-md ring-1 ring-red-400/40'
-                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 shadow-xs'
-                }`}
-              >
-                {isActive && (
-                  <span className="absolute top-0 left-4 right-4 h-1 rounded-b bg-gradient-to-r from-red-500 via-rose-500 to-red-500"></span>
-                )}
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`relative flex flex-col justify-between text-left p-4 rounded-xl border transition-all duration-150 ${
+                isActive
+                  ? 'border-[#172B4D] bg-slate-50/80 shadow-xs'
+                  : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50 shadow-2xs'
+              }`}
+            >
+              {isActive && (
+                <span className="absolute top-0 left-3 right-3 h-0.5 rounded-b bg-[#14B8A6]"></span>
+              )}
 
-                <div>
-                  <div className="flex items-center justify-between mb-2.5">
-                    <div className={`p-2 rounded-xl border ${
-                      isActive 
-                        ? 'bg-red-600 text-white border-red-500 shadow-sm' 
-                        : 'bg-slate-100 text-slate-600 border-slate-200'
-                    }`}>
-                      <Icon className="h-4 w-4" />
-                    </div>
-
-                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ${tab.badgeColor}`}>
-                      {tab.badge}
-                    </span>
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className={`p-1.5 rounded-lg border ${
+                    isActive 
+                      ? 'bg-[#172B4D] text-white border-[#172B4D]' 
+                      : 'bg-slate-100 text-slate-600 border-slate-200'
+                  }`}>
+                    <Icon className="h-4 w-4" />
                   </div>
 
-                  <h3 className={`text-xs font-bold transition-colors ${
-                    isActive ? 'text-red-950 font-extrabold' : 'text-slate-800'
-                  }`}>
-                    {tab.title}
-                  </h3>
-
-                  <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
-                    {tab.subtitle}
-                  </p>
+                  <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${tab.badgeColor}`}>
+                    {tab.badge}
+                  </span>
                 </div>
-              </button>
-            );
-          })}
-        </div>
+
+                <h3 className={`text-xs font-semibold transition-colors ${
+                  isActive ? 'text-slate-900 font-bold' : 'text-slate-700'
+                }`}>
+                  {tab.title}
+                </h3>
+
+                <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                  {tab.subtitle}
+                </p>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       {/* Isolated View Container */}
@@ -212,7 +210,7 @@ export default function IncidentsPage() {
                 onClick={() => setSelectedCategory(cat.id as typeof selectedCategory)}
                 className={`rounded-xl px-3 py-1.5 text-xs font-medium border whitespace-nowrap transition-colors ${
                   selectedCategory === cat.id
-                    ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
+                    ? 'bg-[#172B4D] border-[#172B4D] text-white shadow-2xs'
                     : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
               >

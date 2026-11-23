@@ -97,123 +97,118 @@ export default function DonorsPage() {
   const tabs = [
     {
       id: 'appeals' as BloodTab,
-      title: 'Active Emergency Blood Appeals',
-      subtitle: 'View and manage urgent blood & platelet requests',
+      title: 'Blood Appeals',
+      subtitle: 'Active requests awaiting donor matching',
       icon: AlertCircle,
       badge: `${bloodRequests.length} Active`,
-      badgeColor: 'bg-red-50 text-red-700 border border-red-200',
+      badgeColor: 'bg-rose-50 text-rose-700 border-rose-200',
     },
     {
       id: 'compatibility' as BloodTab,
-      title: 'Compatibility Calculator',
-      subtitle: 'Check compatible donor and recipient blood groups',
+      title: 'Compatibility Engine',
+      subtitle: 'Check donor & recipient compatibility',
       icon: GitFork,
-      badge: 'AABB Standard',
-      badgeColor: 'bg-purple-50 text-purple-700 border border-purple-200',
+      badge: 'Calculator',
+      badgeColor: 'bg-teal-50 text-teal-700 border-teal-200',
     },
     {
       id: 'cooldown' as BloodTab,
-      title: '90-Day Cooldown Tracking',
-      subtitle: 'Track donor eligibility and 90-day AABB cooldown status',
+      title: 'Cooldown Tracking',
+      subtitle: '90-day recovery and eligibility tracker',
       icon: Clock,
       badge: 'Cooldown',
-      badgeColor: 'bg-amber-50 text-amber-800 border border-amber-200',
+      badgeColor: 'bg-amber-50 text-amber-800 border-amber-200',
     },
     {
       id: 'registry' as BloodTab,
-      title: 'Verified Donor Registry',
-      subtitle: 'Browse and filter verified regional blood donors',
+      title: 'Verified Donors',
+      subtitle: 'Directory of screened regional donors',
       icon: UserCheck,
       badge: `${donors.length} Donors`,
-      badgeColor: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
+      badgeColor: 'bg-slate-100 text-slate-700 border-slate-200',
     },
     {
       id: 'mobilize' as BloodTab,
-      title: 'Mobilize Donor',
-      subtitle: 'Alert and mobilize eligible donors for urgent cases',
+      title: 'Mobilize Donors',
+      subtitle: 'Alert compatible donors for urgent cases',
       icon: Radio,
       badge: 'Dispatch',
-      badgeColor: 'bg-sky-50 text-sky-700 border border-sky-200',
+      badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
     },
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-5">
-        <div>
-          <div className="flex items-center space-x-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-red-600 to-rose-700 text-white shadow-md shadow-red-200 border border-red-500/30">
-              <Droplet className="h-5 w-5" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-slate-900 tracking-wide">
-                Smart Blood Matching & Transfusion Center
-              </h1>
-              <p className="text-xs text-slate-600">
-                End-to-end transfusion management connecting critical appeals with verified, cooldown-compliant donors.
-              </p>
-            </div>
+        <div className="flex items-center space-x-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700 border border-teal-200">
+            <Droplet className="h-5 w-5" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+              Blood Matching & Transfusion Center
+            </h1>
+            <p className="text-xs text-slate-500">
+              Coordinate emergency blood appeals with verified, cooldown-compliant donors.
+            </p>
           </div>
         </div>
       </div>
 
       {/* 1. SEPARATED TAB / CARD NAVIGATION (5 Core Functions) */}
-      <div className="space-y-2">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
 
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`relative flex flex-col justify-between text-left p-4 rounded-2xl border transition-all duration-200 ${
-                  isActive
-                    ? 'border-red-500 bg-red-50/60 shadow-md ring-1 ring-red-400/40'
-                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50 shadow-xs'
-                }`}
-              >
-                {/* Active Indicator Strip */}
-                {isActive && (
-                  <span className="absolute top-0 left-4 right-4 h-1 rounded-b bg-gradient-to-r from-red-500 via-rose-500 to-red-500"></span>
-                )}
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`relative flex flex-col justify-between text-left p-4 rounded-xl border transition-all duration-150 ${
+                isActive
+                  ? 'border-[#172B4D] bg-slate-50/80 shadow-xs'
+                  : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50 shadow-2xs'
+              }`}
+            >
+              {isActive && (
+                <span className="absolute top-0 left-3 right-3 h-0.5 rounded-b bg-[#14B8A6]"></span>
+              )}
 
-                <div>
-                  <div className="flex items-center justify-between mb-2.5">
-                    <div className={`p-2 rounded-xl border ${
-                      isActive 
-                        ? 'bg-red-600 text-white border-red-500 shadow-sm' 
-                        : 'bg-slate-100 text-slate-600 border-slate-200'
-                    }`}>
-                      <Icon className="h-4 w-4" />
-                    </div>
-
-                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ${tab.badgeColor}`}>
-                      {tab.badge}
-                    </span>
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className={`p-1.5 rounded-lg border ${
+                    isActive 
+                      ? 'bg-[#172B4D] text-white border-[#172B4D]' 
+                      : 'bg-slate-100 text-slate-600 border-slate-200'
+                  }`}>
+                    <Icon className="h-4 w-4" />
                   </div>
 
-                  <h3 className={`text-xs font-bold transition-colors ${
-                    isActive ? 'text-red-950 font-extrabold' : 'text-slate-800'
-                  }`}>
-                    {tab.title}
-                  </h3>
-
-                  <p className="text-[11px] text-slate-600 mt-1 leading-relaxed">
-                    {tab.subtitle}
-                  </p>
+                  <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${tab.badgeColor}`}>
+                    {tab.badge}
+                  </span>
                 </div>
-              </button>
-            );
-          })}
-        </div>
+
+                <h3 className={`text-xs font-semibold transition-colors ${
+                  isActive ? 'text-slate-900 font-bold' : 'text-slate-700'
+                }`}>
+                  {tab.title}
+                </h3>
+
+                <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                  {tab.subtitle}
+                </p>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       {/* 2. ISOLATED MODULE VIEW CONTAINER */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm min-h-[500px]">
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs min-h-[480px]">
         
         {/* ========================================================================= */}
         {/* MODULE 1: ACTIVE EMERGENCY BLOOD APPEALS */}
@@ -232,10 +227,10 @@ export default function DonorsPage() {
 
               <button
                 onClick={() => setActiveTab('mobilize')}
-                className="flex items-center space-x-1.5 rounded-xl bg-red-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-red-500 transition-colors self-start sm:self-auto"
+                className="flex items-center space-x-1.5 rounded-xl bg-[#172B4D] px-3.5 py-2 text-xs font-medium text-white shadow-xs hover:bg-[#243b53] transition-colors self-start sm:self-auto"
               >
-                <Radio className="h-3.5 w-3.5" />
-                <span>Go to Mobilize Console</span>
+                <Radio className="h-3.5 w-3.5 text-teal-400" />
+                <span>Mobilize Console</span>
               </button>
             </div>
 
@@ -248,20 +243,20 @@ export default function DonorsPage() {
                 {bloodRequests.map((req) => (
                   <div
                     key={req.id}
-                    className="flex flex-col justify-between rounded-xl border border-red-200 bg-gradient-to-br from-red-50/50 via-white to-slate-50 p-5 space-y-4 shadow-xs hover:border-red-300 transition-all"
+                    className="flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-5 space-y-4 shadow-2xs hover:border-slate-300 transition-all"
                   >
                     <div>
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center space-x-2">
-                          <span className="font-mono text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                          <span className="font-mono text-xs font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
                             {req.id}
                           </span>
-                          <span className={`rounded-full border px-2.5 py-0.5 text-[10px] font-mono font-bold ${getUrgencyBadgeColor(req.urgency)}`}>
+                          <span className={`rounded-full border px-2.5 py-0.5 text-[10px] font-mono font-medium ${getUrgencyBadgeColor(req.urgency)}`}>
                             {req.urgency} ({req.urgencyScore}/100)
                           </span>
                         </div>
 
-                        <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-mono font-bold text-white shadow-xs flex items-center space-x-1">
+                        <span className="rounded-full bg-rose-50 border border-rose-200 px-3 py-1 text-xs font-mono font-semibold text-rose-700 shadow-2xs flex items-center space-x-1">
                           <Droplet className="h-3 w-3 fill-current" />
                           <span>{req.requiredBloodGroup} ({req.unitsNeeded || 1} Units)</span>
                         </span>
@@ -270,25 +265,25 @@ export default function DonorsPage() {
                       <h3 className="text-sm font-bold text-slate-900 mt-2">
                         {req.title}
                       </h3>
-                      <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                      <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                         {req.description}
                       </p>
 
-                      <div className="mt-3 text-[11px] text-slate-600 space-y-1 bg-white p-2.5 rounded-lg border border-slate-200 shadow-2xs">
+                      <div className="mt-3 text-[11px] text-slate-600 space-y-1 bg-slate-50/70 p-2.5 rounded-lg border border-slate-100">
                         <div className="flex items-center space-x-1.5 text-slate-800">
-                          <MapPin className="h-3 w-3 text-red-500 shrink-0" />
+                          <MapPin className="h-3 w-3 text-rose-500 shrink-0" />
                           <span>{req.location.address}</span>
                         </div>
                         <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1">
-                          <span>Reported by: <strong className="text-slate-700">{req.requesterName}</strong></span>
+                          <span>Reported by: <strong className="text-slate-700 font-medium">{req.requesterName}</strong></span>
                           <span>{formatRelativeTime(req.createdAt)}</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="pt-3 border-t border-slate-200 flex items-center justify-between">
-                      <span className="text-[11px] text-sky-700 font-mono font-semibold">
-                        {req.matchedRespondersCount} Compatible Donors in Area
+                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                      <span className="text-[11px] text-teal-700 font-mono font-medium">
+                        {req.matchedRespondersCount} Compatible Donors Nearby
                       </span>
 
                       <button
@@ -296,7 +291,7 @@ export default function DonorsPage() {
                           setSelectedIncidentId(req.id);
                           setActiveTab('mobilize');
                         }}
-                        className="flex items-center space-x-1.5 rounded-lg bg-red-600 hover:bg-red-500 px-3 py-1.5 text-xs font-bold text-white shadow-xs transition-colors"
+                        className="flex items-center space-x-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 px-3 py-1.5 text-xs font-medium text-white shadow-2xs transition-colors"
                       >
                         <Radio className="h-3 w-3" />
                         <span>Mobilize Donors</span>
@@ -359,13 +354,13 @@ export default function DonorsPage() {
                     type="date"
                     value={inputDate}
                     onChange={e => setInputDate(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-900 focus:border-red-500 focus:outline-none shadow-xs"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-900 focus:border-teal-500 focus:outline-none shadow-xs"
                   />
                 </div>
 
                 <button
                   onClick={handleCalculateCooldown}
-                  className="rounded-xl bg-amber-600 hover:bg-amber-500 px-5 py-2 text-xs font-bold text-white transition-colors h-[38px] shrink-0 shadow-xs"
+                  className="rounded-xl bg-[#172B4D] hover:bg-[#243b53] px-5 py-2 text-xs font-semibold text-white transition-colors h-[38px] shrink-0 shadow-xs"
                 >
                   Verify Cooldown
                 </button>
@@ -419,7 +414,7 @@ export default function DonorsPage() {
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
-                          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-red-50 border border-red-200 text-xs font-mono font-bold text-red-600">
+                          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-rose-50 border border-rose-200 text-xs font-mono font-bold text-rose-700">
                             {donor.bloodGroup}
                           </span>
                           <div>
@@ -477,9 +472,9 @@ export default function DonorsPage() {
                   <button
                     key={bg}
                     onClick={() => setRegistryFilterGroup(bg)}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold border transition-colors ${
+                    className={`px-2.5 py-1 rounded-lg text-xs font-mono font-medium border transition-colors ${
                       registryFilterGroup === bg
-                        ? 'bg-red-600 border-red-500 text-white'
+                        ? 'bg-[#172B4D] border-[#172B4D] text-white'
                         : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 shadow-2xs'
                     }`}
                   >
@@ -497,7 +492,7 @@ export default function DonorsPage() {
                 value={registrySearch}
                 onChange={e => setRegistrySearch(e.target.value)}
                 placeholder="Search donors by name, location, or donor ID..."
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-red-500 focus:bg-white focus:outline-none"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:border-teal-500 focus:bg-white focus:outline-none"
               />
             </div>
 
@@ -506,11 +501,11 @@ export default function DonorsPage() {
               {filteredDonors.map(donor => (
                 <div
                   key={donor.id}
-                  className="rounded-xl border border-slate-200 bg-white p-4 space-y-3 hover:border-slate-300 hover:shadow-xs transition-all"
+                  className="rounded-xl border border-slate-200 bg-white p-4 space-y-3 hover:border-slate-300 hover:shadow-2xs transition-all"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 border border-red-200 text-sm font-mono font-bold text-red-600">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 border border-rose-200 text-sm font-mono font-bold text-rose-700">
                         {donor.bloodGroup}
                       </div>
                       <div>
@@ -597,18 +592,18 @@ export default function DonorsPage() {
                         onClick={() => setSelectedIncidentId(req.id)}
                         className={`p-3 rounded-xl border cursor-pointer transition-all ${
                           isSelected
-                            ? 'border-red-500 bg-red-50 shadow-xs ring-1 ring-red-400'
+                            ? 'border-[#172B4D] bg-slate-50 shadow-xs ring-1 ring-[#172B4D]/30'
                             : 'border-slate-200 bg-white hover:border-slate-300'
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className="font-mono text-xs font-bold text-red-600">{req.id}</span>
-                          <span className="rounded bg-red-600 px-2 py-0.5 text-[10px] font-mono font-bold text-white">
+                          <span className="font-mono text-xs font-bold text-slate-800">{req.id}</span>
+                          <span className="rounded-lg bg-rose-50 border border-rose-200 px-2 py-0.5 text-[10px] font-mono font-semibold text-rose-700">
                             {req.requiredBloodGroup} ({req.unitsNeeded || 1} Units)
                           </span>
                         </div>
                         <h4 className="text-xs font-bold text-slate-900 mt-1 line-clamp-1">{req.title}</h4>
-                        <p className="text-[11px] text-slate-600 line-clamp-1 mt-0.5">{req.location.address}</p>
+                        <p className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">{req.location.address}</p>
                       </div>
                     );
                   })}
@@ -643,15 +638,15 @@ export default function DonorsPage() {
                           className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 shadow-xs transition-colors"
                         >
                           <div className="flex items-center space-x-3">
-                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-50 border border-red-200 text-sm font-mono font-bold text-red-600">
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-50 border border-rose-200 text-sm font-mono font-bold text-rose-700">
                               {donor.bloodGroup}
                             </div>
                             <div>
                               <div className="text-xs font-bold text-slate-900 flex items-center space-x-2">
                                 <span>{donor.fullName}</span>
-                                <span className="text-[10px] text-emerald-700 font-mono">✓ Cooldown Cleared</span>
+                                <span className="text-[10px] text-teal-700 font-mono">✓ Cooldown Cleared</span>
                               </div>
-                              <p className="text-[11px] text-slate-600 mt-0.5">
+                              <p className="text-[11px] text-slate-500 mt-0.5">
                                 {donor.distanceKm} km from trauma site • {donor.totalDonations} donations • {donor.responseRatePercent}% response rate
                               </p>
                             </div>
@@ -659,19 +654,19 @@ export default function DonorsPage() {
 
                           <div className="flex items-center space-x-3 self-end sm:self-auto">
                             <div className="text-right hidden sm:block">
-                              <span className="text-sm font-mono font-bold text-emerald-700 block">
+                              <span className="text-sm font-mono font-bold text-teal-700 block">
                                 {donor.matchScore}%
                               </span>
-                              <span className="text-[9px] text-slate-500 uppercase">Match Score</span>
+                              <span className="text-[9px] text-slate-400 uppercase">Match Score</span>
                             </div>
 
                             <button
                               onClick={() => handleMobilizeDonor(donor.id, donor.fullName)}
                               disabled={isMobilized}
-                              className={`flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-bold border transition-all ${
+                              className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-medium border transition-all ${
                                 isMobilized
-                                  ? 'bg-emerald-600 border-emerald-500 text-white'
-                                  : 'bg-red-600 hover:bg-red-500 border-red-600 text-white shadow-xs active:scale-95'
+                                  ? 'bg-teal-700 border-teal-600 text-white'
+                                  : 'bg-rose-600 hover:bg-rose-500 border-rose-600 text-white shadow-2xs active:scale-95'
                               }`}
                             >
                               {isMobilized ? (

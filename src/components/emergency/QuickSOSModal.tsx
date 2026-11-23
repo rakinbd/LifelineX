@@ -135,14 +135,11 @@ export default function QuickSOSModal({ isOpen, onClose }: QuickSOSModalProps) {
               <ShieldAlert className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900 flex items-center space-x-2">
-                <span>CREATE EMERGENCY SOS REQUEST</span>
-                <span className="rounded-full bg-red-100 border border-red-200 px-2 py-0.5 text-[10px] font-mono font-bold text-red-700">
-                  LIVE CAD
-                </span>
+              <h3 className="text-base font-bold text-slate-900">
+                Emergency SOS Request
               </h3>
               <p className="text-xs text-slate-500">
-                AI parses your natural language distress call and mobilizes matching responders.
+                AI analyzes your natural language distress description to notify matching responders.
               </p>
             </div>
           </div>
@@ -161,7 +158,7 @@ export default function QuickSOSModal({ isOpen, onClose }: QuickSOSModalProps) {
             </div>
             <h4 className="text-lg font-bold text-slate-900">Emergency Broadcast Dispatched</h4>
             <p className="text-xs text-slate-600 max-w-md mx-auto">
-              Incident registered with CAD network. Nearby verified donors and first responders have received the tactical ping.
+              Incident registered with Alert System network. Nearby verified donors and first responders have received the tactical ping.
             </p>
           </div>
         ) : (
@@ -241,7 +238,7 @@ export default function QuickSOSModal({ isOpen, onClose }: QuickSOSModalProps) {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <Sparkles className="h-4 w-4 text-sky-600" />
-                    <span className="text-xs font-bold text-sky-900">AI Triage Analysis Result</span>
+                    <span className="text-xs font-bold text-sky-900">AI Help Check Results</span>
                   </div>
                   <span className={`rounded-full border px-2.5 py-0.5 text-[10px] font-bold font-mono ${getUrgencyBadgeColor(triageResult.urgency)}`}>
                     {triageResult.urgency} ({triageResult.urgencyScore}/100)
@@ -343,7 +340,7 @@ export default function QuickSOSModal({ isOpen, onClose }: QuickSOSModalProps) {
             <div className="pt-3 flex items-center justify-between border-t border-slate-100">
               <span className="text-[10px] text-slate-400 flex items-center space-x-1 font-medium">
                 <Radio className="h-3 w-3 text-red-600" />
-                <span>Encrypted CAD Protocol Dispatch</span>
+                <span>Encrypted Alert System Protocol Dispatch</span>
               </span>
 
               <div className="flex space-x-2">
@@ -357,9 +354,9 @@ export default function QuickSOSModal({ isOpen, onClose }: QuickSOSModalProps) {
                 <button
                   type="submit"
                   disabled={!description.trim()}
-                  className="flex items-center space-x-1.5 rounded-xl bg-red-600 px-5 py-2 text-xs font-bold text-white shadow-md shadow-red-200 hover:bg-red-500 active:scale-95 disabled:opacity-50 transition-all"
+                  className="flex items-center space-x-1.5 rounded-xl bg-rose-600 px-5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-rose-500 active:scale-[0.98] disabled:opacity-50 transition-all"
                 >
-                  <span>BROADCAST SOS ALERT</span>
+                  <span>Dispatch Request</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </button>
               </div>

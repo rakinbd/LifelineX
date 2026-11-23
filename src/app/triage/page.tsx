@@ -126,17 +126,17 @@ export default function TriagePage() {
     <div className="max-w-4xl mx-auto space-y-6">
       
       {/* Header */}
-      <div className="border-b border-slate-200 pb-4">
-        <div className="flex items-center space-x-2.5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 border border-red-200 text-red-600 shadow-xs">
+      <div className="border-b border-slate-200 pb-5">
+        <div className="flex items-center space-x-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700 border border-teal-200">
             <Sparkles className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-wide">
-              AI Emergency SOS & Triage Intake
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+              AI Emergency Triage & Request
             </h1>
-            <p className="text-xs text-slate-600 mt-0.5">
-              Natural language triage engine converts unstructured distress descriptions into actionable CAD dispatch alerts.
+            <p className="text-xs text-slate-500 mt-0.5">
+              Smart AI analyzes your emergency message in seconds to identify required resources, blood types, and response priority.
             </p>
           </div>
         </div>
@@ -150,7 +150,7 @@ export default function TriagePage() {
           <div className="space-y-1">
             <h2 className="text-xl font-bold text-slate-900">Emergency Broadcast Successfully Dispatched!</h2>
             <p className="text-xs text-slate-600 max-w-md mx-auto">
-              Your distress call has been cataloged as <strong className="font-mono text-emerald-700">#{submittedId}</strong>. Surrounding verified blood donors and active EMT units have received the tactical ping.
+              Your distress call has been cataloged as <strong className="font-mono text-emerald-700">#{submittedId}</strong>. Surrounding verified blood donors and active Rescue Medic units have received the alert.
             </p>
           </div>
           <div className="pt-4 flex justify-center space-x-3">
@@ -166,9 +166,9 @@ export default function TriagePage() {
             </button>
             <button
               onClick={() => router.push(`/incidents/${submittedId}`)}
-              className="flex items-center space-x-1.5 rounded-xl bg-red-600 px-5 py-2 text-xs font-bold text-white shadow-xs hover:bg-red-500 transition-all"
+              className="flex items-center space-x-1.5 rounded-xl bg-[#172B4D] px-5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[#243b53] transition-all"
             >
-              <span>View Incident Console</span>
+              <span>View Incident Details</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
@@ -257,7 +257,7 @@ export default function TriagePage() {
               <div className="flex items-center justify-between border-b border-sky-200 pb-2">
                 <div className="flex items-center space-x-2 text-sky-800 font-bold text-xs">
                   <Sparkles className="h-4 w-4 text-sky-600" />
-                  <span>AI Triage Decision Support Output</span>
+                  <span>AI Help Check Results</span>
                 </div>
                 <span className={`rounded-full border px-2.5 py-0.5 text-xs font-mono font-bold ${getUrgencyBadgeColor(triageResult.urgency)}`}>
                   {triageResult.urgency} ({triageResult.urgencyScore}/100)
@@ -376,9 +376,9 @@ export default function TriagePage() {
             <button
               type="submit"
               disabled={!description.trim()}
-              className="flex items-center space-x-2 rounded-xl bg-red-600 px-6 py-3 text-xs font-bold text-white shadow-xs hover:bg-red-500 active:scale-95 disabled:opacity-50 transition-all border border-red-600"
+              className="flex items-center space-x-2 rounded-xl bg-rose-600 px-6 py-2.5 text-xs font-semibold text-white shadow-xs hover:bg-rose-500 active:scale-[0.98] disabled:opacity-50 transition-all"
             >
-              <span>DISPATCH EMERGENCY BROADCAST</span>
+              <span>Dispatch Emergency Request</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>

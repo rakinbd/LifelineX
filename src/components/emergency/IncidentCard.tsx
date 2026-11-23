@@ -42,54 +42,54 @@ export default function IncidentCard({ incident, onSelect, isSelected }: Inciden
   return (
     <div
       onClick={onSelect}
-      className={`group relative rounded-2xl border p-4.5 transition-all cursor-pointer ${
+      className={`group relative rounded-xl border p-4 transition-all cursor-pointer ${
         isSelected
-          ? 'border-red-500 bg-red-50/20 shadow-md ring-1 ring-red-400/40'
-          : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md'
+          ? 'border-[#172B4D] bg-slate-50/70 shadow-xs ring-1 ring-[#172B4D]/20'
+          : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-2xs'
       }`}
     >
       {/* Top Header: ID, Urgency & Status */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center space-x-2">
-          <span className="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200">
+          <span className="font-mono text-xs font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
             {incident.id}
           </span>
-          <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold font-mono ${getUrgencyBadgeColor(incident.urgency)}`}>
+          <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold font-mono ${getUrgencyBadgeColor(incident.urgency)}`}>
             {incident.urgency} ({incident.urgencyScore})
           </span>
         </div>
 
         <div className="flex items-center space-x-1.5">
-          <span className={`rounded-full border px-2.5 py-0.5 text-[10px] font-mono font-semibold ${getStatusBadgeColor(incident.status)}`}>
+          <span className={`rounded-full border px-2 py-0.5 text-[10px] font-mono font-medium ${getStatusBadgeColor(incident.status)}`}>
             {incident.status}
           </span>
         </div>
       </div>
 
       {/* Incident Title */}
-      <h4 className="text-sm font-bold text-slate-900 group-hover:text-red-600 transition-colors line-clamp-1">
+      <h4 className="text-xs font-bold text-slate-900 group-hover:text-teal-700 transition-colors line-clamp-1">
         {incident.title}
       </h4>
 
       {/* Description Snippet */}
-      <p className="mt-1 text-xs text-slate-600 line-clamp-2 leading-relaxed">
+      <p className="mt-1 text-xs text-slate-500 line-clamp-2 leading-relaxed">
         {incident.description}
       </p>
 
       {/* AI Extracted Symptoms Tag Strip */}
       {incident.aiExtracted.keySymptoms.length > 0 && (
-        <div className="mt-2.5 flex flex-wrap gap-1.5">
+        <div className="mt-2.5 flex flex-wrap gap-1">
           {incident.aiExtracted.keySymptoms.map((sym, i) => (
             <span
               key={i}
-              className="rounded-lg bg-slate-100 px-2 py-0.5 text-[10px] text-slate-700 font-medium border border-slate-200"
+              className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] text-slate-600 font-medium border border-slate-200"
             >
               {sym}
             </span>
           ))}
           {incident.requiredBloodGroup && (
-            <span className="flex items-center space-x-1 rounded-lg bg-red-50 px-2 py-0.5 text-[10px] font-mono font-bold text-red-700 border border-red-200">
-              <Droplet className="h-2.5 w-2.5 text-red-600" />
+            <span className="flex items-center space-x-1 rounded-md bg-rose-50 px-2 py-0.5 text-[10px] font-mono font-semibold text-rose-700 border border-rose-200">
+              <Droplet className="h-2.5 w-2.5 text-rose-600" />
               <span>{incident.requiredBloodGroup} ({incident.unitsNeeded || 1} Units)</span>
             </span>
           )}
@@ -97,31 +97,16 @@ export default function IncidentCard({ incident, onSelect, isSelected }: Inciden
       )}
 
       {/* Location & Time Footer */}
-      <div className="mt-3.5 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-        <div className="flex items-center space-x-1 text-slate-700 truncate max-w-[65%]">
-          <MapPin className="h-3 w-3 shrink-0 text-red-600" />
+      <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+        <span className="flex items-center space-x-1 truncate max-w-[160px] text-slate-600">
+          <MapPin className="h-3 w-3 text-slate-400 shrink-0" />
           <span className="truncate">{incident.location.address}</span>
-        </div>
-
-        <div className="flex items-center space-x-1 font-mono text-[10px] text-slate-400">
-          <Clock className="h-3 w-3" />
-          <span>{formatRelativeTime(incident.createdAt)}</span>
-        </div>
-      </div>
-
-      {/* Action Strip */}
-      <div className="mt-2.5 flex items-center justify-between pt-2">
-        <span className="text-[10px] text-sky-700 font-semibold">
-          {incident.matchedRespondersCount} Responders Nearby
         </span>
 
-        <button
-          onClick={handleNextStatus}
-          className="flex items-center space-x-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
-        >
-          <span>Advance Phase</span>
-          <ArrowRight className="h-3 w-3 text-slate-400" />
-        </button>
+        <span className="flex items-center space-x-1">
+          <Clock className="h-3 w-3" />
+          <span>{formatRelativeTime(incident.createdAt)}</span>
+        </span>
       </div>
     </div>
   );
