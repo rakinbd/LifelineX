@@ -27,7 +27,12 @@ export default function AdminLoginPage() {
     setErrorMessage(null);
 
     if (!identifier.trim()) {
-      setErrorMessage('Please enter your administrative email address.');
+      setErrorMessage('Please enter your administrative email or username.');
+      return;
+    }
+
+    if (!password) {
+      setErrorMessage('Please enter your admin access password.');
       return;
     }
 
@@ -43,18 +48,6 @@ export default function AdminLoginPage() {
       }, 700);
     } else {
       setErrorMessage(res.message);
-    }
-  };
-
-  const handleQuickAdminLogin = () => {
-    const res = adminLogin({
-      identifier: 'admin@lifelinex.org',
-    });
-    if (res.success) {
-      setSuccessMessage('Authenticated as System Administrator! Redirecting...');
-      setTimeout(() => {
-        router.push('/admin');
-      }, 600);
     }
   };
 
@@ -113,19 +106,19 @@ export default function AdminLoginPage() {
           {/* Simple Solid Admin Login Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             
-            {/* Admin Email */}
+            {/* Admin Email / Username */}
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-200 block">
-                Administrator Email Address *
+                Administrator Email / Username *
               </label>
               <div className="relative">
                 <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-400" />
                 <input
-                  type="email"
+                  type="text"
                   required
                   value={identifier}
                   onChange={e => setIdentifier(e.target.value)}
-                  placeholder="admin@lifelinex.org"
+                  placeholder="admin or admin@gmail.com"
                   className="w-full rounded-xl border border-slate-600 bg-slate-900 pl-11 pr-4 py-3 text-sm text-white placeholder-slate-400 focus:border-red-500 focus:outline-none transition-colors"
                 />
               </div>
@@ -143,7 +136,7 @@ export default function AdminLoginPage() {
                   required
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
+                  placeholder="admin123"
                   className="w-full rounded-xl border border-slate-600 bg-slate-900 pl-11 pr-4 py-3 text-sm text-white placeholder-slate-400 focus:border-red-500 focus:outline-none transition-colors"
                 />
               </div>
@@ -159,21 +152,6 @@ export default function AdminLoginPage() {
             </button>
 
           </form>
-
-          {/* Quick 1-Click Demo Admin Button (Single Admin Role) */}
-          <div className="pt-4 border-t border-slate-700 space-y-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block text-center">
-              Quick 1-Click Administrator Testing:
-            </span>
-            <button
-              type="button"
-              onClick={handleQuickAdminLogin}
-              className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white text-sm font-oswald font-semibold transition-colors"
-            >
-              <ShieldCheck className="h-4 w-4 text-red-400" />
-              <span>1-Click Demo Admin Sign In (admin@lifelinex.org)</span>
-            </button>
-          </div>
 
           {/* Switch to Regular Member Login */}
           <div className="text-center pt-2 text-sm text-slate-400">

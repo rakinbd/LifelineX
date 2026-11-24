@@ -1,108 +1,298 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
-import { Shield, Info, Lock, Globe, Droplet } from 'lucide-react';
+import { 
+  Heart, 
+  Droplet, 
+  Mail, 
+  ChevronRight, 
+  ShieldCheck, 
+  Activity 
+} from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-200/80 bg-white/80 backdrop-blur-md pt-8 pb-8 text-xs text-slate-500">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        
-        {/* Healthcare & Protocol Notice */}
-        <div className="mb-8 rounded-xl border border-slate-200 bg-slate-50/70 p-4">
-          <div className="flex items-start space-x-3">
-            <Info className="h-4 w-4 shrink-0 text-slate-500 mt-0.5" />
-            <div className="text-[11px] leading-relaxed text-slate-600">
-              <strong className="text-slate-800 font-semibold">LifeLineX Medical Protocol:</strong>{' '}
-              LifeLineX is an intelligent decision-support and mutual-aid community platform. In acute life-threatening situations, contact certified emergency services immediately. Preliminary blood compatibility calculations provide guidance; laboratory cross-matching by certified blood bank transfusion specialists is required prior to transfusion.
-            </div>
-          </div>
-        </div>
+    <footer className="relative overflow-hidden border-t border-cyan-100/80 bg-gradient-to-b from-[#F0F9FF]/95 via-[#E6F4FE]/70 to-[#F8FAFC] text-slate-800 selection:bg-teal-500 selection:text-white">
+      
+      {/* Background Subtle Medical Decorations */}
+      <div className="absolute top-6 left-[6%] text-cyan-400/20 text-4xl font-bold select-none pointer-events-none">+</div>
+      <div className="absolute top-20 right-[8%] text-teal-400/20 text-5xl font-bold select-none pointer-events-none">+</div>
+      <div className="absolute bottom-16 left-[48%] text-cyan-300/25 text-3xl font-bold select-none pointer-events-none">+</div>
+      <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-cyan-200/25 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-teal-200/20 blur-3xl pointer-events-none" />
 
-        {/* Primary Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-slate-100">
+      {/* Main Footer Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-0">
           
-          <div>
-            <div className="flex items-center space-x-2 text-slate-900 font-bold text-sm mb-2">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-teal-50/80 border border-teal-200/60 p-0.5 shadow-2xs">
+          {/* ========================================================================= */}
+          {/* Section 1 – Brand Identity (lg: 4 cols) */}
+          {/* ========================================================================= */}
+          <div className="lg:col-span-4 lg:pr-8 flex flex-col justify-between space-y-4">
+            <div className="space-y-3">
+              {/* Logo & Brand Header */}
+              <Link href="/" className="inline-flex items-center space-x-3 group">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-rose-50 to-teal-50 border border-cyan-200/80 p-1.5 shadow-xs group-hover:scale-105 transition-transform">
+                  <img
+                    src="/logo.png"
+                    alt="LifeLineX Logo"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-2xl font-black tracking-tight text-[#172B4D] font-sans leading-tight">
+                    LifeLine<span className="text-rose-600">X</span>
+                  </span>
+                  <span className="text-xs text-teal-700 font-bold tracking-tight">
+                    Connect • Respond • Save Lives
+                  </span>
+                </div>
+              </Link>
+
+              {/* Description */}
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-sm">
+                A smart platform to connect blood donors with those in need. Together, let&apos;s build a healthier and kinder society.
+              </p>
+            </div>
+
+            {/* Medical Network Verification Badge */}
+            <div className="pt-2">
+              <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/90 border border-cyan-200/80 text-[11px] font-semibold text-teal-800 shadow-2xs">
+                <span className="flex h-2 w-2 rounded-full bg-teal-500 animate-pulse" />
+                <span>100% Free Voluntary Transfusion Network</span>
+              </div>
+            </div>
+          </div>
+
+          {/* ========================================================================= */}
+          {/* Section 2 – Quick Links (lg: 2 cols) */}
+          {/* ========================================================================= */}
+          <div className="lg:col-span-2 lg:px-6 lg:border-l lg:border-slate-200/80 space-y-3">
+            <div className="flex items-center space-x-2">
+              <span className="w-1.5 h-4 rounded-full bg-teal-500" />
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#172B4D]">
+                Quick Links
+              </h3>
+            </div>
+            
+            <ul className="space-y-2 text-xs font-medium">
+              <li>
+                <Link
+                  href="/"
+                  className="group flex items-center space-x-1.5 text-slate-600 hover:text-teal-700 transition-colors py-0.5"
+                >
+                  <ChevronRight className="h-3 w-3 text-cyan-500 transition-transform group-hover:translate-x-0.5" />
+                  <span>Home</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/donors?tab=registry"
+                  className="group flex items-center space-x-1.5 text-slate-600 hover:text-teal-700 transition-colors py-0.5"
+                >
+                  <ChevronRight className="h-3 w-3 text-cyan-500 transition-transform group-hover:translate-x-0.5" />
+                  <span>Find Donor</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/donors?tab=donate"
+                  className="group flex items-center space-x-1.5 text-slate-600 hover:text-teal-700 transition-colors py-0.5"
+                >
+                  <ChevronRight className="h-3 w-3 text-cyan-500 transition-transform group-hover:translate-x-0.5" />
+                  <span>Become Donor</span>
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="/#how-it-works"
+                  className="group flex items-center space-x-1.5 text-slate-600 hover:text-teal-700 transition-colors py-0.5"
+                >
+                  <ChevronRight className="h-3 w-3 text-cyan-500 transition-transform group-hover:translate-x-0.5" />
+                  <span>About Us</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:220108.cse@student.just.edu.bd"
+                  className="group flex items-center space-x-1.5 text-slate-600 hover:text-teal-700 transition-colors py-0.5"
+                >
+                  <ChevronRight className="h-3 w-3 text-cyan-500 transition-transform group-hover:translate-x-0.5" />
+                  <span>Contact</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* ========================================================================= */}
+          {/* Section 3 – Support (lg: 2 cols) */}
+          {/* ========================================================================= */}
+          <div className="lg:col-span-2 lg:px-6 lg:border-l lg:border-slate-200/80 space-y-3">
+            <div className="flex items-center space-x-2">
+              <span className="w-1.5 h-4 rounded-full bg-cyan-500" />
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#172B4D]">
+                Support
+              </h3>
+            </div>
+
+            <ul className="space-y-2 text-xs font-medium">
+              <li>
+                <a
+                  href="/#why-donate"
+                  className="group flex items-center space-x-1.5 text-slate-600 hover:text-teal-700 transition-colors py-0.5"
+                >
+                  <ChevronRight className="h-3 w-3 text-cyan-500 transition-transform group-hover:translate-x-0.5" />
+                  <span>FAQs</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/#how-it-works"
+                  className="group flex items-center space-x-1.5 text-slate-600 hover:text-teal-700 transition-colors py-0.5"
+                >
+                  <ChevronRight className="h-3 w-3 text-cyan-500 transition-transform group-hover:translate-x-0.5" />
+                  <span>Help Center</span>
+                </a>
+              </li>
+              <li>
+                <Link
+                  href="/#features"
+                  className="group flex items-center space-x-1.5 text-slate-600 hover:text-teal-700 transition-colors py-0.5"
+                >
+                  <ChevronRight className="h-3 w-3 text-cyan-500 transition-transform group-hover:translate-x-0.5" />
+                  <span>Terms of Service</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#blood-guide"
+                  className="group flex items-center space-x-1.5 text-slate-600 hover:text-teal-700 transition-colors py-0.5"
+                >
+                  <ChevronRight className="h-3 w-3 text-cyan-500 transition-transform group-hover:translate-x-0.5" />
+                  <span>Privacy Policy</span>
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="mailto:220108.cse@student.just.edu.bd?subject=Report%20Issue%20-%20LifeLineX"
+                  className="group flex items-center space-x-1.5 text-slate-600 hover:text-rose-600 transition-colors py-0.5"
+                >
+                  <ChevronRight className="h-3 w-3 text-rose-500 transition-transform group-hover:translate-x-0.5" />
+                  <span>Report Issue</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* ========================================================================= */}
+          {/* Section 4 – Developed By (lg: 4 cols) */}
+          {/* ========================================================================= */}
+          <div className="lg:col-span-4 lg:pl-8 lg:border-l lg:border-slate-200/80 space-y-3">
+            <div className="flex items-center space-x-2">
+              <span className="w-1.5 h-4 rounded-full bg-teal-500" />
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#172B4D]">
+                Developed By
+              </h3>
+            </div>
+
+            <div className="space-y-3 pt-1">
+              
+              {/* Developer 1: Md Abir Hasan */}
+              <div className="flex items-center space-x-3 p-2.5 rounded-2xl bg-white/90 border border-cyan-100 shadow-2xs hover:shadow-xs hover:border-cyan-200 transition-all">
                 <img
-                  src="/logo.png"
-                  alt="LifeLineX Logo"
-                  className="h-full w-full object-contain"
+                  src="/developers/abir.jpg"
+                  alt="Md Abir Hasan"
+                  className="h-12 w-12 rounded-full object-cover ring-2 ring-cyan-400 border-2 border-white shadow-xs shrink-0"
                 />
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-xs sm:text-sm font-bold text-[#172B4D] truncate leading-tight">
+                    Md Abir Hasan
+                  </h4>
+                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">
+                    Dept. of CSE, JUST
+                  </p>
+                  <a
+                    href="mailto:220141.cse@student.just.edu.bd"
+                    className="inline-flex items-center space-x-1 text-[11px] text-teal-700 hover:text-teal-900 font-medium transition-colors mt-0.5 max-w-full"
+                    title="Send Email to Md Abir Hasan"
+                  >
+                    <Mail className="h-3 w-3 text-cyan-600 shrink-0" />
+                    <span className="truncate">220141.cse@student.just.edu.bd</span>
+                  </a>
+                </div>
               </div>
-              <span className="font-extrabold font-sans text-base text-[#172B4D]">
-                LifeLine<span className="text-teal-600">X</span>
-              </span>
-            </div>
-            <p className="text-[11px] font-semibold text-teal-700 mb-2">
-              Connect • Respond • Save Lives
-            </p>
-            <p className="text-[11px] leading-relaxed text-slate-500">
-              Coordinated voluntary blood donation and emergency patient transfusion network connecting screened donors with urgent requests in real time.
-            </p>
-            <div className="mt-3 flex items-center space-x-1.5 text-[11px] text-teal-700 font-medium">
-              <span className="h-1.5 w-1.5 rounded-full bg-teal-500 animate-pulse"></span>
-              <span>LifeLineX Network Nominal</span>
-            </div>
-          </div>
 
-          <div>
-            <h4 className="font-semibold text-slate-800 text-xs mb-3">Core Services</h4>
-            <ul className="space-y-2 text-[11px]">
-              <li><Link href="/" className="hover:text-slate-800 transition-colors">Command Center</Link></li>
-              <li><Link href="/donors?tab=appeals" className="hover:text-slate-800 transition-colors">Blood Appeals Queue</Link></li>
-              <li><Link href="/donors?tab=request" className="hover:text-slate-800 transition-colors">Submit Blood Request</Link></li>
-              <li><Link href="/donors?tab=donate" className="hover:text-slate-800 transition-colors">Voluntary Donor Registry</Link></li>
-              <li><Link href="/donors/matrix" className="hover:text-slate-800 transition-colors">Compatibility Matrix</Link></li>
-              <li><Link href="/admin" className="hover:text-slate-800 transition-colors">Admin Access Control</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-slate-800 text-xs mb-3">Safety & Standards</h4>
-            <ul className="space-y-2 text-[11px]">
-              <li className="flex items-center space-x-1.5">
-                <Lock className="h-3 w-3 text-slate-400" />
-                <span>Encrypted Health Records</span>
-              </li>
-              <li className="flex items-center space-x-1.5">
-                <Globe className="h-3 w-3 text-slate-400" />
-                <span>Location Privacy Protection</span>
-              </li>
-              <li><span>Screened Donor Verification</span></li>
-              <li><span>90-Day Clinical Cooldown Recovery</span></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-slate-800 text-xs mb-3">Platform Status</h4>
-            <p className="text-[11px] text-slate-500 mb-2">
-              Continuous synchronization across regional voluntary blood donor centers.
-            </p>
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-              <div className="flex justify-between text-[11px] mb-1">
-                <span className="text-slate-600 font-medium">System Uptime</span>
-                <span className="text-teal-700 font-mono font-bold">99.98%</span>
+              {/* Developer 2: Md Rakin Afsar */}
+              <div className="flex items-center space-x-3 p-2.5 rounded-2xl bg-white/90 border border-cyan-100 shadow-2xs hover:shadow-xs hover:border-cyan-200 transition-all">
+                <img
+                  src="/developers/rakin.jpg"
+                  alt="Md Rakin Afsar"
+                  className="h-12 w-12 rounded-full object-cover ring-2 ring-cyan-400 border-2 border-white shadow-xs shrink-0"
+                />
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-xs sm:text-sm font-bold text-[#172B4D] truncate leading-tight">
+                    Md Rakin Afsar
+                  </h4>
+                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">
+                    Dept. of CSE, JUST
+                  </p>
+                  <a
+                    href="mailto:220108.cse@student.just.edu.bd"
+                    className="inline-flex items-center space-x-1 text-[11px] text-teal-700 hover:text-teal-900 font-medium transition-colors mt-0.5 max-w-full"
+                    title="Send Email to Md Rakin Afsar"
+                  >
+                    <Mail className="h-3 w-3 text-cyan-600 shrink-0" />
+                    <span className="truncate">220108.cse@student.just.edu.bd</span>
+                  </a>
+                </div>
               </div>
-              <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
-                <div className="bg-teal-600 h-1.5 rounded-full" style={{ width: '99.98%' }}></div>
-              </div>
+
             </div>
           </div>
 
         </div>
-
-        {/* Copyright */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400">
-          <p>© {new Date().getFullYear()} LifeLineX. Connect • Respond • Save Lives. All rights reserved.</p>
-          <div className="mt-2 sm:mt-0 flex space-x-4">
-            <span className="hover:text-slate-600 cursor-pointer">Privacy Policy</span>
-            <span className="hover:text-slate-600 cursor-pointer">Terms of Service</span>
-            <span className="hover:text-slate-600 cursor-pointer">Clinical Protocols</span>
-          </div>
-        </div>
-
       </div>
+
+      {/* ========================================================================= */}
+      {/* Bottom Copyright & ECG Pulse Section */}
+      {/* ========================================================================= */}
+      <div className="border-t border-cyan-100/90 bg-white/70 backdrop-blur-xs py-4 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+          
+          {/* Left: Copyright */}
+          <div className="text-center md:text-left text-[11px] sm:text-xs">
+            <span>© 2026 <strong>LifeLineX</strong>. All rights reserved.</span>
+          </div>
+
+          {/* Center: Heart & Blood Drop Slogan */}
+          <div className="flex items-center space-x-2 text-[11px] sm:text-xs font-semibold text-slate-700 bg-white px-3.5 py-1.5 rounded-full border border-cyan-200/80 shadow-2xs">
+            <Heart className="h-3.5 w-3.5 text-rose-500 fill-rose-500 animate-pulse shrink-0" />
+            <Droplet className="h-3.5 w-3.5 text-rose-600 fill-rose-600 shrink-0" />
+            <span>Together for a Healthier Tomorrow</span>
+          </div>
+
+          {/* Right: Decorative ECG Heartbeat Line */}
+          <div className="flex items-center space-x-2 text-teal-600" title="Live Heartbeat ECG">
+            <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-teal-700 hidden sm:inline">
+              Vitals Nominal
+            </span>
+            <svg 
+              className="h-5 w-24 text-teal-600" 
+              viewBox="0 0 120 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2.2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M0 12 h35 L42 3 L49 21 L56 7 L63 17 L68 12 h52" />
+            </svg>
+          </div>
+
+        </div>
+      </div>
+
     </footer>
   );
 }

@@ -21,12 +21,13 @@ import {
   Users,
   FileText,
   Sliders,
-  CheckCircle2
+  CheckCircle2,
+  X
 } from 'lucide-react';
 import { useEmergency } from '@/context/EmergencyContext';
 import { useRole, ROLE_LABELS } from '@/context/RoleContext';
 
-function SidebarNavList({ collapsed }: { collapsed: boolean }) {
+function SidebarNavList({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () => void }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentTab = searchParams.get('tab') || (pathname === '/donors' ? 'appeals' : '');
@@ -166,6 +167,7 @@ function SidebarNavList({ collapsed }: { collapsed: boolean }) {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={onNavigate}
                 title={collapsed ? item.name : undefined}
                 className={`group relative flex items-center rounded-xl text-xs font-medium transition-colors ${
                   collapsed ? 'justify-center p-2.5' : 'px-3 py-2 space-x-3'
@@ -205,26 +207,41 @@ function SidebarNavList({ collapsed }: { collapsed: boolean }) {
   );
 }
 
-export default function Sidebar() {
+interface SidebarProps {
+  isMobile?: boolean;
+  onClose?: () => void;
+}
+
+export default function Sidebar({ isMobile = false, onClose }: SidebarProps) {
   const router = useRouter();
   const { currentRole, user, isAuthenticated, logout, isAdmin } = useRole();
   const [collapsed, setCollapsed] = useState(false);
 
   const handleLogout = () => {
     logout();
+    if (onClose) onClose();
     router.push('/');
+  };
+
+  const handleLinkClick = () => {
+    if (onClose) onClose();
   };
 
   return (
     <aside 
-      className={`relative flex flex-col border-r border-slate-200 bg-white transition-all duration-200 z-40 ${
-        collapsed ? 'w-20' : 'w-64'
-      } shrink-0 min-h-screen select-none`}
+      className={
+        isMobile
+          ? "flex flex-col w-full h-full bg-white select-none overflow-hidden"
+          : `relative flex flex-col border-r border-slate-200 bg-white transition-all duration-200 z-40 ${
+              collapsed ? 'w-20' : 'w-64'
+            } shrink-0 min-h-screen select-none`
+      }
     >
       {/* Brand Header */}
       <div className="flex h-16 items-center justify-between border-b border-slate-200 px-4">
         <Link 
           href={isAdmin ? "/admin" : "/dashboard"} 
+          onClick={handleLinkClick}
           className="flex items-center space-x-3 overflow-hidden group"
         >
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-rose-50 to-teal-50 border border-slate-200/80 p-1 shadow-2xs group-hover:scale-105 transition-transform overflow-hidden">
@@ -235,7 +252,7 @@ export default function Sidebar() {
             />
           </div>
           
-          {!collapsed && (
+          {(!collapsed || isMobile) && (
             <div className="flex flex-col truncate">
               <span className="text-[17px] font-black tracking-tight text-[#172B4D] font-sans leading-tight">
                 LifeLine<span className="text-rose-600">X</span>
@@ -247,15 +264,26 @@ export default function Sidebar() {
           )}
         </Link>
 
-        {/* Collapse toggle */}
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
-          title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
-          aria-label={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
-        >
-          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-        </button>
+        {/* Collapse toggle (desktop) or Close button (mobile) */}
+        {isMobile ? (
+          <button
+            onClick={onClose}
+            className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors"
+            title="Close Menu"
+            aria-label="Close Menu"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        ) : (
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
+            title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
+            aria-label={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
+          >
+            {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          </button>
+        )}
       </div>
 
       {/* Quick Action Button: Conditional on Admin vs Standard Member */}
@@ -263,31 +291,33 @@ export default function Sidebar() {
         {isAdmin ? (
           <Link
             href="/admin"
+            onClick={handleLinkClick}
             className={`flex items-center justify-center space-x-2 rounded-xl bg-[#0F172A] hover:bg-[#1E293B] font-semibold text-white shadow-xs active:scale-[0.98] transition-all ${
-              collapsed ? 'p-2.5' : 'px-3 py-2 text-xs'
+              collapsed && !isMobile ? 'p-2.5' : 'px-3 py-2 text-xs'
             }`}
             title="System Admin Console"
           >
             <ShieldCheck className="h-4 w-4 shrink-0 text-rose-400" />
-            {!collapsed && <span>Admin Control Center</span>}
+            {(!collapsed || isMobile) && <span>Admin Control Center</span>}
           </Link>
         ) : (
           <Link
             href="/donors?tab=request"
+            onClick={handleLinkClick}
             className={`flex items-center justify-center space-x-2 rounded-xl bg-rose-600 font-semibold text-white shadow-xs hover:bg-rose-500 active:scale-[0.98] transition-all ${
-              collapsed ? 'p-2.5' : 'px-3 py-2 text-xs'
+              collapsed && !isMobile ? 'p-2.5' : 'px-3 py-2 text-xs'
             }`}
             title="Submit Blood Request"
           >
             <PlusCircle className="h-4 w-4 shrink-0" />
-            {!collapsed && <span>Request Blood</span>}
+            {(!collapsed || isMobile) && <span>Request Blood</span>}
           </Link>
         )}
       </div>
 
       {/* Navigation Sections */}
       <Suspense fallback={<div className="flex-1 p-4 text-xs text-slate-400">Loading menu...</div>}>
-        <SidebarNavList collapsed={collapsed} />
+        <SidebarNavList collapsed={isMobile ? false : collapsed} onNavigate={onClose} />
       </Suspense>
 
       {/* User Profile & Session Section */}

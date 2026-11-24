@@ -486,7 +486,7 @@ export default function BloodDashboardPage() {
                   Nearby Emergency Radar
                 </h3>
               </div>
-              <span className="font-mono text-[10px] text-slate-400">Dhaka Region</span>
+              <span className="font-mono text-[10px] text-slate-400">North America Region</span>
             </div>
 
             {/* Simulated Radar Visualizer */}
@@ -510,7 +510,7 @@ export default function BloodDashboardPage() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-rose-500" />
                 </span>
-                <span className="font-mono text-[9px] text-rose-300 font-bold bg-slate-900/90 px-1 rounded">DMCH</span>
+                <span className="font-mono text-[9px] text-rose-300 font-bold bg-slate-900/90 px-1 rounded">JHH</span>
               </div>
 
               <div className="absolute bottom-12 right-16 flex items-center space-x-1 z-10">
@@ -563,7 +563,7 @@ export default function BloodDashboardPage() {
                   <p className="text-[11px] font-bold text-slate-800 leading-tight">
                     Emergency O- request broadcasted to 3 nearby donors
                   </p>
-                  <p className="text-[10px] text-slate-400 font-mono">2m ago • Dhaka Medical College</p>
+                  <p className="text-[10px] text-slate-400 font-mono">2m ago • Johns Hopkins Hospital</p>
                 </div>
               </div>
 
@@ -585,7 +585,7 @@ export default function BloodDashboardPage() {
                 </div>
                 <div className="space-y-0.5 flex-1 min-w-0">
                   <p className="text-[11px] font-bold text-slate-800 leading-tight">
-                    Dhaka Medical College confirmed 2 units received
+                    Johns Hopkins Hospital confirmed 2 units received
                   </p>
                   <p className="text-[10px] text-slate-400 font-mono">42m ago • Trauma Pavilion ICU</p>
                 </div>
@@ -627,7 +627,7 @@ export default function BloodDashboardPage() {
       {/* MODAL 1: VIEW DETAILS & CONTACT */}
       {selectedAppeal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto animate-in fade-in duration-200">
-          <div className="relative w-full max-w-lg rounded-3xl bg-white shadow-2xl border border-slate-200 overflow-hidden">
+          <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl border border-slate-200">
             <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-slate-50/70">
               <div className="flex items-center space-x-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 border border-rose-200 text-rose-700">
@@ -730,7 +730,7 @@ export default function BloodDashboardPage() {
       {/* MODAL 2: "I CAN DONATE" ACCEPTANCE CONFIRMATION */}
       {donateAppeal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto animate-in fade-in duration-200">
-          <div className="relative w-full max-w-md rounded-3xl bg-white shadow-2xl border border-slate-200 overflow-hidden">
+          <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl border border-slate-200">
             <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-rose-50/70">
               <div className="flex items-center space-x-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-600 text-white shadow-sm">

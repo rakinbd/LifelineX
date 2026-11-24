@@ -188,7 +188,7 @@ const INITIAL_USERS: UserProfile[] = [
   {
     id: 'USR-ADMIN',
     name: 'System Administrator',
-    email: 'admin@lifelinex.org',
+    email: 'admin@gmail.com',
     phone: '+1 (555) 999-0000',
     role: 'ADMIN',
     bloodGroup: 'O-',
@@ -308,11 +308,31 @@ export function RoleProvider({ children }: { children: ReactNode }) {
   // Dedicated Admin Login for /admin/login
   const adminLogin = (credentials: { identifier: string; password?: string; badgeId?: string }) => {
     const rawInput = credentials.identifier.toLowerCase().trim();
+    const rawPassword = credentials.password?.trim() || '';
     const rawBadge = (credentials.badgeId || '').trim().toUpperCase();
+
+    // Verify Password: must be "admin123"
+    if (rawPassword !== 'admin123') {
+      return { 
+        success: false, 
+        message: 'Invalid password. Please enter the correct admin password.' 
+      };
+    }
+
+    // Check identifier: "admin", "admin@gmail.com", or "admin@lifelinex.org"
+    const isValidAdminIdentifier = 
+      rawInput === 'admin' || 
+      rawInput === 'admin@gmail.com' || 
+      rawInput === 'admin@lifelinex.org' || 
+      rawInput === 'admin-01' ||
+      rawBadge === 'ADMIN-01';
 
     // Find admin by email or badge ID
     const foundAdmin = usersList.find(u => 
-      (u.email.toLowerCase() === rawInput || (u.badgeId && u.badgeId.toUpperCase() === rawInput) || (rawBadge && u.badgeId && u.badgeId.toUpperCase() === rawBadge)) &&
+      (u.email.toLowerCase() === rawInput || 
+       (u.badgeId && u.badgeId.toUpperCase() === rawInput) || 
+       (rawBadge && u.badgeId && u.badgeId.toUpperCase() === rawBadge) ||
+       (isValidAdminIdentifier && u.role === 'ADMIN')) &&
       u.role === 'ADMIN'
     );
 
@@ -324,9 +344,9 @@ export function RoleProvider({ children }: { children: ReactNode }) {
       return { success: true, message: `Welcome back, ${foundAdmin.name}!` };
     }
 
-    // Allow default admin master login if "admin@lifelinex.org" or "admin" is used
-    if (rawInput === 'admin@lifelinex.org' || rawInput === 'admin' || rawInput === 'admin-01' || rawBadge === 'ADMIN-01') {
-      const defaultAdmin = INITIAL_USERS[1]; // USR-ADMIN
+    // Allow default admin master login if "admin", "admin@gmail.com" or "admin@lifelinex.org" is used
+    if (isValidAdminIdentifier) {
+      const defaultAdmin = usersList.find(u => u.id === 'USR-ADMIN') || INITIAL_USERS[1];
       setUser(defaultAdmin);
       setCurrentRole('ADMIN');
       setIsAuthenticated(true);
@@ -336,7 +356,7 @@ export function RoleProvider({ children }: { children: ReactNode }) {
 
     return { 
       success: false, 
-      message: 'Invalid administrative credentials. Use admin@lifelinex.org or Demo Admin.' 
+      message: 'Invalid administrative credentials. Use admin or admin@gmail.com.' 
     };
   };
 

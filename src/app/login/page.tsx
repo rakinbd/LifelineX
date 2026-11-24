@@ -13,15 +13,13 @@ import {
   AlertTriangle,
   Heart,
   CheckCircle2,
-  Activity,
-  User,
-  Users
+  Activity
 } from 'lucide-react';
 import { useRole } from '@/context/RoleContext';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, switchUser } = useRole();
+  const { login } = useRole();
 
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -48,26 +46,6 @@ export default function LoginPage() {
     });
 
     setSuccessMessage('Signed in successfully! Redirecting to blood dashboard...');
-    setTimeout(() => {
-      router.push('/dashboard');
-    }, 700);
-  };
-
-  const handleDemoSignIn = (userId: string, name: string) => {
-    switchUser(userId);
-    setSuccessMessage(`Signed in as ${name}! Redirecting...`);
-    setTimeout(() => {
-      router.push('/dashboard');
-    }, 600);
-  };
-
-  const handleGoogleSignIn = () => {
-    login({
-      identifier: 'rahim.citizen@lifelinex.org',
-      name: 'Rahim Ahmed',
-      email: 'rahim.citizen@lifelinex.org',
-    });
-    setSuccessMessage('Authenticated with Google as Rahim Ahmed! Redirecting...');
     setTimeout(() => {
       router.push('/dashboard');
     }, 700);
@@ -256,57 +234,6 @@ export default function LoginPage() {
               </button>
 
             </form>
-
-            {/* Divider */}
-            <div className="relative my-5">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200" />
-              </div>
-              <div className="relative flex justify-center text-xs">
-                <span className="bg-white px-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                  Or continue with
-                </span>
-              </div>
-            </div>
-
-            {/* Google Citizen Onboarding Button */}
-            <button
-              type="button"
-              onClick={handleGoogleSignIn}
-              className="w-full flex items-center justify-center space-x-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 py-2.5 px-4 text-xs font-semibold text-slate-700 transition-colors shadow-2xs"
-            >
-              <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z" />
-                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24Z" />
-                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.04 0 12s.45 3.82 1.25 5.42l4.03-3.15Z" />
-                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z" />
-              </svg>
-              <span>Continue with Google</span>
-            </button>
-
-            {/* Quick Demo Switcher Buttons */}
-            <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap gap-2">
-              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block w-full">
-                Quick 1-Click Demo Testing:
-              </span>
-              <button
-                type="button"
-                onClick={() => handleDemoSignIn('USR-001', 'Rahim Ahmed')}
-                className="flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-semibold transition-colors"
-              >
-                <User className="h-3 w-3 text-slate-500" />
-                <span>Rahim Ahmed (Member)</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleDemoSignIn('USR-ADMIN', 'Admin Moderator')}
-                className="flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 text-[11px] font-semibold border border-purple-200 transition-colors"
-              >
-                <ShieldCheck className="h-3 w-3 text-purple-600" />
-                <span>Admin Moderator</span>
-              </button>
-            </div>
 
           </div>
 

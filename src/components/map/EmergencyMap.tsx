@@ -13,7 +13,7 @@ interface EmergencyMapProps {
 
 type MapStyle = 'streets' | 'satellite' | 'voyager';
 
-export default function EmergencyMap({ heightClass = 'h-[500px]', focusIncidentId }: EmergencyMapProps) {
+export default function EmergencyMap({ heightClass = 'h-[380px] sm:h-[460px] lg:h-[500px]', focusIncidentId }: EmergencyMapProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
   const markersLayerRef = useRef<any>(null);
@@ -251,90 +251,95 @@ export default function EmergencyMap({ heightClass = 'h-[500px]', focusIncidentI
       {/* Map DOM Element */}
       <div ref={mapContainerRef} className="w-full h-full z-0" />
 
-      {/* Top Left: Layer Toggles Floating Control */}
-      <div className="absolute top-3 left-3 z-10 flex flex-wrap gap-1.5 rounded-xl border border-slate-200 bg-white/95 p-1.5 backdrop-blur-md shadow-md">
-        <button
-          onClick={() => setShowIncidents(!showIncidents)}
-          className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold border transition-colors ${
-            showIncidents
-              ? 'bg-red-50 border-red-200 text-red-700 shadow-xs'
-              : 'bg-slate-50 border-slate-200 text-slate-400'
-          }`}
-        >
-          <span className="h-2 w-2 rounded-full bg-red-600"></span>
-          <span>SOS Incidents ({incidents.length})</span>
-        </button>
+      {/* Top Floating Controls Container (Responsive Header Bar) */}
+      <div className="absolute top-2.5 inset-x-2.5 z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pointer-events-none">
+        
+        {/* Top Left: Layer Toggles Floating Control */}
+        <div className="pointer-events-auto flex flex-wrap gap-1 rounded-xl border border-slate-200 bg-white/95 p-1 backdrop-blur-md shadow-md max-w-full">
+          <button
+            onClick={() => setShowIncidents(!showIncidents)}
+            className={`flex items-center space-x-1.5 px-2 py-1 rounded-lg text-[11px] sm:text-xs font-semibold border transition-colors ${
+              showIncidents
+                ? 'bg-red-50 border-red-200 text-red-700 shadow-xs'
+                : 'bg-slate-50 border-slate-200 text-slate-400'
+            }`}
+          >
+            <span className="h-2 w-2 rounded-full bg-red-600 shrink-0"></span>
+            <span>SOS ({incidents.length})</span>
+          </button>
 
-        <button
-          onClick={() => setShowDonors(!showDonors)}
-          className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold border transition-colors ${
-            showDonors
-              ? 'bg-rose-50 border-rose-200 text-rose-700 shadow-xs'
-              : 'bg-slate-50 border-slate-200 text-slate-400'
-          }`}
-        >
-          <span className="h-2 w-2 rounded-full bg-rose-600"></span>
-          <span>Blood Donors</span>
-        </button>
+          <button
+            onClick={() => setShowDonors(!showDonors)}
+            className={`flex items-center space-x-1.5 px-2 py-1 rounded-lg text-[11px] sm:text-xs font-semibold border transition-colors ${
+              showDonors
+                ? 'bg-rose-50 border-rose-200 text-rose-700 shadow-xs'
+                : 'bg-slate-50 border-slate-200 text-slate-400'
+            }`}
+          >
+            <span className="h-2 w-2 rounded-full bg-rose-600 shrink-0"></span>
+            <span>Donors</span>
+          </button>
 
-        <button
-          onClick={() => setShowHospitals(!showHospitals)}
-          className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold border transition-colors ${
-            showHospitals
-              ? 'bg-sky-50 border-sky-200 text-sky-700 shadow-xs'
-              : 'bg-slate-50 border-slate-200 text-slate-400'
-          }`}
-        >
-          <span className="h-2 w-2 rounded-full bg-sky-600"></span>
-          <span>Trauma Centers</span>
-        </button>
-      </div>
+          <button
+            onClick={() => setShowHospitals(!showHospitals)}
+            className={`flex items-center space-x-1.5 px-2 py-1 rounded-lg text-[11px] sm:text-xs font-semibold border transition-colors ${
+              showHospitals
+                ? 'bg-sky-50 border-sky-200 text-sky-700 shadow-xs'
+                : 'bg-slate-50 border-slate-200 text-slate-400'
+            }`}
+          >
+            <span className="h-2 w-2 rounded-full bg-sky-600 shrink-0"></span>
+            <span>Hospitals</span>
+          </button>
+        </div>
 
-      {/* Top Right: Real Map Style Switcher (Street / Satellite / City) */}
-      <div className="absolute top-3 right-3 z-10 flex items-center rounded-xl border border-slate-200 bg-white/95 p-1 backdrop-blur-md shadow-md">
-        <button
-          onClick={() => setMapStyle('streets')}
-          title="Vibrant real street map with roads, rivers & neighborhoods"
-          className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-            mapStyle === 'streets'
-              ? 'bg-red-600 text-white shadow-xs'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-          }`}
-        >
-          <MapIcon className="h-3.5 w-3.5" />
-          <span>Real Streets</span>
-        </button>
+        {/* Top Right: Real Map Style Switcher (Street / Satellite / City) */}
+        <div className="pointer-events-auto flex items-center rounded-xl border border-slate-200 bg-white/95 p-1 backdrop-blur-md shadow-md">
+          <button
+            onClick={() => setMapStyle('streets')}
+            title="Vibrant real street map with roads, rivers & neighborhoods"
+            className={`flex items-center space-x-1 px-2 py-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all ${
+              mapStyle === 'streets'
+                ? 'bg-red-600 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            <MapIcon className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
+            <span className="hidden min-[380px]:inline">Streets</span>
+          </button>
 
-        <button
-          onClick={() => setMapStyle('satellite')}
-          title="Real aerial satellite photography from space"
-          className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-            mapStyle === 'satellite'
-              ? 'bg-emerald-600 text-white shadow-xs'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-          }`}
-        >
-          <Globe className="h-3.5 w-3.5" />
-          <span>Satellite</span>
-        </button>
+          <button
+            onClick={() => setMapStyle('satellite')}
+            title="Real aerial satellite photography from space"
+            className={`flex items-center space-x-1 px-2 py-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all ${
+              mapStyle === 'satellite'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            <Globe className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
+            <span className="hidden min-[380px]:inline">Satellite</span>
+          </button>
 
-        <button
-          onClick={() => setMapStyle('voyager')}
-          title="Clean city navigation view"
-          className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-            mapStyle === 'voyager'
-              ? 'bg-sky-600 text-white shadow-xs'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-          }`}
-        >
-          <Compass className="h-3.5 w-3.5" />
-          <span>City View</span>
-        </button>
+          <button
+            onClick={() => setMapStyle('voyager')}
+            title="Clean city navigation view"
+            className={`flex items-center space-x-1 px-2 py-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all ${
+              mapStyle === 'voyager'
+                ? 'bg-sky-600 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            <Compass className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0" />
+            <span className="hidden min-[380px]:inline">City</span>
+          </button>
+        </div>
+
       </div>
 
       {/* Bottom Left: Map Privacy Watermark Notice */}
-      <div className="absolute bottom-3 left-3 z-10 flex items-center space-x-1.5 rounded-lg border border-slate-200 bg-white/95 px-2.5 py-1 text-[10px] text-slate-600 backdrop-blur-sm shadow-sm font-medium">
-        <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+      <div className="absolute bottom-3 left-3 z-10 hidden sm:flex items-center space-x-1.5 rounded-lg border border-slate-200 bg-white/95 px-2.5 py-1 text-[10px] text-slate-600 backdrop-blur-sm shadow-sm font-medium">
+        <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
         <span>Privacy Shield: Patient GPS Obfuscated (±1.5 km)</span>
       </div>
     </div>

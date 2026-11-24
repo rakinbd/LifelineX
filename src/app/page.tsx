@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
   Droplet, 
@@ -25,36 +25,40 @@ import {
   HelpCircle,
   PhoneCall,
   Calendar,
-  Lock
+  Lock,
+  Menu,
+  X
 } from 'lucide-react';
 import { useRole } from '@/context/RoleContext';
+import Footer from '@/components/layout/Footer';
 
 export default function LandingPage() {
   const { user, isAuthenticated, logout } = useRole();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF7F5] text-slate-800 font-sans selection:bg-rose-500 selection:text-white">
       
       {/* ========================================================================= */}
-      {/* 1. PUBLIC TOP NAVIGATION BAR (NO SIDEBAR!) */}
+      {/* 1. PUBLIC TOP NAVIGATION BAR (RESPONSIVE WITH MOBILE HAMBURGER) */}
       {/* ========================================================================= */}
-      <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white/90 backdrop-blur-md shadow-2xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+      <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white/95 backdrop-blur-md shadow-2xs">
+        <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between">
           
           {/* Brand Logo & Name */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-rose-50 to-teal-50 border border-slate-200 p-1 shadow-2xs group-hover:scale-105 transition-transform">
+          <Link href="/" className="flex items-center space-x-2.5 sm:space-x-3 group min-w-0">
+            <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-rose-50 to-teal-50 border border-slate-200 p-1 shadow-2xs group-hover:scale-105 transition-transform">
               <img
                 src="/logo.png"
                 alt="LifeLineX Logo"
                 className="h-full w-full object-contain"
               />
             </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tight text-[#172B4D] leading-tight">
+            <div className="flex flex-col min-w-0">
+              <span className="text-lg sm:text-xl font-black tracking-tight text-[#172B4D] leading-tight truncate">
                 LifeLine<span className="text-rose-600">X</span>
               </span>
-              <span className="text-xs text-teal-700 font-bold tracking-tight">
+              <span className="text-[10px] sm:text-xs text-teal-700 font-bold tracking-tight truncate hidden min-[360px]:block">
                 Connect • Respond • Save Lives
               </span>
             </div>
@@ -80,15 +84,15 @@ export default function LandingPage() {
           </nav>
 
           {/* User Auth Buttons or Active Session Action */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             {isAuthenticated && user ? (
-              <div className="flex items-center space-x-2.5">
+              <div className="hidden sm:flex items-center space-x-2.5">
                 <Link
                   href="/dashboard"
-                  className="flex items-center space-x-2 rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-xs font-bold text-white shadow-xs transition-all active:scale-95"
+                  className="flex items-center space-x-2 rounded-xl bg-rose-600 hover:bg-rose-500 px-3.5 sm:px-4 py-2 text-xs font-bold text-white shadow-xs transition-all active:scale-95"
                 >
                   <Activity className="h-4 w-4" />
-                  <span>Go to Blood Dashboard</span>
+                  <span>Dashboard</span>
                 </Link>
                 <button
                   onClick={logout}
@@ -98,10 +102,10 @@ export default function LandingPage() {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center space-x-2.5">
+              <div className="hidden sm:flex items-center space-x-2 sm:space-x-2.5">
                 <Link
                   href="/login"
-                  className="flex items-center space-x-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-2xs transition-colors"
+                  className="flex items-center space-x-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-3 sm:px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-2xs transition-colors"
                 >
                   <LogIn className="h-3.5 w-3.5 text-slate-500" />
                   <span>Sign In</span>
@@ -109,7 +113,7 @@ export default function LandingPage() {
 
                 <Link
                   href="/register"
-                  className="flex items-center space-x-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-xs font-bold text-white shadow-xs transition-all active:scale-95"
+                  className="flex items-center space-x-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 px-3 sm:px-4 py-2 text-xs font-bold text-white shadow-xs transition-all active:scale-95"
                 >
                   <UserPlus className="h-3.5 w-3.5" />
                   <span>Register Free</span>
@@ -126,9 +130,110 @@ export default function LandingPage() {
               <ShieldCheck className="h-4 w-4" />
               <span className="text-[11px] font-semibold">Admin</span>
             </Link>
+
+            {/* Mobile Hamburger Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-slate-900 md:hidden transition-colors"
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              title={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
           </div>
 
         </div>
+
+        {/* Mobile Dropdown Drawer Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-slate-200 bg-white px-4 py-4 space-y-3 shadow-xl animate-in slide-in-from-top-2 duration-150">
+            <nav className="flex flex-col space-y-1">
+              <a 
+                href="#how-it-works" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100 hover:text-rose-600 transition-colors"
+              >
+                How It Works
+              </a>
+              <a 
+                href="#features" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100 hover:text-rose-600 transition-colors"
+              >
+                Core Features
+              </a>
+              <a 
+                href="#urgent-appeals" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100 hover:text-rose-600 transition-colors"
+              >
+                Urgent Blood Needs
+              </a>
+              <a 
+                href="#blood-guide" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100 hover:text-rose-600 transition-colors"
+              >
+                Blood Matching Guide
+              </a>
+              <a 
+                href="#why-donate" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100 hover:text-rose-600 transition-colors"
+              >
+                Why Donate
+              </a>
+              <Link 
+                href="/admin/login" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-purple-700 hover:bg-purple-50 transition-colors"
+              >
+                <ShieldCheck className="h-3.5 w-3.5" />
+                <span>Admin Authority Portal</span>
+              </Link>
+            </nav>
+
+            <div className="pt-2 border-t border-slate-100 flex flex-col space-y-2">
+              {isAuthenticated && user ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full flex items-center justify-center space-x-2 rounded-xl bg-rose-600 py-2.5 text-xs font-bold text-white shadow-xs"
+                  >
+                    <Activity className="h-4 w-4" />
+                    <span>Go to Blood Dashboard</span>
+                  </Link>
+                  <button
+                    onClick={() => { logout(); setMobileMenuOpen(false); }}
+                    className="w-full rounded-xl border border-slate-200 py-2 text-xs font-semibold text-slate-600"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-center space-x-1.5 rounded-xl border border-slate-200 py-2.5 text-xs font-semibold text-slate-700"
+                  >
+                    <LogIn className="h-3.5 w-3.5" />
+                    <span>Sign In</span>
+                  </Link>
+                  <Link
+                    href="/register"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-center space-x-1.5 rounded-xl bg-rose-600 py-2.5 text-xs font-bold text-white shadow-xs"
+                  >
+                    <UserPlus className="h-3.5 w-3.5" />
+                    <span>Register</span>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </header>
 
       {/* ========================================================================= */}
@@ -161,7 +266,7 @@ export default function LandingPage() {
               </h1>
 
               <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                LifeLineX is Bangladesh’s intelligent voluntary blood network connecting patients in critical hospital emergencies with healthy, screened local donors within minutes. 100% voluntary, fast, and transparent.
+                LifeLineX is an intelligent voluntary blood and transfusion network connecting patients in critical hospital emergencies with healthy, screened local donors within minutes across North America and worldwide. 100% voluntary, fast, and transparent.
               </p>
 
               {/* Primary Call-to-Actions */}
@@ -220,15 +325,15 @@ export default function LandingPage() {
 
                 {/* Sample Urgent Cards */}
                 <div className="space-y-3">
-                  <div className="rounded-2xl border border-rose-200 bg-rose-50/50 p-3.5 space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <span className="px-2 py-0.5 rounded font-mono font-black text-xs bg-rose-600 text-white">
+                  <div className="rounded-2xl border border-rose-200 bg-rose-50/50 p-3 sm:p-3.5 space-y-1.5">
+                    <div className="flex flex-col min-[420px]:flex-row min-[420px]:items-center justify-between gap-1.5">
+                      <div className="flex items-center space-x-2 min-w-0">
+                        <span className="px-2 py-0.5 rounded font-mono font-black text-xs bg-rose-600 text-white shrink-0">
                           O-
                         </span>
-                        <span className="text-xs font-bold text-slate-900">Dhaka Medical College (DMCH)</span>
+                        <span className="text-xs font-bold text-slate-900 truncate">Johns Hopkins Hospital Trauma Center</span>
                       </div>
-                      <span className="text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-1 rounded-lg">
+                      <span className="text-[11px] sm:text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 sm:py-1 rounded-lg shrink-0 self-start min-[420px]:self-auto">
                         CRITICAL • 2 Units
                       </span>
                     </div>
@@ -237,15 +342,15 @@ export default function LandingPage() {
                     </p>
                   </div>
 
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-3.5 space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <span className="px-2 py-0.5 rounded font-mono font-black text-xs bg-rose-600 text-white">
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-3 sm:p-3.5 space-y-1.5">
+                    <div className="flex flex-col min-[420px]:flex-row min-[420px]:items-center justify-between gap-1.5">
+                      <div className="flex items-center space-x-2 min-w-0">
+                        <span className="px-2 py-0.5 rounded font-mono font-black text-xs bg-rose-600 text-white shrink-0">
                           B+
                         </span>
-                        <span className="text-xs font-bold text-slate-900">National Institute of Cancer (NICRH)</span>
+                        <span className="text-xs font-bold text-slate-900 truncate">Memorial Sloan Kettering Cancer Center</span>
                       </div>
-                      <span className="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-lg">
+                      <span className="text-[11px] sm:text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 sm:py-1 rounded-lg shrink-0 self-start min-[420px]:self-auto">
                         URGENT • 1 Unit
                       </span>
                     </div>
@@ -254,15 +359,15 @@ export default function LandingPage() {
                     </p>
                   </div>
 
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-3.5 space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <span className="px-2 py-0.5 rounded font-mono font-black text-xs bg-rose-600 text-white">
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-3 sm:p-3.5 space-y-1.5">
+                    <div className="flex flex-col min-[420px]:flex-row min-[420px]:items-center justify-between gap-1.5">
+                      <div className="flex items-center space-x-2 min-w-0">
+                        <span className="px-2 py-0.5 rounded font-mono font-black text-xs bg-rose-600 text-white shrink-0">
                           A+
                         </span>
-                        <span className="text-xs font-bold text-slate-900">Kurmitola General Hospital</span>
+                        <span className="text-xs font-bold text-slate-900 truncate">Toronto General Hospital Emergency Wing</span>
                       </div>
-                      <span className="text-xs font-bold text-sky-700 bg-sky-100 px-2.5 py-1 rounded-lg">
+                      <span className="text-[11px] sm:text-xs font-bold text-sky-700 bg-sky-100 px-2.5 py-0.5 sm:py-1 rounded-lg shrink-0 self-start min-[420px]:self-auto">
                         URGENT • 2 Units
                       </span>
                     </div>
@@ -794,44 +899,7 @@ export default function LandingPage() {
       {/* ========================================================================= */}
       {/* 8. LANDING FOOTER */}
       {/* ========================================================================= */}
-      <footer className="bg-white border-t border-slate-200 py-10 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-100 pb-6">
-            <div className="flex items-center space-x-3">
-              <img
-                src="/logo.png"
-                alt="LifeLineX"
-                className="h-8 w-8 object-contain"
-              />
-              <span className="font-black text-slate-900 text-base">
-                LifeLine<span className="text-rose-600">X</span>
-              </span>
-              <span className="text-[11px] text-slate-400 hidden sm:inline">
-                | Intelligent Blood Donation & Emergency Transfusion Matching Network
-              </span>
-            </div>
-
-            <div className="flex items-center space-x-4 text-xs">
-              <Link href="/login" className="hover:text-slate-900 transition-colors">
-                Sign In
-              </Link>
-              <Link href="/register" className="hover:text-slate-900 transition-colors">
-                Register
-              </Link>
-              <Link href="/admin/login" className="hover:text-purple-600 transition-colors font-medium">
-                Admin Portal
-              </Link>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
-            <p>© 2026 LifeLineX Network. 100% Non-profit Voluntary Community.</p>
-            <p>Direct emergency transfusion coordination between screened citizens and registered hospitals.</p>
-          </div>
-
-        </div>
-      </footer>
+      <Footer />
 
     </div>
   );

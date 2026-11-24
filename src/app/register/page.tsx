@@ -39,8 +39,8 @@ export default function RegisterPage() {
   // Voluntary Donor Opt-in Toggle
   const [isDonorOptIn, setIsDonorOptIn] = useState(false);
   const [bloodGroup, setBloodGroup] = useState<BloodGroup>('O+');
-  const [city, setCity] = useState('Dhaka');
-  const [area, setArea] = useState('Dhanmondi, Dhaka');
+  const [city, setCity] = useState('New York');
+  const [area, setArea] = useState('Manhattan, NY');
   const [lastDonationDate, setLastDonationDate] = useState('');
 
   // Messages
@@ -88,7 +88,7 @@ export default function RegisterPage() {
         contactNumber: phone.trim() || '+1 (555) 000-0000',
         email: email.trim() || 'donor@lifelinex.org',
         city,
-        address: area || `${city}, Bangladesh`,
+        address: area || `${city}, United States`,
         lastDonationDate: lastDonationDate ? new Date(lastDonationDate).toISOString() : new Date().toISOString(),
       });
       playAlertSound();
@@ -371,7 +371,7 @@ export default function RegisterPage() {
                           type="text"
                           value={city}
                           onChange={e => setCity(e.target.value)}
-                          placeholder="e.g. Dhaka"
+                          placeholder="e.g. New York"
                           className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-rose-500"
                         />
                       </div>
@@ -384,7 +384,7 @@ export default function RegisterPage() {
                           type="text"
                           value={area}
                           onChange={e => setArea(e.target.value)}
-                          placeholder="e.g. Dhanmondi, Dhaka"
+                          placeholder="e.g. Manhattan, New York"
                           className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-rose-500"
                         />
                       </div>

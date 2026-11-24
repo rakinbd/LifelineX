@@ -151,8 +151,8 @@ function DonorsContent() {
   const [donorBloodGroup, setDonorBloodGroup] = useState<BloodGroup>('O+');
   const [donorPhone, setDonorPhone] = useState(user?.phone || '+1 (555) 019-9922');
   const [donorEmail, setDonorEmail] = useState(user?.email || 'rahim.citizen@lifelinex.org');
-  const [donorCity, setDonorCity] = useState('Dhaka');
-  const [donorAddress, setDonorAddress] = useState('Dhanmondi, Dhaka');
+  const [donorCity, setDonorCity] = useState('New York');
+  const [donorAddress, setDonorAddress] = useState('Manhattan, New York');
   const [donorLastDate, setDonorLastDate] = useState('2026-08-10');
   const [donorConsent, setDonorConsent] = useState(true);
   const [donorRegisterSuccess, setDonorRegisterSuccess] = useState<string | null>(null);
@@ -190,7 +190,7 @@ function DonorsContent() {
   // Log New Donation Modal State
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
   const [logDonationDate, setLogDonationDate] = useState('2026-11-23');
-  const [logFacility, setLogFacility] = useState('Dhaka Medical College Blood Bank');
+  const [logFacility, setLogFacility] = useState('Johns Hopkins Hospital Blood Center');
   const [logUnits, setLogUnits] = useState(1);
   const [logNotes, setLogNotes] = useState('');
   const [logSuccessToast, setLogSuccessToast] = useState<string | null>(null);
@@ -337,11 +337,11 @@ function DonorsContent() {
       urgencyScore: urgencySnapshot === 'CRITICAL' ? 95 : urgencySnapshot === 'HIGH' ? 80 : 60,
       status: 'REPORTED',
       location: {
-        lat: 23.8103,
-        lng: 90.4125,
+        lat: 40.7128,
+        lng: -74.0060,
         address: hospitalSnapshot,
-        city: 'Dhaka',
-        country: 'Bangladesh',
+        city: 'New York',
+        country: 'United States',
       },
       requiredBloodGroup: bloodGroupSnapshot,
       unitsNeeded: Number(unitsSnapshot),
@@ -932,7 +932,7 @@ function DonorsContent() {
                       <input
                         type="text"
                         required
-                        placeholder="e.g. Dhaka Medical College Hospital, Emergency Wing"
+                        placeholder="e.g. Johns Hopkins Hospital / Toronto General, Emergency Wing"
                         value={reqHospital}
                         onChange={e => setReqHospital(e.target.value)}
                         className="w-full rounded-xl border border-slate-200 pl-10 pr-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500 shadow-2xs"
@@ -950,7 +950,7 @@ function DonorsContent() {
                       <input
                         type="tel"
                         required
-                        placeholder="+880 1711 000000"
+                        placeholder="+1 (555) 000-0000"
                         value={reqContact}
                         onChange={e => setReqContact(e.target.value)}
                         className="w-full rounded-xl border border-slate-200 pl-10 pr-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500 shadow-2xs font-mono"
@@ -1028,7 +1028,7 @@ function DonorsContent() {
                           </h4>
                           <p className="text-[11px] font-medium text-slate-600 mt-1 flex items-center space-x-1">
                             <Building2 className="h-3 w-3 text-slate-400 shrink-0" />
-                            <span className="truncate">{reqHospital || 'Dhaka Medical College Hospital'}</span>
+                            <span className="truncate">{reqHospital || 'Johns Hopkins Hospital'}</span>
                           </p>
                         </div>
 
@@ -1268,7 +1268,7 @@ function DonorsContent() {
                         <input
                           type="text"
                           required
-                          placeholder="Dhaka"
+                          placeholder="New York"
                           value={donorCity}
                           onChange={e => setDonorCity(e.target.value)}
                           className="w-full rounded-xl border border-slate-200 pl-10 pr-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500 shadow-2xs"
@@ -1306,7 +1306,7 @@ function DonorsContent() {
                       <input
                         type="text"
                         required
-                        placeholder="Dhanmondi, Dhaka"
+                        placeholder="Manhattan, New York"
                         value={donorAddress}
                         onChange={e => setDonorAddress(e.target.value)}
                         className="w-full rounded-xl border border-slate-200 pl-10 pr-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500 shadow-2xs"
@@ -1549,7 +1549,7 @@ function DonorsContent() {
                         {currentDonor?.email || 'rahim.citizen@lifelinex.org'}
                       </p>
                       <p className="text-[11px] text-slate-400 font-mono">
-                        {currentDonor?.contactNumber || '+1 (555) 019-9922'} • {currentDonor?.location?.city || 'Dhaka'}
+                        {currentDonor?.contactNumber || '+1 (555) 019-9922'} • {currentDonor?.location?.city || 'New York'}
                       </p>
                     </div>
                   </div>
@@ -1948,40 +1948,40 @@ function DonorsContent() {
                         id: 'DON-104',
                         donorId: currentDonor?.id || 'DNR-001',
                         donationDate: '2026-09-15',
-                        facilityName: 'Dhaka Medical College Blood Bank',
+                        facilityName: 'Johns Hopkins Hospital Transfusion Center',
                         unitsDonated: 1,
-                        notes: 'Emergency whole blood donation for road trauma casualty.',
-                        verifiedBy: 'Dr. K. Rahman (CMO)',
+                        notes: 'Emergency whole blood donation for trauma casualty.',
+                        verifiedBy: 'Dr. K. Roberts (MD)',
                         createdAt: '2026-09-15T11:00:00Z',
                       },
                       {
                         id: 'DON-103',
                         donorId: currentDonor?.id || 'DNR-001',
                         donationDate: '2026-05-20',
-                        facilityName: 'Bangladesh Red Crescent Society',
+                        facilityName: 'American Red Cross Blood Services',
                         unitsDonated: 1,
                         notes: 'Voluntary summer community blood drive contribution.',
-                        verifiedBy: 'Nurse A. Haque',
+                        verifiedBy: 'Nurse A. Hayes',
                         createdAt: '2026-05-20T10:15:00Z',
                       },
                       {
                         id: 'DON-102',
                         donorId: currentDonor?.id || 'DNR-001',
                         donationDate: '2026-01-18',
-                        facilityName: 'Quantum Foundation Blood Lab',
+                        facilityName: 'Massachusetts General Hospital Blood Center',
                         unitsDonated: 1,
                         notes: 'Routine scheduled voluntary whole blood donation.',
-                        verifiedBy: 'Lab Officer S. Islam',
+                        verifiedBy: 'Lab Officer S. Evans',
                         createdAt: '2026-01-18T14:00:00Z',
                       },
                       {
                         id: 'DON-101',
                         donorId: currentDonor?.id || 'DNR-001',
                         donationDate: '2025-09-10',
-                        facilityName: 'Dhaka Medical College Blood Bank',
+                        facilityName: 'Mount Sinai Hospital Blood Lab',
                         unitsDonated: 1,
                         notes: 'First-time community life-saving pledge.',
-                        verifiedBy: 'Dr. M. Faruq',
+                        verifiedBy: 'Dr. M. Foster',
                         createdAt: '2025-09-10T09:00:00Z',
                       }
                     ]
@@ -2352,7 +2352,7 @@ function DonorsContent() {
       {/* ========================================================================= */}
       {isLogModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto animate-in fade-in duration-200">
-          <div className="relative w-full max-w-lg rounded-3xl bg-white shadow-2xl border border-slate-200 overflow-hidden">
+          <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl border border-slate-200">
             
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-slate-50/70">
@@ -2410,7 +2410,7 @@ function DonorsContent() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Dhaka Medical College Blood Bank"
+                  placeholder="e.g. Johns Hopkins Hospital Blood Center"
                   value={logFacility}
                   onChange={e => setLogFacility(e.target.value)}
                   className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500"
@@ -2419,10 +2419,10 @@ function DonorsContent() {
                 {/* Quick Select Facility Chips */}
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   {[
-                    'Dhaka Medical College Blood Bank',
-                    'Bangladesh Red Crescent Society',
-                    'Quantum Foundation Blood Lab',
-                    'Square Hospital Blood Center'
+                    'Johns Hopkins Hospital Blood Center',
+                    'American Red Cross Blood Services',
+                    'Mount Sinai Transfusion Center',
+                    'Toronto General Hospital Blood Lab'
                   ].map(fac => (
                     <button
                       key={fac}
@@ -2835,7 +2835,7 @@ function DonorsContent() {
       {/* ========================================================================= */}
       {selectedAppeal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto animate-in fade-in duration-200">
-          <div className="relative w-full max-w-lg rounded-3xl bg-white shadow-2xl border border-slate-200 overflow-hidden">
+          <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl border border-slate-200">
             
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-slate-50/70">
@@ -2958,7 +2958,7 @@ function DonorsContent() {
       {/* ========================================================================= */}
       {donateAppeal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto animate-in fade-in duration-200">
-          <div className="relative w-full max-w-md rounded-3xl bg-white shadow-2xl border border-slate-200 overflow-hidden">
+          <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl border border-slate-200">
             
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4 bg-rose-50/70">
@@ -3036,7 +3036,7 @@ function DonorsContent() {
       {/* MODAL: DONOR PROFILE & DIRECT CONTACT ("READ MORE") */}
       {selectedDonorProfile && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
-          <div className="w-full max-w-lg rounded-3xl bg-white shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95">
+          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95">
             {/* Modal Image Header */}
             <div className="relative h-56 bg-slate-100">
               <img

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useRole } from '@/context/RoleContext';
 import Sidebar from '@/components/layout/Sidebar';
@@ -13,6 +13,24 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const { isAuthenticated } = useRole();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Close mobile drawer on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  // Prevent background body scroll when mobile drawer is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
 
   // Public standalone pages where sidebar should NEVER show
   const isPublicRoute = 
@@ -78,8 +96,26 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   // When user is authenticated and on an app page (e.g. /dashboard, /donors, /admin):
   return (
     <div className="flex flex-1 min-h-screen">
-      {/* Left Navigation Sidebar - ONLY visible when authenticated */}
-      <Sidebar />
+      {/* Desktop Left Navigation Sidebar - ONLY visible on md+ screens */}
+      <div className="hidden md:flex shrink-0">
+        <Sidebar />
+      </div>
+
+      {/* Mobile Drawer Navigation Sidebar */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 md:hidden flex">
+          {/* Dark Backdrop */}
+          <div 
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity animate-in fade-in"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+          {/* Slide-out Sidebar container */}
+          <div className="relative flex flex-col w-72 max-w-[85vw] h-full bg-white shadow-2xl z-10 animate-in slide-in-from-left duration-200">
+            <Sidebar isMobile onClose={() => setMobileMenuOpen(false)} />
+          </div>
+        </div>
+      )}
 
       {/* Main Content Area with 16:9 Medical Background Wallpaper */}
       <div 
@@ -89,8 +125,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           backgroundColor: "#FAF7F5",
         }}
       >
-        <Header />
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto relative z-10">
+        <Header onMobileMenuToggle={() => setMobileMenuOpen(prev => !prev)} />
+        <main className="flex-1 p-3.5 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto relative z-10 min-w-0">
           {children}
         </main>
         <Footer />

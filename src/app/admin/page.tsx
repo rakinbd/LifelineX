@@ -479,8 +479,8 @@ function AdminDashboardContent() {
               <p className="text-xs text-slate-500">No donor profiles currently awaiting administrative review.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+            <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+              <table className="w-full text-left text-xs min-w-[680px]">
                 <thead>
                   <tr className="border-b border-slate-200 bg-slate-50/70 text-slate-600 font-bold">
                     <th className="py-3 px-3">Donor ID</th>
@@ -568,8 +568,8 @@ function AdminDashboardContent() {
             </Link>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+            <table className="w-full text-left text-xs min-w-[700px]">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50/70 text-slate-600 font-bold">
                   <th className="py-3 px-3">Case ID</th>
@@ -825,8 +825,8 @@ function AdminDashboardContent() {
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
+          <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+            <table className="w-full text-left text-sm min-w-[650px]">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50 text-slate-700 font-bold">
                   <th className="py-3.5 px-4">User Account</th>
@@ -931,7 +931,7 @@ function AdminDashboardContent() {
       {/* CREATE USER MODAL */}
       {isAddUserOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
-          <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl border border-slate-200 space-y-4">
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-3xl bg-white p-5 sm:p-6 shadow-2xl border border-slate-200 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center space-x-2">
                 <UserPlus className="h-5 w-5 text-purple-600" />
@@ -974,7 +974,7 @@ function AdminDashboardContent() {
                 <label className="text-xs font-semibold text-slate-700 block mb-1">Contact Phone</label>
                 <input
                   type="tel"
-                  placeholder="+880 1711 000000"
+                  placeholder="+1 (555) 000-0000"
                   value={newUserPhone}
                   onChange={e => setNewUserPhone(e.target.value)}
                   className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs focus:border-purple-500 focus:outline-none"
